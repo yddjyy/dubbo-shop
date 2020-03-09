@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "text": "首页",
+      "icon": "&#xe638;",
+      "href": ""
+    },{
+      "text": "商家管理",
+      "icon": "&#xe620;",
+      "subset": [
+        {
+          "text": "商家审核",
+          "icon": "&#xe756;",
+          "href": "seller_1.html"
+        },{
+          "text": "商家管理",
+          "icon": "&#xe756;",
+          "href": "seller.html"
+        }
+      ]
+    },{
+      "text": "商品管理",
+      "icon": "&#xe628;",
+      "subset": [
+        {
+          "text": "品牌管理",
+          "icon": "&#xe756;",
+          "href": "brand.html"
+        },{
+          "text": "规格管理",
+          "icon": "&#xe756;",
+          "href": "specification.html"
+        },{
+          "text": "模板管理",
+          "icon": "&#xe756;",
+          "href": "type_template.html"
+        },{
+          "text": "分类管理",
+          "icon": "&#xe756;",
+          "href": "item_cat.html"
+        },{
+          "text": "商品审核",
+          "icon": "&#xe756;",
+          "href": "goods.html"
+        }
+      ]
+    },{
+      "text": "广告管理",
+      "icon": "&#xe601;",
+      "subset": [
+        {
+          "text": "广告类型管理",
+          "icon": "&#xe756;",
+          "href": "content_category.html"
+        },{
+          "text": "广告管理",
+          "icon": "&#xe756;",
+          "href": "content.html"
+        }
+      ]
+    }
+  ]
+}

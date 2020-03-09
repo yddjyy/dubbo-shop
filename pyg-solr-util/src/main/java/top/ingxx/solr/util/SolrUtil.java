@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class SolrUtil {
+public class   SolrUtil {
     @Autowired
     private TbItemMapper tbItemMapper;
 

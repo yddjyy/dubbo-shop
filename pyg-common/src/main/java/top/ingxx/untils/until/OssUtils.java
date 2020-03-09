@@ -14,28 +14,28 @@ public  class OssUtils {
     /**
      * 地域节点
      */
-    private static final String endpoint="http://oss-cn-shanghai.aliyuncs.com";
+    private static final String endpoint="http://oss-cn-hangzhou.aliyuncs.com";
     /**
      * bucket域名
      */
-    private static final String bucketpoint = "http://baiyouji.oss-cn-shanghai.aliyuncs.com/";
+    private static final String bucketpoint = "http://bairuida.oss-cn-hangzhou.aliyuncs.com/";
     /**
      * 账户
      */
-    private static  final   String accessKeyId = "LTAIZm6jDKDcb4uJ";
+    private static  final   String accessKeyId = "LTAI4FmYiRckRuZ7zxwMZBtD";
     /**
      * 密码
      */
-    private static  final   String accessKeySecret = "Ggc9bsJMGh4FcGBxXSVp4YB69bQ1PX";
+    private static  final   String accessKeySecret = "2Szu45y0AMbdmeIXhqVS1hXWpSuft1";
     /**
      * bucket名称
      */
-    private static final String bucketName ="baiyouji";
+    private static final String bucketName ="bairuida";
 
     /**
      * 文件存储目录
      */
-    private static  final String filedir ="baiyou/";
+    private static  final String filedir ="brd/";
 
     /**
      * 上传图片

@@ -21,5 +21,6 @@ public class RedisUtils {
         RedisUtils redis = (RedisUtils) context.getBean("redisUtils");
         redis.clearRedis();
 
+
     }
 }
