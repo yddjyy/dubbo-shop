@@ -31,6 +31,7 @@ public class BrandController {
     @RequestMapping("/findPage")
     public PageResult findPage(Integer page, Integer rows) {
         PageResult result = brandService.findPage(page, rows);
+
         return result;
     }
 
