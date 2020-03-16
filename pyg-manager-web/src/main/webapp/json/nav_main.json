@@ -58,6 +58,20 @@
           "href": "content.html"
         }
       ]
+    },{
+      "text": "销售管理",
+      "icon": "&#xe601;",
+      "subset": [
+        {
+          "text": "订单管理",
+          "icon": "&#xe756;",
+          "href": "content_category1.html"
+        },{
+          "text": "成交信息",
+          "icon": "&#xe756;",
+          "href": "content1.html"
+        }
+      ]
     }
   ]
 }

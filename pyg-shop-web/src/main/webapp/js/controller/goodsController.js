@@ -1,5 +1,5 @@
 //控制层
-app.controller('goodsController', function ($scope,$http, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService, brandService,itemService,addSeckillGoodsService) {
+app.controller('goodsController', function ($scope,$http, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService, brandService,itemService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -59,7 +59,11 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
 
     //保存
     $scope.save = function () {
+        console.log("save")
         $scope.entity.goodsDesc.introduction = editor.html();
+        console.log("editor:"+editor.txt.html());
+        console.log("editor2:"+editor2.txt.html());
+        console.log("editor3:"+editor3.txt.html());
         var serviceObject;//服务层对象
         if ($scope.entity.goods.id != null) {//如果有ID
             serviceObject = goodsService.update($scope.entity); //修改
@@ -307,8 +311,8 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     }
 
     //添加秒杀商品
-    $scope.addSeckillGoodsList=function(seckillGoodsList){
+    // $scope.addSeckillGoodsList=function(seckillGoodsList){
 
 
-    }
+    // }
 });
