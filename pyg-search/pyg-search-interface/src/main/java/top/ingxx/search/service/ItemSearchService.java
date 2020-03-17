@@ -23,4 +23,10 @@ public interface ItemSearchService {
      * @param goodsIds
      */
     public void deleteByGoodsIds(List goodsIds);
+
+    /**
+     * 批量删除
+     * @param itemIds
+     */
+    public void deleteByItemIds(List itemIds);
 }

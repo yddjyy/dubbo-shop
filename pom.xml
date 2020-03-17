@@ -11,6 +11,28 @@
         <module>pyg-comments</module>
         <module>pyg-comments-web</module>
         <module>pyg-task-service</module>
+        <module>pyg-cart</module>
+        <module>pyg-cart-web</module>
+        <module>pyg-common</module>
+        <module>pyg-content</module>
+        <module>pyg-dao</module>
+        <module>pyg-manager</module>
+        <module>pyg-manager-web</module>
+        <module>pyg-order</module>
+        <module>pyg-page</module>
+        <module>pyg-page-web</module>
+        <module>pyg-pay</module>
+        <module>pyg-pojo</module>
+        <module>pyg-portal-web</module>
+        <module>pyg-search</module>
+        <module>pyg-search-web</module>
+        <module>pyg-seckill</module>
+        <module>pyg-seckill-web</module>
+        <module>pyg-seckillgoods</module>
+        <module>pyg-shop-web</module>
+        <module>pyg-solr-util</module>
+        <module>pyg-user</module>
+        <module>pyg-user-web</module>
     </modules>
     <packaging>pom</packaging>
 

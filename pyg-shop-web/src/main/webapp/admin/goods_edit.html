@@ -8,14 +8,14 @@
     <title>商品编辑</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-<!--   
+
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="../css/style.css">-->
+    <link rel="stylesheet" href="../css/style.css">
       <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 
-     <link rel="stylesheet" href="../frame/layui/css/layui.css">
+	<link rel="stylesheet" href="../frame/layui/css/layui.css">
     <link rel="stylesheet" href="../frame/static/css/style.css">
     <link rel="icon" href="../frame/static/image/code.png">
     <link rel="stylesheet" href="../css/app.css"/>
@@ -23,11 +23,6 @@
 
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    
-    <!-- 富文本编辑器 -->
-	<!-- <link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css" />
-	<script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
-	<script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script> -->
     <script src="../plugins/angularjs/angular.min.js"></script>
 	<script src="../js/base.js"></script>
 	<script src="../js/controller/baseController.js"></script>
@@ -39,366 +34,326 @@
 	<script src="../js/service/itemCatService.js"></script>
 	<script src="../js/service/seckillGoodsService.js"></script>
 	<script src="../js/service/typeTemplateService.js"></script>
-
+	<script type="text/javascript" src="../js/wangeditor/release/wangEditor.min.js"></script>
+	<script type="text/javascript" src="../frame/layui/layui.js"></script>
 
 </head>
 
-<body class="body" ng-app="pyg" ng-controller="goodsController" ng-init="selectItemCat1List();findOne()">
-<div class="layui-tab">
-    <ul class="layui-tab-title">
-        <li class="layui-this">商品基本信息</li>
-        <li>商品图片</li>
-        <li>扩展属性</li>
-        <li>规格</li>
-    </ul>
-    <div class="layui-tab-content">
-    	<!--商品基本信息选项卡 start-->
-        <div class="layui-tab-item layui-show">
-			<form class="layui-form" action="">
-			    <div class="layui-form-item">
-			        <label class="layui-form-label" style="width: auto">商品名称</label>
-			        <div class="layui-input-block">
-			            <input type="text" name="goodsName" lay-verify="goodsName" autocomplete="off" placeholder="请输入商品名称" class="layui-input" ng-model="entity.goods.goodsName">
-			        </div>
-			    </div>
-			    
+<body class="hold-transition skin-red sidebar-mini" ng-app="pyg" ng-controller="goodsController" ng-init="selectItemCat1List();findOne()">
 
-			    <div class="layui-form-item">
-			        <div class="layui-inline">
-			            <label class="layui-form-label" style="width: auto">商品品牌</label>
-			            <div class="layui-input-block">
-			                <select name="goodsBrand" lay-verify="required" lay-search="">
-			                    <option value="">直接选择或搜索选择</option>
-			                    <option value="1">layer</option>
-			                </select>
-			            </div>
-			        </div>
-			    </div>
+<!-- 正文区域 -->
+<section class="content">
 
-			    <div class="layui-form-item">
-			        <label class="layui-form-label" style=" width: auto">商品类型</label>
-			        <div class="layui-input-block">
-				        <div class="layui-input-inline">
-				            <select name="specification1">
-				                <option value="" selected="">请选择</option>
-				                <option value="浙江" >浙江省</option>
-				                <option value="你的工号">江西省</option>
-				                <option value="你最喜欢的老师">福建省</option>
-				            </select>
-				        </div>
-				        <div class="layui-input-inline">
-				            <select name="specification2">
-				                <option value="">请选择</option>
-				                <option value="杭州">杭州</option>
-				                <option value="宁波" disabled="">宁波</option>
-				                <option value="温州">温州</option>
-				                <option value="温州">台州</option>
-				                <option value="温州">绍兴</option>
-				            </select>
-				        </div>
-				        <div class="layui-input-inline">
-				            <select name="specification3">
-				                <option value="">请选择</option>
-				                <option value="西湖区">西湖区</option>
-				                <option value="余杭区">余杭区</option>
-				                <option value="拱墅区">临安市</option>
-				            </select>
-				        </div>
-			        </div>
-			     </div>
-			     <div class="layui-form-item">
-				    <label class="layui-form-label" style="width: auto">商品价格</label>
-				    <div  class="layui-input-block">
-					    <div class="layui-input-inline">
-					      <input type="number" name="price" lay-verify="pass" placeholder="请输入商品价格" autocomplete="off" class="layui-input" ng-model="entity.goods.price">
-					    </div>
-					    <div class="layui-form-mid layui-word-aux"><i><B>如果未使用规格则显示该价格</B></i></div>
-					 </div>
-  				</div>
-			    <div class="layui-form-item layui-form-text">
-			        <label class="layui-form-label" style=";width: auto">副标题</label>
-			        <div class="layui-input-block">
-			            <textarea placeholder="请输入内容" class="layui-textarea" ng-model="entity.goods.caption"></textarea>
-			        </div>
-			    </div>
-			    <div class="layui-form-item layui-form-text">
-			        <label class="layui-form-label" style="width: auto">商品介绍</label>
-			        <div class="layui-input-block">
-						<div id="vip-rich-text">
-							
+	<div class="box-body">
+
+		<!--tab页-->
+		<div class="nav-tabs-custom">
+
+			<!--tab头-->
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#home" data-toggle="tab">商品基本信息</a>
+				</li>
+				<li >
+					<a href="#pic_upload" data-toggle="tab">商品图片</a>
+				</li>
+				<li >
+					<a href="#customAttribute" data-toggle="tab">扩展属性</a>
+				</li>
+				<li >
+					<a href="#spec" data-toggle="tab" >规格</a>
+				</li>
+			</ul>
+			<!--tab头/-->
+
+			<!--tab内容-->
+			<div class="tab-content">
+
+				<!--表单内容-->
+				<div class="tab-pane active" id="home">
+					<div class="row data-type">
+						<div class="col-md-2 title">商品分类</div>
+
+						<div class="col-md-10 data">
+							<table>
+								<tr>
+									<td>
+										<select class="form-control" ng-model="entity.goods.category1Id" ng-options="item.id as item.name for item in itemCat1List">
+										</select>
+									</td>
+									<td>
+										<select class="form-control select-sm"  ng-model="entity.goods.category2Id" ng-options="item.id as item.name for item in itemCat2List"></select>
+									</td>
+									<td>
+										<select class="form-control select-sm" ng-model="entity.goods.category3Id" ng-options="item.id as item.name for item in itemCat3List"></select>
+									</td>
+									<td>
+									</td>
+								</tr>
+							</table>
+
 						</div>
-			        </div>
-			    </div>
-			    
-			    <div class="layui-form-item layui-form-text">
-			        <label class="layui-form-label" style=";width: auto">包装列表</label>
-			        <div class="layui-input-block">
-			            <div id="vip-rich-text2">
-							 
+
+
+						<div class="col-md-2 title">商品名称</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.goods.goodsName" placeholder="商品名称" value="">
 						</div>
-			        </div>
-			    </div>
-			    <div class="layui-form-item layui-form-text">
-			        <label class="layui-form-label" style="width: auto">售后服务</label>
-			        <div class="layui-input-block">
-			            <div id="vip-rich-text3">
-							 
+
+						<div class="col-md-2 title">品牌</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.goods.brandId" ng-options="item.id as item.text for item in typeTemplate.brandIds"></select>
 						</div>
-			        </div>
-			    </div>
-			</form>
-        </div>
-        <!--商品基本信息选项卡 end-->
 
-        <!--商品图片选项卡 start-->
-        <div class="layui-tab-item">
-        	  <div class="tab-pane" id="pic_upload">
-                                <div class="row data-type">                                  
-								 <!-- 颜色图片 -->
-								 <div class="btn-group">
-								 	<button class="layui-btn layui-btn-normal" data-target="#uploadModal" ng-click="image_entity = {}"  data-toggle="modal" >新 建</button>
-					             </div>
-								 
-								 <table class="table table-bordered table-striped table-hover dataTable">
-					                    <thead>
-					                        <tr>
-					                            
-											    <th class="sorting" style="text-align: center; width: auto">颜色</th>
-											    <th class="sorting" style="text-align: center; width: auto">图片</th>
-												<th class="sorting" style="text-align: center; width: auto">操作</th>
-							            </thead>
-					                    <tbody>
-					                      <tr ng-repeat="pojo in entity.goodsDesc.itemImages" style="height: auto">
-									            <td>
-									            	{{pojo.color}}
-									            </td>
-									            <td>
-									           		<img alt="" src="{{pojo.url}}" width="100px" height="100px">
-									            </td>
-												 <td style="text-align: center; width: auto"> 
-												 	 <button class="layui-btn layui-btn-big layui-btn-normal" ng-click="remove_image_entity($index)" title="删除"><i class="layui-icon">&#xe640;</i> 删除</button>
-												 <!-- 	<button type="button" class="btn btn-default" ng-click="remove_image_entity($index)" title="删除" ><i class="fa fa-trash-o"></i> 删除</button> -->
-												 </td>
-					                      </tr>
-					                    </tbody>
-								 </table> 
-								  
-                                </div>
-                            </div>
-        </div>
-        <!--商品图片选项卡 end-->
+						<div class="col-md-2 title">副标题</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.goods.caption"   placeholder="副标题" value="">
+						</div>
 
-        <!--扩展属性选项卡 start-->
-        <div class="layui-tab-item">
-        	<!--扩展属性-->
-            <div class="tab-pane" id="customAttribute">
-                <div class="row data-type">                                
-	                <div ng-repeat="item in entity.goodsDesc.customAttributeItems">
-		            	<div class="col-md-2 title" >{{item.text}}</div>
-				    	<div class="col-md-10 data">
-				    	<input class="form-control" ng-model="item.value" placeholder="{{item.text}}">
-				    	</div>
-	            	</div>
-            	</div>
-            </div>
-        </div>
-        <!--扩展属相选项卡 end-->
+						<div class="col-md-2 title">价格</div>
+						<div class="col-md-10 data">
+							<div class="input-group">
+								<span class="input-group-addon">¥</span>
+								<input type="text" class="form-control" ng-model="entity.goods.price" placeholder="价格" value="">
+							</div>
+						</div>
 
-        <!--规格选项卡 start-->
-        <div class="layui-tab-item">
-		<!--规格-->
-                            <div class="tab-pane" id="spec">
-                            	<div class="row data-type">
-	                            	<div class="col-md-2 title">是否启用规格</div>
-			                        <div class="col-md-10 data">
-			                        	<input type="checkbox"ng-model="entity.goods.isEnableSpec" ng-true-value="1" ng-false-value="0">
-			                        </div>
-                            	</div>
-                            	<p>
-                            	
-                            	<div ng-if="entity.goods.isEnableSpec=='1'">
-                            	
-	                                <div class="row data-type">
-	                                
-		                                <div ng-repeat="pojo in specList">
-			                                <div class="col-md-2 title">{{pojo.text}}</div>
-					                        <div class="col-md-10 data">
-					                               
+						<div class="col-md-2 title editer">商品介绍</div>
+						<div class="col-md-10 data editer">
+							<div id="vip-rich-text">
+
+							</div>
+						</div>
+
+						<div class="col-md-2 title editer">包装列表</div>
+						<div class="col-md-10 data editer">
+							<div id="vip-rich-text2">
+
+							</div>
+						</div>
+
+						<div class="col-md-2 title editer">售后服务</div>
+						<div class="col-md-10 data editer">
+							<div id="vip-rich-text3">
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+				<!--图片上传-->
+				<div class="tab-pane" id="pic_upload">
+					<div class="row data-type">
+						<!-- 颜色图片 -->
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" title="新建" data-target="#uploadModal" ng-click="image_entity = {};clear();"  data-toggle="modal"  ><i class="fa fa-file-o"></i> 新建</button>
+
+						</div>
+
+						<table class="table table-bordered table-striped table-hover dataTable">
+							<thead>
+							<tr>
+
+								<th class="sorting">颜色</th>
+								<th class="sorting">图片</th>
+								<th class="sorting">操作</th>
+							</thead>
+							<tbody>
+							<tr ng-repeat="pojo in entity.goodsDesc.itemImages">
+								<td>
+									{{pojo.color}}
+								</td>
+								<td>
+									<div style="display: inline-block" ng-repeat="img in pojo.url">
+										<img alt="" ng-src="img"  width="100px" height="100px">-
+									</div>
+<!--									<img alt="" ng-src="{{img}}" ng-repeat="img in pojo.url" width="100px" height="100px">-->
+								</td>
+								<td> <button type="button" class="btn btn-default" ng-click="remove_image_entity($index)" title="删除" ><i class="fa fa-trash-o"></i> 删除</button></td>
+							</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+
+				<!--扩展属性-->
+				<div class="tab-pane" id="customAttribute">
+					<div class="row data-type">
+						<div ng-repeat="item in entity.goodsDesc.customAttributeItems">
+							<div class="col-md-2 title" >{{item.text}}</div>
+							<div class="col-md-10 data">
+								<input class="form-control" ng-model="item.value" placeholder="{{item.text}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--规格-->
+				<div class="tab-pane" id="spec">
+					<div class="row data-type">
+						<div class="col-md-2 title">是否启用规格</div>
+						<div class="col-md-10 data">
+							<input type="checkbox"ng-model="entity.goods.isEnableSpec" ng-true-value="1" ng-false-value="0">
+						</div>
+					</div>
+					<p>
+
+					<div ng-if="entity.goods.isEnableSpec=='1'">
+
+						<div class="row data-type">
+
+							<div ng-repeat="pojo in specList">
+								<div class="col-md-2 title">{{pojo.text}}</div>
+								<div class="col-md-10 data">
+
 					                            <span ng-repeat="option in pojo.options">
 					                            	<input  type="checkbox" ng-checked="checkedAttributeValue(pojo.text,option.optionName)" ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()">{{option.optionName}}
 					                            </span>
-					                        </div>
-		                                </div>
-	                                </div>
-	
-	                                
-	                                <div class="row data-type">
-	                                	 <table class="table table-bordered table-striped table-hover dataTable">
-						                    <thead>
-						                        <tr>					                          
-												    <th class="sorting" ng-repeat="item in entity.goodsDesc.specificationItems">{{item.attributeName}}</th>
-												    <th class="sorting">价格</th>
-												    <th class="sorting">库存</th>
-												    <th class="sorting">是否启用</th>
-												    <th class="sorting">是否默认</th>
-											    </tr>
-								            </thead>
-						                    <tbody>
-						                      <tr ng-repeat="pojo in entity.itemList">
-										            <td ng-repeat="item in entity.goodsDesc.specificationItems">
-										            	{{pojo.spec[item.attributeName]}}
-										            </td>
-										            <td>
-										           		<input class="form-control" ng-model="pojo.price" placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" ng-model="pojo.num" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0">
-										            </td>
-										            <td>
-										                <input type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0">
-										            </td>
-						                      </tr>
+								</div>
+							</div>
+						</div>
 
-											  
-						                    </tbody>
-									 	</table>
-								
-	                                </div>
-	                                
-	                            </div>
-                            </div>
-        </div>
-        <!--规格选项卡 end-->
-    </div>
-</div>
-<div class="layui-form-item">
-	<div class="layui-input-block">
-		<button class="layui-btn submit" lay-submit="" lay-filter="demo1" ng-click="save()">提交审核</button>
-		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
+						<div class="row data-type">
+							<table class="table table-bordered table-striped table-hover dataTable">
+								<thead>
+								<tr>
+									<th class="sorting" ng-repeat="item in entity.goodsDesc.specificationItems">{{item.attributeName}}</th>
+									<th class="sorting">价格</th>
+									<th class="sorting">库存</th>
+									<th class="sorting">是否启用</th>
+									<th class="sorting">是否默认</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat="pojo in entity.itemList">
+									<td ng-repeat="item in entity.goodsDesc.specificationItems">
+										{{pojo.spec[item.attributeName]}}
+									</td>
+									<td>
+										<input class="form-control" ng-model="pojo.price" placeholder="价格">
+									</td>
+									<td>
+										<input class="form-control" ng-model="pojo.num" placeholder="库存数量">
+									</td>
+									<td>
+										<input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0">
+									</td>
+									<td>
+										<input type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0">
+									</td>
+								</tr>
+
+
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<!--tab内容/-->
+			<!--表单内容/-->
+
+		</div>
+
+
+
+
 	</div>
-</div>
+	<div class="btn-toolbar list-toolbar">
+		<button class="btn btn-primary" ng-click="save()"><i class="fa fa-save"></i>保存</button>
+		<a href="goods.html" class="btn btn-default" >返回列表</a>
+	</div>
+
+</section>
+
+
 <!-- 上传窗口 -->
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" >
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">上传商品图片</h3>
-		</div>
+	<div class="modal-dialog" >
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">上传商品图片</h3>
+			</div>
+			<div class="modal-body">
+				<div class="layui-form-item">
+					<label class="layui-form-label" style="width: auto">颜色</label>
+					<div class="layui-input-block">
+						<input  class="form-control" placeholder="颜色" ng-model="image_entity.color">
+					</div>
+				</div>
 
-		<div class="modal-body">							
-			 <div class="layui-form-item">
-			    <label class="layui-form-label" style="width: auto">颜色</label>
-			    <div class="layui-input-block">
-			        <input type="text" name="goodsName" lay-verify="goodsName" autocomplete="off" placeholder="颜色" class="layui-input" ng-model="image_entity.color">
-			    </div>
-			 </div>
-			
-			<div class="layui-col-md12">
-	            <div class="layui-card">
-	                <div class="layui-card-header">上传多张图片</div>
-	                <div class="layui-card-body">
-	                    <div class="layui-upload">
-	                        <button type="button" class="layui-btn" id="test2">多图片上传</button>
-	                        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-	                            预览图：
-	                            <div class="layui-upload-list" id="demo2"></div>
-	                        </blockquote>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">上传多张图片</div>
+						<div class="layui-card-body">
+							<div class="layui-upload">
+								<button type="button" class="layui-btn" id="test2">多图片上传</button>
+								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+									预览图：
+									<div class="layui-upload-list" id="demo2"></div>
+								</blockquote>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success"  data-dismiss="modal" aria-hidden="true" ng-click="add_image_entity()">保存</button>
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
 		</div>
-		<div class="modal-footer">				
-			<button class="btn btn-success"  data-dismiss="modal" aria-hidden="true" ng-click="add_image_entity()">保存</button>
-			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-		</div>
-	  </div>
 	</div>
 </div>
-<script type="text/javascript" src="../js/wangeditor/release/wangEditor.min.js"></script>
-<script type="text/javascript" src="../frame/layui/layui.js"></script>
+
+
+<!-- 正文区域 /-->
 <script type="text/javascript">
-	layui.use('element', function () {
-        var $ = layui.jquery
-                , element = layui.element;
-    });
- 	layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form
-                ,layer = layui.layer
-                ,layedit = layui.layedit
-                ,laydate = layui.laydate;
-        // //监听提交
-        // form.on('submit(demo1)', function(data){
-        // 	console.log("监听提交"+JSON.stringify(data.field));
-        //     layer.alert(JSON.stringify(data.field), {
-        //         title: '最终的提交信息'
-        //     });
 
-        //     return false;
-        // });
+	//富文本上传图片
+	var E = window.wangEditor;
+	var editor1 = new E('#vip-rich-text');
+	editor1.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
+	editor1.create()
+	var editor2 = new E('#vip-rich-text2');
+	editor2.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
+	editor2.create()
+	var editor3 = new E('#vip-rich-text3');
+	editor3.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
+	editor3.create();
 
-    });//end form
-    //文本编辑器
-    layui.use('layer',function(){
-	    var $ = layui.$,layer = layui.layer;
-
-	    var E = window.wangEditor;
-	    var editor = new E('#vip-rich-text');
-	    editor.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
-	    editor.create()
-	    var editor2 = new E('#vip-rich-text2');
-	    editor2.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
-	    editor2.create()
-	    var editor3 = new E('#vip-rich-text3');
-	    editor3.customConfig.uploadImgServer = '../upload';  // 上传图片到服务器
-	    editor3.create();
-
-	    // 获取内容-html
-	    // $('.submit').on('click',function(){
-	    // 	console.log("拜拜");
-	    //     // console.log("editor:"+editor.txt.html());
-	    //     // console.log("editor2:"+editor2.txt.html());
-	    //     // console.log("editor3:"+editor3.txt.html());
-	    // });
-
-	    // // 获取内容-text
-	    // $('.layui-btn').on('click',function(){
-	    //     console.log(editor.txt.text());
-	    // });
-
-	    // // 获取内容-json
-	    // $('.vip-demo-get-json').on('click',function(){
-	    //     var json = editor.txt.getJSON();  // 获取 JSON 格式的内容
-	    //     var jsonStr = JSON.stringify(json);
-	    //     console.log(json);
-	    //     layer.alert(jsonStr);
-	    // });
-
-	});
+	//图片数组
+	var imgs=new Array()
 	layui.use('upload', function(){
-   var $ = layui.jquery
-                ,upload = layui.upload;
-		  //多图片上传
-        upload.render({
-            elem: '#test2'
-            ,url: '../upload'
-            ,multiple: true
-            ,before: function(obj){
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" width="100" height="100" style="margin-top:5px;margin-right:5px">')
-                });
-            }
-            ,done: function(res){
-                //上传完毕
-            }
-        });
+		var $ = layui.jquery
+				,upload = layui.upload;
+		//多图片上传
+		upload.render({
+			elem: '#test2'
+			,url: '../upload'
+			,multiple: true
+			,before: function(obj){
+				//预读本地文件示例，不支持ie8
+				obj.preview(function(index, file, result){
+					$('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" width="100" height="100" style="margin-top:5px;margin-right:5px">')
+				});
+			}
+			,done: function(res){
+				imgs.push(res.message)
+				console.log(imgs);
+			}
+		});
 	});
+
 </script>
+
 </body>
 </html>

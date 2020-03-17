@@ -41,8 +41,11 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         goodsService.findOne(id).success(
             function (response) {
                 $scope.entity = response;
+                console.log(response);
                 //描述
-                editor.html(response.goodsDesc.introduction);
+                editor1.txt.html(response.goodsDesc.introduction);
+                editor2.txt.html(response.goodsDesc.packageList);
+                editor3.txt.html(response.goodsDesc.saleService);
                 //图片列表
                 $scope.entity.goodsDesc.itemImages = JSON.parse($scope.entity.goodsDesc.itemImages);
                 //扩展属性
@@ -56,14 +59,19 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
             }
         );
     }
-
+    //清楚预览图
+    $scope.clear = function(){
+        $(function () {
+            $("#demo2").html("");
+        });
+        imgs=[];
+        $scope.image_entity = {url:[]};
+    }
     //保存
     $scope.save = function () {
-        console.log("save")
-        $scope.entity.goodsDesc.introduction = editor.html();
-        console.log("editor:"+editor.txt.html());
-        console.log("editor2:"+editor2.txt.html());
-        console.log("editor3:"+editor3.txt.html());
+        $scope.entity.goodsDesc.introduction = editor1.txt.html();
+        $scope.entity.goodsDesc.packageList = editor2.txt.html();
+        $scope.entity.goodsDesc.saleService = editor3.txt.html();
         var serviceObject;//服务层对象
         if ($scope.entity.goods.id != null) {//如果有ID
             serviceObject = goodsService.update($scope.entity); //修改
@@ -85,6 +93,9 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
 
     //批量删除
     $scope.dele = function () {
+        if($scope.selectIds.length==0)
+            alert("请先选择要删除的商品！");
+        return;
         //获取选中的复选框
         goodsService.dele($scope.selectIds).success(
             function (response) {
@@ -97,6 +108,8 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     }
     //重新提交
     $scope.resubmit=function(){
+        console.log(ids);
+        return;
         $http.get('../goods/resubmit?ids='+ids);
     }
 
@@ -134,20 +147,24 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         });
     }
     //上传图片
+     //$scope.image_entity={url:[]};
+    //弃用
     $scope.uploadFile = function () {
         uploadService.uploadFile().success(
             function (data) {
                 if (data.success) {
-                    $scope.image_entity.url = data.message;
+                    $scope.image_entity.url.push(data.message);
+                    console.log("目前的图片："+$scope.image_entity.url);
                 } else {
                     alert(data.message);
                 }
             }
         )
-    }
+    }//end
     $scope.entity = {goodsDesc: {itemImages: [], specificationItems: []}};
     //向goodsdesc的itemImages字段添加图片实体
     $scope.add_image_entity = function () {
+        $scope.image_entity.url=imgs;
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
     }
 
@@ -155,7 +172,6 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     $scope.remove_image_entity = function (index) {
         $scope.entity.goodsDesc.itemImages.splice(index, 1);
     }
-
     //查找一级分类
     $scope.selectItemCat1List = function () {
         itemCatService.findByParentId(0).success(
@@ -269,7 +285,7 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     };
 
     //审核状态
-    $scope.status = ['未审核', '已审核', '审核未通过', '已关闭'];
+    $scope.status = ['等待审核', '审核通过', '审核未通过(点击查看原因)', '已关闭'];
 
     $scope.itemCatList = [];
     $scope.brandList=[];

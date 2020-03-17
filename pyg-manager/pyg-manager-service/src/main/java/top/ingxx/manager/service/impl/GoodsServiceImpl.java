@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import top.ingxx.manager.service.GoodsService;
 import top.ingxx.mapper.*;
 import top.ingxx.pojo.*;
@@ -12,10 +13,7 @@ import top.ingxx.pojo.TbGoodsExample.Criteria;
 import top.ingxx.pojoGroup.Goods;
 import top.ingxx.untils.entity.PageResult;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 服务实现层
@@ -23,6 +21,7 @@ import java.util.Map;
  * @author Administrator
  */
 @Service
+
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -60,6 +59,7 @@ public class GoodsServiceImpl implements GoodsService {
      * 增加
      */
     @Override
+    @Transactional
     public void add(Goods goods) {
         goods.getGoods().setAuditStatus("0"); //状态为未审核
         goodsMapper.insert(goods.getGoods()); //插入商品基本信息
@@ -118,7 +118,11 @@ public class GoodsServiceImpl implements GoodsService {
         //图片
         List<Map> imageList = JSON.parseArray(goods.getGoodsDesc().getItemImages(), Map.class);
         if (imageList.size() > 0) {
-            item.setImage(imageList.get(0).get("url").toString());
+            String url = imageList.get(0).get("url").toString();
+            String[] split = url.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\\"", "").split(",");
+            Random random = new Random();
+            int index = random.nextInt(split.length);//生成随机数
+            item.setImage(split[index].toString());
         }
     }
 

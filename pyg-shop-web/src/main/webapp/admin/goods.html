@@ -34,11 +34,6 @@
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pyg" ng-controller="goodsController" ng-init="findItemCatList();reloadList();findBrandList();">
 <!-- .box-body -->
-
-<div class="box-header with-border">
-	<h3 class="box-title">商品管理</h3>
-</div>
-
 <div class="box-body">
 
 	<!-- 数据表格 -->
@@ -48,10 +43,8 @@
 		<div class="pull-left">
 			<div class="form-group form-inline">
 				<div class="btn-group">
-					<a href="goods_edit.html" type="button" class="btn btn-default" title="新建" ><i class="fa fa-file-o"></i> 新建</a>
+					<a href="goods_edit.html" type="button" class="btn btn-default" title="添加商品" ><i class="fa fa-file-o"></i> 添加商品</a>
 					<button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
-					<button type="button" class="btn btn-default" title="提交审核" ng-click="resubmit()"><i class="fa fa-check"></i> 提交审核</button>
-					<button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
 					<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
 				</div>
 			</div>
@@ -109,8 +102,8 @@
 				</td>
 				<td class="text-center">
 					<a href="goods_edit.html#?id={{entity.id}}" class="btn bg-olive btn-xs">修改</a>
-					<a href="javascript:void(0)" class="btn bg-olive btn-xs">下架</a>
-					<a href="#" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#seckillGoods" ng-click="insertValue(entity.id,entity.goodsName,itemCatList[entity.category1Id],itemCatList[entity.category2Id],itemCatList[entity.category3Id],brandList[entity.brandId])">秒杀</a>
+					<a href="javascript:void(0)" class="btn bg-olive btn-xs" ng-if="entity.auditStatus == 1">下架</a>
+					<a href="#" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#seckillGoods" ng-click="insertValue(entity.id,entity.goodsName,itemCatList[entity.category1Id],itemCatList[entity.category2Id],itemCatList[entity.category3Id],brandList[entity.brandId])" ng-if="entity.auditStatus == 1">秒杀</a>
 
 				</td>
 			</tr>

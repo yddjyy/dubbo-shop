@@ -1,27 +1,21 @@
 package top.ingxx.search.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
-import org.springframework.data.solr.core.query.result.GroupEntry;
-import org.springframework.data.solr.core.query.result.GroupPage;
-import org.springframework.data.solr.core.query.result.GroupResult;
-import org.springframework.data.solr.core.query.result.HighlightEntry;
+import org.springframework.data.solr.core.query.result.*;
 import org.springframework.data.solr.core.query.result.HighlightEntry.Highlight;
-import org.springframework.data.solr.core.query.result.HighlightPage;
-import org.springframework.data.solr.core.query.result.ScoredPage;
-
-import com.alibaba.dubbo.config.annotation.Service;
 import top.ingxx.pojo.TbItem;
 import top.ingxx.search.service.ItemSearchService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -259,11 +253,12 @@ public class ItemSearchServiceImpl implements ItemSearchService {
      * 增量添加
      * @param list
      */
+    @Override
     public void importList(List list){
         solrTemplate.saveBeans(list);
         solrTemplate.commit();
     }
-
+    @Override
     public void deleteByGoodsIds(List goodsIds){
         SolrDataQuery query = new SimpleQuery("*:*");
         Criteria criteria = new Criteria("item_goodsid").in(goodsIds);
@@ -272,4 +267,12 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         solrTemplate.commit();
     }
 
+    @Override
+    public void deleteByItemIds(List itemIds) {
+        SolrDataQuery query = new SimpleQuery("*:*");
+        Criteria criteria = new Criteria("id").in(itemIds);
+        query.addCriteria(criteria);
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+    }
 }

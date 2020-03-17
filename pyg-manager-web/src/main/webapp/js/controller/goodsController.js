@@ -104,6 +104,11 @@ app.controller('goodsController', function ($scope, $controller, itemCatService,
     }
     //更新状态
     $scope.updateStatus = function (status) {
+        if($scope.selectIds.length==0)
+        {
+            alert("请先选择商品！");
+            return;
+        }
         goodsService.updateStatus($scope.selectIds, status).success(
             function (data) {
                 if (data.success) {

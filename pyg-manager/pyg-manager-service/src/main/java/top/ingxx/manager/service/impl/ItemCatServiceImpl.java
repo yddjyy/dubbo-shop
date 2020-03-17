@@ -1,23 +1,18 @@
 package top.ingxx.manager.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import top.ingxx.manager.service.ItemCatService;
 import top.ingxx.mapper.TbItemCatMapper;
-import top.ingxx.mapper.TbTypeTemplateMapper;
-import top.ingxx.pojo.TbItem;
 import top.ingxx.pojo.TbItemCat;
 import top.ingxx.pojo.TbItemCatExample;
 import top.ingxx.pojo.TbItemCatExample.Criteria;
-import top.ingxx.manager.service.ItemCatService;
-
 import top.ingxx.untils.entity.PageResult;
+
+import java.util.List;
 
 /**
  * 服务实现层
@@ -142,12 +137,12 @@ public class ItemCatServiceImpl implements ItemCatService {
         Criteria criteria = example.createCriteria();
         criteria.andParentIdEqualTo(parentId);
         List<TbItemCat> list = itemCatMapper.selectByExample(example);
-
+//TODO 注释掉 提高系统运行 ？此处为什么要放入缓存
         //讲模板ID放入缓存（以商品分类名称作为key 模板id为value）
-        List<TbItemCat> itemCatList = findAll();
-        for (TbItemCat itemCat:itemCatList){
-            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
-        }
+//        List<TbItemCat> itemCatList = findAll();
+//        for (TbItemCat itemCat:itemCatList){
+//            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+//        }
 
         return list;
     }

@@ -1,3 +1,8 @@
+// app.filter('trustHtml', function ($sce) { //解释html标签
+//     return function (input) {
+//         return $sce.trustAsHtml(input);
+//     }
+// });
 app.controller("baseController",function ($scope) {
     //重新加载列表 数据
     $scope.reloadList = function () {
