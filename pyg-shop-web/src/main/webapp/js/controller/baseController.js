@@ -24,6 +24,7 @@ app.controller("baseController", function ($scope) {
             $scope.selectIds.splice(index, 1);
         }
     };
+
     //在list集合中查找KEY的值
     $scope.searchObjectByKey = function (list, key, keyValue) {
         for (var i = 0; i < list.length; i++) {

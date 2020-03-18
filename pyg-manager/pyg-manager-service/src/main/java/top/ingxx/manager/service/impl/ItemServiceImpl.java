@@ -1,17 +1,16 @@
 package top.ingxx.manager.service.impl;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import top.ingxx.manager.service.ItemService;
 import top.ingxx.mapper.TbItemMapper;
 import top.ingxx.pojo.TbItem;
 import top.ingxx.pojo.TbItemExample;
 import top.ingxx.pojo.TbItemExample.Criteria;
-import top.ingxx.manager.service.ItemService;
-
 import top.ingxx.untils.entity.PageResult;
+
+import java.util.List;
 
 /**
  * 服务实现层
@@ -142,5 +141,15 @@ public class ItemServiceImpl implements ItemService {
 		Criteria criteria = tbItemExample.createCriteria();
 		criteria.andGoodsIdEqualTo(id);
 		return itemMapper.selectByExample(tbItemExample);
+	}
+
+	//更新sku商品状态信息（上架、下架）
+	@Override
+	public void updateStatus(Long[] ids, String status) {
+		for(Long id :ids){
+			TbItem tbItem = findOne(id);
+			tbItem.setStatus(status);
+			update(tbItem);
+		}
 	}
 }

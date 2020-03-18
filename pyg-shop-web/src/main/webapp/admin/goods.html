@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<!-- 页面meta -->
 	<meta charset="utf-8">
@@ -8,21 +7,20 @@
 	<title>商品管理</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 	<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-
 	<script src="../plugins/angularjs/angular.min.js"></script>
-	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<script src="../plugins/angularjs/pagination.js"></script>
 	<script src="../js/base_pagination.js"></script>
 	<script src="../js/controller/baseController.js"></script>
 	<script src="../js/service/goodsService.js"></script>
 	<script src="../js/controller/goodsController.js"></script>
-
 	<script src="../js/service/uploadService.js"></script>
 	<script src="../js/service/itemCatService.js"></script>
 	<script src="../js/service/typeTemplateService.js"></script>
@@ -30,6 +28,10 @@
 	<script src="../js/service/itemService.js"></script>
 	<link rel="stylesheet" href="../css/zxf_page.css">
 	<script src="../js/zxf_page.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pyg" ng-controller="goodsController" ng-init="findItemCatList();reloadList();findBrandList();">
@@ -95,14 +97,10 @@
 				<td>{{itemCatList[entity.category1Id]}}/{{itemCatList[entity.category2Id]}}/{{itemCatList[entity.category3Id]}}</td>
 				<td>{{brandList[entity.brandId]}}</td>
 				<!--									      <td>{{itemCatList[entity.category3Id]}}</td>-->
-				<td>
-		                                  	<span>
-		                                  		{{status[entity.auditStatus]}}
-		                                  	</span>
-				</td>
+				<td><span>{{status[entity.auditStatus]}}</span></td>
 				<td class="text-center">
 					<a href="goods_edit.html#?id={{entity.id}}" class="btn bg-olive btn-xs">修改</a>
-					<a href="javascript:void(0)" class="btn bg-olive btn-xs" ng-if="entity.auditStatus == 1">下架</a>
+					<a href="#" class="btn bg-olive btn-xs" ng-if="entity.auditStatus == 1" ng-click="findItemByGoodsId(entity.id)" data-toggle="modal" data-target="#removeSku">下架</a>
 					<a href="#" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#seckillGoods" ng-click="insertValue(entity.id,entity.goodsName,itemCatList[entity.category1Id],itemCatList[entity.category2Id],itemCatList[entity.category3Id],brandList[entity.brandId])" ng-if="entity.auditStatus == 1">秒杀</a>
 
 				</td>
@@ -110,12 +108,9 @@
 			</tbody>
 		</table>
 		<!--数据列表/-->
-
-
 	</div>
 	<!-- 数据表格 /-->
 <!--	{{itemList}}-->
-
 </div>
 <!-- /.box-body -->
 <!--翻页-->
@@ -130,7 +125,7 @@
 	}
 </style>
 <!-- 模态框（Modal） -->
-<div class="modal fade" id="seckillGoods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="seckillGoods" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" style="width:900px;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -269,6 +264,89 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="removeSku" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					下架商品
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<table class="table table-hover">
+							<thead>
+							<tr>
+								<th>规格属性</th>
+								<th>价格</th>
+								<th>现有库存</th>
+								<th>状态</th>
+								<th>是否下架</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="item in itemList">
+								<td>{{item.spec}}</td>
+								<td>{{item.price}}</td>
+								<td>{{item.num}}</td>
+								<td>{{skuStatus[item.status]}}</td>
+								<td>
+									<input  type="checkbox" ng-click="updatSkuSelection2($event,item.id)" checked ng-if="item.status==2">
+									<input  type="checkbox" ng-click="updatSkuSelection($event,item.id)"  ng-if="item.status==1">
+								</td>
+							</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" ng-click="updateSku()">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<input type="checkbox" checked class="checkbox-switch" value="11"/>
+<script type="text/javascript">
+
+	/* bootstrap开关控件，初始化 */
+	$(function(){
+		/* 初始化控件 */
+		$(".checkbox-switch").bootstrapSwitch({
+			onText : "上架",      // 设置ON文本  
+			offText : "下架",    // 设置OFF文本  
+			onColor : "success",// 设置ON文本颜色     (info/success/warning/danger/primary)  
+			offColor : "danger",  // 设置OFF文本颜色        (info/success/warning/danger/primary)  
+			size : "mini",    // 设置控件大小,从小到大  (mini/small/normal/large)  
+			handleWidth:"35",//设置控件宽度
+			// 当开关状态改变时触发  
+			onSwitchChange : function(event, state) {
+				var ProductId = event.target.defaultValue;
+				if (state == true) {
+					//上线
+					//updateProductStatus(ProductId,'AOB');
+					/* alert("ON"); */
+				} else {
+					//下线
+					//updateProductStatus(ProductId,'AOC');
+					/* alert("OFF"); */
+				}
+			}
+		});
+	})
+</script>
 </body>
 
 </html>

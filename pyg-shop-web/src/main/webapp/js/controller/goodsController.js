@@ -1,3 +1,11 @@
+app.filter('jsonToString', function() { //可以注入依赖
+    return function(text) {
+        for (var val in text) {
+            console.log(val + ": " + text[val]);//输出如:name
+        }
+        return text
+    }
+});
 //控制层
 app.controller('goodsController', function ($scope,$http, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService, brandService,itemService) {
 
@@ -12,8 +20,18 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         );
     }
 
-    //通过商品id查找
+    $scope.test=function(){
+        myJson = {"网络":"移动4G","机身内存":"64G"};
+        for (var val in myJson) {
+            console.log(val + ": " + myJson[val]);//输出如:name
+        }
+    }
+    //通过商品id查找sku
     $scope.findItemByGoodsId=function(id){
+        //清除已存储数据
+        $scope.selectSkuIdsRemove = [];//标记下架商品
+        $scope.selectSkuIdsadd = [];//标记上架商品
+
         itemService.findItemByGoodsId(id).success(
             function (response) {
                 $scope.itemList=response;
@@ -94,8 +112,10 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     //批量删除
     $scope.dele = function () {
         if($scope.selectIds.length==0)
+        {
             alert("请先选择要删除的商品！");
-        return;
+            return;
+        }
         //获取选中的复选框
         goodsService.dele($scope.selectIds).success(
             function (response) {
@@ -114,17 +134,8 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     }
 
     $scope.searchEntity = {};//定义搜索对象
-    $scope.seckillEntity={};//定义秒杀对象
-    $scope.insertValue=function(id,goodsname,one,two,three,brand){
-        console.log(id,goodsname,one,two,three,brand);
-        $scope.seckillEntity.id=id;
-        $scope.seckillEntity.goodsName=goodsname;
-        $scope.seckillEntity.one=one;
-        $scope.seckillEntity.two=two;
-        $scope.seckillEntity.three=three;
-        $scope.seckillEntity.brand=brand;
-        $scope.findItemByGoodsId(id);
-    }
+
+
     //搜索
     $scope.search = function (page, rows) {
         goodsService.search(page, rows, $scope.searchEntity).success(
@@ -285,7 +296,7 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
     };
 
     //审核状态
-    $scope.status = ['等待审核', '审核通过', '审核未通过(点击查看原因)', '已关闭'];
+    $scope.status = ['等待审核', '审核通过', '审核未通过(点击查看原因)', '已下架'];
 
     $scope.itemCatList = [];
     $scope.brandList=[];
@@ -325,8 +336,61 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
             return false;
         }
     }
+    //商品下架
+    //sku上下架
+    $scope.updatSkuSelection = function ($event, id) {//下架
+
+        if ($event.target.checked) {
+            $scope.selectSkuIdsRemove.push(id);
+        } else {
+            var index = $scope.selectSkuIdsRemove.indexOf(id);
+            $scope.selectSkuIdsRemove.splice(index, 1);
+        }
+    };
+    $scope.updatSkuSelection2 = function ($event, id) {//上架
+
+        if ($event.target.checked) {
+            var index = $scope.selectSkuIdsadd.indexOf(id);
+            $scope.selectSkuIdsadd.splice(index, 1);
+        } else {
+            $scope.selectSkuIdsadd.push(id);
+        }
+        console.log("准备上架==="+$scope.selectSkuIdsadd);
+    };
+    $scope.skuStatus=['','在售', '已下架'];
+    $scope.updateSku = function () {
+        if($scope.selectSkuIdsadd.length==0 && $scope.selectSkuIdsRemove.length==0)
+        {
+            return;
+        }
+        goodsService.updateSku($scope.selectSkuIdsadd,$scope.selectSkuIdsRemove).success(
+            function (response) {
+                if (response.success) {
+                    console.log(response.message);
+                }else{
+                    console.log(response.message);
+                }
+            }
+        );
+    }
+
+
+
+    //商品下架end
 
     //添加秒杀商品
+    //秒杀模态框数据
+    $scope.seckillEntity={};//定义秒杀对象
+    $scope.insertValue=function(id,goodsname,one,two,three,brand){
+        console.log(id,goodsname,one,two,three,brand);
+        $scope.seckillEntity.id=id;
+        $scope.seckillEntity.goodsName=goodsname;
+        $scope.seckillEntity.one=one;
+        $scope.seckillEntity.two=two;
+        $scope.seckillEntity.three=three;
+        $scope.seckillEntity.brand=brand;
+        $scope.findItemByGoodsId(id);
+    }
     // $scope.addSeckillGoodsList=function(seckillGoodsList){
 
 

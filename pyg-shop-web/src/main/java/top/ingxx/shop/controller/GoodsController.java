@@ -1,17 +1,21 @@
 package top.ingxx.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.ingxx.manager.service.GoodsService;
+import top.ingxx.manager.service.ItemService;
 import top.ingxx.pojo.TbGoods;
+import top.ingxx.pojo.TbItem;
 import top.ingxx.pojoGroup.Goods;
+import top.ingxx.search.service.ItemSearchService;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.entity.PygResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +29,12 @@ public class GoodsController {
 
 	@Reference
 	private GoodsService goodsService;
-	
+
+	@Reference
+	private ItemService itemService;
+
+	@Reference
+	private ItemSearchService itemSearchService;
 	/**
 	 * 返回全部列表
 	 * @return
@@ -123,6 +132,46 @@ public class GoodsController {
         String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
 	    goods.setSellerId(sellerId);
 		return goodsService.findPage(goods, page, rows);		
+	}
+
+	/**
+	 * 更新sku商品上下架
+	 * @param add
+	 * @param remove
+	 * @return
+	 */
+	@RequestMapping("/updateSku")
+	@Transactional
+	public PygResult updateSku(Long[] add,Long[] remove){
+
+		//更改sku的状态，是否上架
+		try {
+			if(add.length!=0){
+				//上架
+				itemService.updateStatus(add, "1");
+				//添加sku
+				ArrayList<TbItem> list = new ArrayList<>();
+				for(Long id: add){
+					list.add(itemService.findOne(id));
+				}
+				//加入缓存
+				itemSearchService.importList(list);
+			}
+			if(remove.length!=0){
+				//下架
+				itemService.updateStatus(remove, "2");
+				ArrayList<Long> RemoveListIds = new ArrayList<>();
+				for(Long id: remove){
+					RemoveListIds.add(id);
+				}
+				itemSearchService.deleteByItemIds(RemoveListIds);
+			}
+
+			return new PygResult(true,"成功");
+		}catch (Exception e){
+			return new PygResult(false,"失败");
+		}
+
 	}
 	
 }

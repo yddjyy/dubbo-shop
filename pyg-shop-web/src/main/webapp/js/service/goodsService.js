@@ -25,7 +25,11 @@ app.service('goodsService',function($http){
 	this.dele=function(ids){
 		return $http.get('../goods/delete?ids='+ids);
 	}
-	//搜索
+	//更新sku状态
+	this.updateSku=function(selectSkuIdsadd,selectSkuIdsRemove) {
+		return $http.get('../goods/updateSku?add=' + selectSkuIdsadd+"&remove="+selectSkuIdsRemove);
+	}
+		//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../goods/search?page='+page+"&rows="+rows, searchEntity);
 	}    	

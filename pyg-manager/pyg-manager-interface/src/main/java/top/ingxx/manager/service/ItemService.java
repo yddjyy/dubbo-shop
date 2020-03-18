@@ -1,8 +1,8 @@
 package top.ingxx.manager.service;
-import java.util.List;
 import top.ingxx.pojo.TbItem;
-
 import top.ingxx.untils.entity.PageResult;
+
+import java.util.List;
 /**
  * 服务层接口
  * @author Administrator
@@ -64,4 +64,11 @@ public interface ItemService {
 	 * @return
 	 */
 	public List<TbItem> findItemByGoodsId(Long id);
+
+	/**
+	 * 更新sku商品状态信息
+	 * @param ids
+	 * @param status
+	 */
+	public void updateStatus(Long[] ids,String status);
 }

@@ -1,20 +1,19 @@
 package top.ingxx.manager.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
-import top.ingxx.pojo.TbGoods;
 import top.ingxx.manager.service.GoodsService;
-
+import top.ingxx.pojo.TbGoods;
 import top.ingxx.pojo.TbItem;
 import top.ingxx.pojoGroup.Goods;
 import top.ingxx.search.service.ItemSearchService;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.entity.PygResult;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * controller
