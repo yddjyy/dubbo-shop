@@ -230,7 +230,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr ng-repeat="item in itemList">
+							<tr ng-repeat="item in itemList" ng-if="item.status != 0">
 								<td>{{item.title}}</td>
 								<td>{{item.price}}</td>
 								<td>{{item.num}}</td>
@@ -291,7 +291,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr ng-repeat="item in itemList">
+							<tr ng-repeat="item in itemList" ng-if="item.status!=0">
 								<td>{{item.spec}}</td>
 								<td>{{item.price}}</td>
 								<td>{{item.num}}</td>

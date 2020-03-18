@@ -3,6 +3,7 @@ package top.ingxx.shop.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -106,16 +107,30 @@ public class GoodsController {
 	
 	/**
 	 * 批量删除
-	 * @param ids
+	 * @param ids goodsid
 	 * @return
 	 */
 	@RequestMapping("/delete")
+	@Transactional
 	public PygResult delete(Long [] ids){
 		try {
 			goodsService.delete(ids);
+			//从solr中清除
+			ArrayList<Long> list = new ArrayList<>();
+			for(Long id:ids){
+				list.add(id);
+				//设置sku状态为 删除状态（3）
+				List<TbItem> itemByGoodsId = itemService.findItemByGoodsId(id);
+				for(TbItem tbItem : itemByGoodsId){
+					tbItem.setStatus("3");
+					itemService.update(tbItem);
+				}
+			}
+			itemSearchService.deleteByGoodsIds(list);
+
 			return new PygResult(true, "删除成功"); 
 		} catch (Exception e) {
-			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return new PygResult(false, "删除失败");
 		}
 	}
@@ -136,8 +151,8 @@ public class GoodsController {
 
 	/**
 	 * 更新sku商品上下架
-	 * @param add
-	 * @param remove
+	 * @param add skuid
+	 * @param remove skuid
 	 * @return
 	 */
 	@RequestMapping("/updateSku")

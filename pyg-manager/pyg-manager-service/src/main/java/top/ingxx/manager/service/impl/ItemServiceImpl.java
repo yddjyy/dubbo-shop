@@ -143,7 +143,7 @@ public class ItemServiceImpl implements ItemService {
 		return itemMapper.selectByExample(tbItemExample);
 	}
 
-	//更新sku商品状态信息（上架、下架）
+	//根据skuid 更新sku商品状态信息（上架、下架）
 	@Override
 	public void updateStatus(Long[] ids, String status) {
 		for(Long id :ids){
