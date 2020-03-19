@@ -108,7 +108,10 @@ app.controller('searchController', function ($scope, searchService,$location) {
         }
     }
     $scope.loadkeywords = function () {
-        $scope.searchMap.keywords = $location.search()['keywords'];
+        $scope.searchMap.keywords = $location.search()['keywords'];;
+        if($scope.searchMap.keywords==undefined||$scope.searchMap.keywords==null){
+            return;
+        }
         $scope.search();
     }
 

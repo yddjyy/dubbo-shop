@@ -8,7 +8,7 @@ import top.ingxx.pojo.TbContent;
 
 import java.util.List;
 
-@RequestMapping("content")
+@RequestMapping("/content")
 @RestController
 public class ContentController {
     @Reference
@@ -19,3 +19,4 @@ public class ContentController {
         return contentService.findByCategoryId(categoryId);
     }
 }
+
