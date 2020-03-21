@@ -9,7 +9,6 @@ app.controller('contentController', function ($scope, contentService) {
     }
     $scope.search = function () {
         console.log($scope.category+"搜索"+$scope.keywords);
-        return;
         location.href="http://localhost:8083/#?keywords="+$scope.keywords;
     }
 })

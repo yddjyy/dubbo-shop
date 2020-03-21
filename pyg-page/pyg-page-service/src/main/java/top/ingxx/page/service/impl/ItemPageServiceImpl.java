@@ -1,8 +1,4 @@
 package top.ingxx.page.service.impl;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.ingxx.mapper.TbGoodsDescMapper;
@@ -14,6 +10,10 @@ import top.ingxx.pojo.TbGoods;
 import top.ingxx.pojo.TbGoodsDesc;
 import top.ingxx.pojo.TbItem;
 import top.ingxx.pojo.TbItemExample;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ItemPageServiceImpl implements ItemPageService {
@@ -56,7 +56,7 @@ public class ItemPageServiceImpl implements ItemPageService {
         TbItemExample.Criteria criteria = example.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId);//SPU ID
         criteria.andStatusEqualTo("1");//状态有效
-        example.setOrderByClause("is_default desc");//按是否默认字段进行降序排序，目的是返回的结果第一条为默认SKU
+        example.setOrderByClause("is_default");//按是否默认字段进行降序排序，目的是返回的结果第一条为默认SKU
 
         List<TbItem> itemList = itemMapper.selectByExample(example);
         dataModel.put("itemList", itemList);
