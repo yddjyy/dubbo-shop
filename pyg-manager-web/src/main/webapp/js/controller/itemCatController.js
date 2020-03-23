@@ -23,14 +23,21 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
 	}
 	
 	//查询实体 
-	$scope.findOne=function(id){				
+	$scope.findOne=function(id){
+		$scope.selectOptionList();
 		itemCatService.findOne(id).success(
 			function(response){
 				$scope.entity= response;
+				//查询模板名称
+				typeTemplateService.findOne($scope.entity.typeId).success(
+					function (response) {
+						$scope.typeEntity.text = response.name;
+					}
+				);
 			}
 		);				
 	}
-	
+	$scope.typeEntity={};
 	//保存 
 	$scope.save=function(){				
 		var serviceObject;//服务层对象
@@ -57,7 +64,6 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框
-		console.log($scope.selectIds+"---要删除的id");
 		itemCatService.dele( $scope.selectIds ).success(
 			function(response){
 				if(response.success) {
@@ -77,15 +83,9 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
 	$scope.searchEntity.parentId=0;
 	//根据上层ID查列表
 	$scope.findByParentId = function (parentId) {
-		// console.log(parentId+"=====================");
 		$scope.parentId = parentId;
 		$scope.searchEntity.parentId=parentId;
 		$scope.search();
-		// itemCatService.findByParentId(parentId).success(
-		// 	function (data) {
-		// 		$scope.list = data;
-        //     }
-		// )
     }
     $scope.grade = 1;
 	$scope.setGrade = function (val) {

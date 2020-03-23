@@ -13,6 +13,10 @@ app.service('itemCatService',function($http){
 	this.findOne=function(id){
 		return $http.get('../itemCat/findOne?id='+id);
 	}
+	//查询实体(模板)
+	this.findOneTypeTemplate=function(id){
+		return $http.get('../typeTemplate/findOne?id='+id);
+	}
 	//增加 
 	this.add=function(entity){
 		return  $http.post('../itemCat/add',entity );

@@ -122,7 +122,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
     }
 
     /**
-     * 将品牌列表和规格列表放入缓存
+     * 将品牌列表和规格列表放入缓存 TODO 待修改 直接放入缓存会不会影响速度
      */
     private void saveToRedis() {
         List<TbTypeTemplate> typeTemplateList = findAll();

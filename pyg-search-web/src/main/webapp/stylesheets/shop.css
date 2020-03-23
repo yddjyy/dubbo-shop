@@ -1,0 +1,133 @@
+/*导航区域*/
+
+.navgation{
+	margin-top:5px;
+	height: auto;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.navgation .nav-body{
+	/*border:1px solid blue;*/
+}
+
+.bread ul{
+	float:left;
+
+}
+.bread .sui-breadcrumb{
+	/*border:1px solid red;*/
+}
+.bread .sui-breadcrumb li{
+	padding-left:5px;
+	padding-right: 5px;
+	float:left;
+	line-height: 29px
+}
+.bread .tags-choose{
+	/*border:1px solid blue;*/
+}
+.bread .tags-choose li{
+	float:left;
+	border:2px solid #cccc;
+	line-height: 25px;
+	margin-left: 10px;
+	padding-left:5px;
+}
+.bread .tags-choose li i{
+	margin-left:5px;
+	padding-left: 4px;
+	padding-right: 4px;
+	margin-right: 5px;
+}
+.bread .tags-choose li:hover{
+	cursor: pointer;
+	color: red;
+}
+
+
+/*选择器*/
+.selector{
+	margin-top:10px;
+}
+.nav-body  .select-container{
+	font-size: 14px;
+}
+.select-container .select-body .select_row{
+	border:1px solid #cccc
+}
+.select-container .select-body .select_row div{
+	display: inline-block;
+}
+.key{
+	padding: 10px 10px 0 15px;
+}
+.select-container .select-body .select_row .key{
+	width: 100px;
+	background: #f1f1f1;
+	line-height: 26px;
+	text-align: right;
+	height: inherit;
+}
+.select-container .select-body .select_row .value{
+	padding: 10px 0 0 15px;
+	color: #333;
+}
+.select-container .select-body .select_row .value .type-list li{
+	float:left;
+	margin-right: 30px;
+	cursor: pointer;
+	color: #005aa0;
+}
+.select-container .select-body .select_row .value .type-list li:hover{
+	color: #f30213;
+}
+
+
+/*选择器 end*/
+
+/*导航区域 end*/
+
+
+/*外观*/
+.tab-product .own-col{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.product-box .imagebox{
+	padding: 4px 8px;
+	min-height: 200px;
+}
+
+
+/*图片区*/
+
+
+
+
+/*内容区*/
+.imagebox .box-content .price{
+	text-align: left;
+}
+.imagebox .box-content .product-name{
+	text-align: left;
+	min-height: 15px;
+}
+.imagebox .box-content .product-name a{
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.imagebox .box-content .info{
+	text-align: left;
+}
+
+.imagebox .box-content .info .info-num{
+	color:blue;
+}
+
+.imagebox .box-content .product-shop{
+	text-align: left;
+	font-size: 11px;
+}
+/*底部区域*/

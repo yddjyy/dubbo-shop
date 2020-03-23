@@ -139,10 +139,10 @@ public class ItemCatServiceImpl implements ItemCatService {
         List<TbItemCat> list = itemCatMapper.selectByExample(example);
 //TODO 注释掉 提高系统运行 ？此处为什么要放入缓存
         //讲模板ID放入缓存（以商品分类名称作为key 模板id为value）
-//        List<TbItemCat> itemCatList = findAll();
-//        for (TbItemCat itemCat:itemCatList){
-//            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
-//        }
+        List<TbItemCat> itemCatList = findAll();
+        for (TbItemCat itemCat:itemCatList){
+            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+        }
 
         return list;
     }

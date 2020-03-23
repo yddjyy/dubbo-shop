@@ -26,7 +26,7 @@ app.controller('itemController' ,function($scope,$controller   ,itemService){
 	$scope.findOne=function(id){				
 		itemService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
 			}
 		);				
 	}
