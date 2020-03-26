@@ -1,6 +1,5 @@
 app.controller('payController' ,function($scope ,$location,payService){
-	
-	
+
 	$scope.createNative=function(){
 		payService.createNative().success(
 			function(response){

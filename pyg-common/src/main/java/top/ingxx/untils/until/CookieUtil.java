@@ -129,7 +129,7 @@ public final class CookieUtil {
      */
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response,
             String cookieName) {
-        doSetCookie(request, response, cookieName, "", -1, false);
+        doSetCookie(request, response, cookieName, "", 0, false);
     }
 
     /**
@@ -146,15 +146,17 @@ public final class CookieUtil {
                 cookieValue = URLEncoder.encode(cookieValue, "utf-8");
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookieMaxage > 0)
-                cookie.setMaxAge(cookieMaxage);
-            if (null != request) {// 设置域名的cookie
-            	String domainName = getDomainName(request);
-            	System.out.println(domainName);
-                if (!"localhost".equals(domainName)) {
-                	cookie.setDomain(domainName);
-                }
-            }
+//            if (cookieMaxage > 0)
+//            {
+//                cookie.setMaxAge(cookieMaxage);
+//            }
+//            if (null != request) {// 设置域名的cookie
+//            	String domainName = getDomainName(request);
+//            	System.out.println(domainName);
+//                if (!"localhost".equals(domainName)) {
+//                	cookie.setDomain(domainName);
+//                }
+//            }
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -185,7 +187,7 @@ public final class CookieUtil {
 //                	cookie.setDomain(domainName);
 //                }
 //            }
-//            cookie.setPath("/");
+            cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
         	 e.printStackTrace();

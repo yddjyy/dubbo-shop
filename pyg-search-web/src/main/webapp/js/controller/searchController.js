@@ -123,7 +123,6 @@ app.controller('searchController', function ($scope, searchService,$location) {
     //获取路径上的搜索关键词
     $scope.loadkeywords = function () {
         $scope.searchMap.keywords = $location.search()['search'];
-        console.log($scope.searchMap.keywords);
         if($scope.searchMap.keywords==''||$scope.searchMap.keywords==undefined){
           return;
         }
@@ -148,4 +147,11 @@ app.controller('searchController', function ($scope, searchService,$location) {
         $scope.searchMap.pageNum=(($scope.searchMap.pageNum-1)*oldValue)/newValue+1;
         $scope.search();
     })
+    //跳转到搜索页
+    $scope.searchToIndex=function () {
+        if($scope.searchKey==undefined){
+            return;
+        }
+        location.href="search.html#?search="+$scope.searchKey;
+    }
 })

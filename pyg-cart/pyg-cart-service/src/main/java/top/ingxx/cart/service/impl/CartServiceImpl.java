@@ -1,18 +1,17 @@
 package top.ingxx.cart.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import com.alibaba.dubbo.config.annotation.Service;
 import top.ingxx.cart.service.CartService;
 import top.ingxx.mapper.TbItemMapper;
 import top.ingxx.pojo.TbItem;
-import top.ingxx.pojo.TbOrderItem;
 import top.ingxx.pojoGroup.Cart;
+import top.ingxx.pojoGroup.CartItem;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -29,6 +28,7 @@ public class CartServiceImpl implements CartService {
 			throw new RuntimeException("商品不存在");
 		}
 		if(!item.getStatus().equals("1")){
+
 			throw new RuntimeException("商品状态不合法");
 		}		
 		//2.根据SKU对象得到商家ID
@@ -43,33 +43,33 @@ public class CartServiceImpl implements CartService {
 			cart=new Cart();
 			cart.setSellerId(sellerId);//商家ID
 			cart.setSellerName(item.getSeller());//商家名称			
-			List<TbOrderItem> orderItemList=new ArrayList();//创建购物车明细列表
-			TbOrderItem orderItem = createOrderItem(item,num);			
-			orderItemList.add(orderItem);			
-			cart.setOrderItemList(orderItemList);
+			List<CartItem> cartItemList=new ArrayList();//创建购物车明细列表
+			CartItem cartItem = createCartItem(item,num);
+			cartItemList.add(cartItem);
+			cart.setCartItemList(cartItemList);
 			
 			//4.2将新的购物车对象添加到购物车列表中
 			cartList.add(cart);
 			
 		}else{//5.如果购物车列表中存在该商家的购物车
 			// 判断该商品是否在该购物车的明细列表中存在
-			TbOrderItem orderItem = searchOrderItemByItemId(cart.getOrderItemList(),itemId);
-			if(orderItem==null){
+			CartItem cartItem = searchOrderItemByItemId(cart.getCartItemList(),itemId);
+			if(cartItem==null){
 				//5.1  如果不存在  ，创建新的购物车明细对象，并添加到该购物车的明细列表中
-				orderItem=createOrderItem(item,num);
-				cart.getOrderItemList().add(orderItem);				
+				cartItem=createCartItem(item,num);
+				cart.getCartItemList().add(cartItem);
 				
 			}else{
 				//5.2 如果存在，在原有的数量上添加数量 ,并且更新金额	
-				orderItem.setNum(orderItem.getNum()+num);//更改数量
+				cartItem.setNum(cartItem.getNum()+num);//更改数量
 				//金额
-				orderItem.setTotalFee( new BigDecimal(orderItem.getPrice().doubleValue()*orderItem.getNum() ) );
+				cartItem.setTotalFee( new BigDecimal(cartItem.getPrice().doubleValue()*cartItem.getNum() ) );
 				//当明细的数量小于等于0，移除此明细
-				if(orderItem.getNum()<=0){
-					cart.getOrderItemList().remove(orderItem);					
+				if(cartItem.getNum()<=0){
+					cart.getCartItemList().remove(cartItem);
 				}
 				//当购物车的明细数量为0，在购物车列表中移除此购物车
-				if(cart.getOrderItemList().size()==0){
+				if(cart.getCartItemList().size()==0){
 					cartList.remove(cart);
 				}				
 			}
@@ -100,10 +100,10 @@ public class CartServiceImpl implements CartService {
 	 * @param itemId
 	 * @return
 	 */
-	public TbOrderItem searchOrderItemByItemId(List<TbOrderItem> orderItemList,Long itemId){
-		for(TbOrderItem orderItem:orderItemList){
-			if(orderItem.getItemId().longValue()==itemId.longValue()){
-				return orderItem;
+	public CartItem searchOrderItemByItemId(List<CartItem> orderItemList,Long itemId){
+		for(CartItem cartItem:orderItemList){
+			if(cartItem.getItemId().longValue()==itemId.longValue()){
+				return cartItem;
 			}			
 		}
 		return null;
@@ -115,18 +115,29 @@ public class CartServiceImpl implements CartService {
 	 * @param num
 	 * @return
 	 */
-	private TbOrderItem createOrderItem(TbItem item,Integer num){
+	private CartItem createCartItem(TbItem item,Integer num){
 		//创建新的购物车明细对象
-		TbOrderItem orderItem=new TbOrderItem();
-		orderItem.setGoodsId(item.getGoodsId());
-		orderItem.setItemId(item.getId());
-		orderItem.setNum(num);
-		orderItem.setPicPath(item.getImage());
-		orderItem.setPrice(item.getPrice());
-		orderItem.setSellerId(item.getSellerId());
-		orderItem.setTitle(item.getTitle());
-		orderItem.setTotalFee(  new BigDecimal(item.getPrice().doubleValue()*num) );
-		return orderItem;
+		CartItem cartItem=new CartItem();
+		cartItem.setGoodsId(item.getGoodsId());
+		cartItem.setItemId(item.getId());
+		cartItem.setNum(num);
+		cartItem.setPicPath(item.getImage());
+		cartItem.setPrice(item.getPrice());
+		cartItem.setSellerId(item.getSellerId());
+		cartItem.setTitle(item.getTitle());
+		cartItem.setTotalFee(  new BigDecimal(item.getPrice().doubleValue()*num) );
+		if(item.getStatus().equals("2")||item.getStatus().equals("3")){
+			//商品失效
+			cartItem.setStatus("0");
+		}else if(item.getNum()<cartItem.getNum()){
+			//库存不足
+			cartItem.setStatus("1");
+		}else{
+			//商品正常
+			cartItem.setStatus("3");
+		}
+		cartItem.setSpec(item.getSpec());
+		return cartItem;
 	}
 	
 	@Autowired
@@ -153,11 +164,60 @@ public class CartServiceImpl implements CartService {
 	public List<Cart> mergeCartList(List<Cart> cartList1, List<Cart> cartList2) {
 		// cartList1.addAll(cartList2);  不能简单合并 		
 		for(Cart cart:cartList2){
-			for( TbOrderItem orderItem :cart.getOrderItemList() ){
-				cartList1=addGoodsToCartList(cartList1,orderItem.getItemId(),orderItem.getNum());
+			for( CartItem cartItem :cart.getCartItemList() ){
+				cartList1=addGoodsToCartList(cartList1,cartItem.getItemId(),cartItem.getNum());
 			}
 		}
 		return cartList1;		
 	}
 
+	@Override
+	public List<Cart> updateCartGoodsInfo(List<Cart> cartList) {
+		for(Cart cart:cartList){
+			for(CartItem cartItem:cart.getCartItemList()){
+				TbItem item = itemMapper.selectByPrimaryKey(cartItem.getItemId());
+				//判断商品状态
+				if(item.getStatus().equals("2")||item.getStatus().equals("3")){
+					//商品失效
+					cartItem.setStatus("0");
+				}else if(item.getNum()<cartItem.getNum()){
+					//库存不足
+					cartItem.setStatus("1");
+				}else{
+					//商品正常
+					cartItem.setStatus("2");
+				}
+				cartItem.setSpec(item.getSpec());
+			}
+		}
+		return cartList;
+	}
+
+	@Override
+	public Boolean createOrderListAndSavetoRedis(String username,Long[] selectIds) {
+		//从redis中获取购物车列表
+		List<Cart> cartList_redis = findCartListFromRedis(username);
+
+		//查找要付款的商品，存入orderList中并存入缓存
+		List<Cart> orderList = new ArrayList<>();
+		for(Long id:selectIds){
+			for(Cart cart:cartList_redis){
+				for(int i=0;i<cart.getCartItemList().size();i++){
+					if(cart.getCartItemList().get(i).getItemId().equals(id)){
+						orderList=addGoodsToCartList(orderList,cart.getCartItemList().get(i).getItemId(),cart.getCartItemList().get(i).getNum());
+					}
+				}
+			}
+		}
+		redisTemplate.boundHashOps("orderList").put(username, orderList);
+		return true;
+	}
+
+
+	@Override
+	public List findOrderList(String username) {
+		List<Cart> cartList = (List<Cart>)redisTemplate.boundHashOps("orderList").get(username);
+
+		return cartList;
+	}
 }

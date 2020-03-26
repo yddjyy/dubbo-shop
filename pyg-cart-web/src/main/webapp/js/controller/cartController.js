@@ -5,12 +5,20 @@ app.controller('cartController',function($scope,cartService){
 		cartService.findCartList().success(
 			function(response){
 				$scope.cartList=response;
-				console.log($scope.cartList);
-				console.log("1");
-				$scope.totalValue= cartService.sum($scope.cartList);
+				$scope.totalValue= cartService.sum($scope.cartList,$scope.selectIds)
 			}
 		);
 	}
+	//查询订单列表
+	// $scope.findOrderList=function(){
+	// 	cartService.findOrderList().success(
+	// 		function(response){
+	// 			$scope.cartList=response;
+	// 			console.log($scope.cartList);
+	// 			$scope.totalValue= cartService.sum($scope.cartList,$scope.selectIds)
+	// 		}
+	// 	);
+	// }
 	
 	//数量加减
 	$scope.addGoodsToCartList=function(itemId,num){
@@ -24,7 +32,10 @@ app.controller('cartController',function($scope,cartService){
 			}		
 		);		
 	}
-	
+
+	$scope.praseJson=function(jsonStr){
+		return  eval('(' + jsonStr + ')');
+	}
 
 	
 	//获取当前用户的地址列表
@@ -85,6 +96,47 @@ app.controller('cartController',function($scope,cartService){
 				
 			}				
 		);		
+	}
+	//当刷新订单是看看是否刷新前已选中
+	$scope.isSelected=function(itemId){
+		if($scope.selectIds.includes(itemId)){
+			return true;
+		}
+		return false;
+	}
+	//选中项
+	$scope.selectIds = [];
+	$scope.updateSelection = function ($event, id) {
+		if ($event.target.checked) {
+			$scope.selectIds.push(id);
+		} else {
+			var index = $scope.selectIds.indexOf(id);
+			$scope.selectIds.splice(index, 1);
+		}
+		$scope.totalValue= cartService.sum($scope.cartList,$scope.selectIds);
+	};
+
+	//点击立刻下单之后，创建并向redis中存储订单信息
+	$scope.createOrder=function () {
+		if($scope.selectIds.length==0){
+			return;
+		}
+		cartService.createOrde($scope.selectIds).success(
+			function (response) {
+				if(response.success){
+					location.href="getOrderInfo.html";
+				}
+			}
+		);
+	}
+	//从redis中获取预付款的商品列表列表
+	$scope.findPreOrderList=function () {
+		cartService.findOrderList().success(
+			function (response) {
+				$scope.orderList=response;
+				$scope.totalFree= cartService.sumFree($scope.orderList)
+			}
+		);
 	}
 	
 });

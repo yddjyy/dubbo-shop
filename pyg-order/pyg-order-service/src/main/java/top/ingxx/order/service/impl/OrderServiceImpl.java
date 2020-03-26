@@ -1,19 +1,19 @@
 package top.ingxx.order.service.impl;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import top.ingxx.mapper.TbItemMapper;
 import top.ingxx.mapper.TbOrderItemMapper;
 import top.ingxx.mapper.TbOrderMapper;
 import top.ingxx.mapper.TbPayLogMapper;
 import top.ingxx.order.service.OrderService;
-import top.ingxx.pojo.TbOrder;
-import top.ingxx.pojo.TbOrderExample;
-import top.ingxx.pojo.TbOrderItem;
-import top.ingxx.pojo.TbPayLog;
+import top.ingxx.pojo.*;
 import top.ingxx.pojoGroup.Cart;
+import top.ingxx.pojoGroup.CartItem;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.until.IdWorker;
 
@@ -63,22 +63,28 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private TbOrderItemMapper orderItemMapper;
-	
+
+	@Autowired
+	private TbItemMapper tbItemMapper;
 	/**
 	 * 增加
 	 */
 	@Override
 	public void add(TbOrder order) {
 		
-		//1.从redis中提取购物车列表
-		List<Cart> cartList= (List<Cart>) redisTemplate.boundHashOps("cartList").get(order.getUserId());
-		
+		//1.从redis中提取欲购买的订单车列表
+		List<Cart> orderCartList= (List<Cart>) redisTemplate.boundHashOps("orderList").get(order.getUserId());
+		if(orderCartList.size()<=0){
+			return;
+		}
+		System.out.println("订单列表："+orderCartList.size());
+
 		List<String> orderIdList=new ArrayList();//订单ID集合
 		double total_money=0;//总金额
 		//2.循环购物车列表添加订单
-		for(Cart  cart:cartList){
-			TbOrder tbOrder=new TbOrder();
-			long orderId = idWorker.nextId();	//获取ID		
+		for(Cart cart :orderCartList) {
+			TbOrder tbOrder = new TbOrder();
+			long orderId = idWorker.nextId();    //获取ID
 			tbOrder.setOrderId(orderId);
 			tbOrder.setPaymentType(order.getPaymentType());//支付类型
 			tbOrder.setStatus("1");//未付款 
@@ -89,27 +95,34 @@ public class OrderServiceImpl implements OrderService {
 			tbOrder.setReceiverMobile(order.getReceiverMobile());//收货人电话
 			tbOrder.setReceiver(order.getReceiver());//收货人
 			tbOrder.setSourceType(order.getSourceType());//订单来源
-			tbOrder.setSellerId(order.getSellerId());//商家ID
-			
-			double money=0;//合计数
+			tbOrder.setSellerId(cart.getSellerId());//商家ID
+
+			double money = 0;//合计数
 			//循环购物车中每条明细记录
-			for(TbOrderItem orderItem:cart.getOrderItemList()  ){
+			for (CartItem cartItem : cart.getCartItemList()) {
+				TbOrderItem orderItem = new TbOrderItem();
 				orderItem.setId(idWorker.nextId());//主键
 				orderItem.setOrderId(orderId);//订单编号
-				orderItem.setSellerId(cart.getSellerId());//商家ID
-				orderItemMapper.insert(orderItem);				
-				money+=orderItem.getTotalFee().doubleValue();
+				orderItem.setGoodsId(cartItem.getGoodsId());
+				orderItem.setItemId(cartItem.getItemId());
+				orderItem.setNum(cartItem.getNum());
+				orderItem.setPicPath(cartItem.getPicPath());
+				orderItem.setPrice(cartItem.getPrice());
+				orderItem.setSellerId(cartItem.getSellerId());
+				orderItem.setTitle(cartItem.getTitle());
+				orderItem.setTotalFee(cartItem.getTotalFee());
+				orderItemMapper.insert(orderItem);
+				money += orderItem.getTotalFee().doubleValue();
 			}
-			
+
 			tbOrder.setPayment(new BigDecimal(money));//合计
-			
-			
+
+
 			orderMapper.insert(tbOrder);
-			
-			orderIdList.add(orderId+"");
-			total_money+=money;
+
+			orderIdList.add(orderId + "");
+			total_money += money;
 		}
-		
 		//添加支付日志
 		if("1".equals(order.getPaymentType())){
 			TbPayLog payLog=new TbPayLog();
@@ -122,15 +135,38 @@ public class OrderServiceImpl implements OrderService {
 			payLog.setTradeState("0");//交易状态
 			payLog.setPayType("1");//微信
 			payLogMapper.insert(payLog);
-			
-			redisTemplate.boundHashOps("payLog").put(order.getUserId(), payLog);//放入缓存 
+			List<TbPayLog> payLogList = (List<TbPayLog>)redisTemplate.boundHashOps("payLog").get(order.getUserId());
+			if(payLogList==null){
+				payLogList=new ArrayList<TbPayLog>();
+			}
+			payLogList.add(payLog);
+			redisTemplate.boundHashOps("payLog").put(order.getUserId(), payLogList);//放入缓存
 		}
-		
-		
+		//从购物车中清除预购买的商品
+		List<Cart> cartList = (List<Cart>)redisTemplate.boundHashOps("cartList").get(order.getUserId());
+
+		redisTemplate.boundHashOps("cartList").put(order.getUserId(),deleteGoodsFromCartList(cartList,orderCartList) );//放入缓存
 		//3.清除redis中的购物车
-		redisTemplate.boundHashOps("cartList").delete(order.getUserId());
+		redisTemplate.boundHashOps("orderList").delete(order.getUserId());
 	}
 
+	public List<Cart> deleteGoodsFromCartList(List<Cart>  cartList,List<Cart> orderCartList){
+		for(Cart orderCart : orderCartList){
+			for(CartItem orderCartItem : orderCart.getCartItemList()){
+				for(Cart cart:cartList){
+					if(cart.getSellerName().equals(orderCart.getSellerName())){
+						for(int index=0;index<cart.getCartItemList().size();index++){
+							if(orderCartItem.getItemId().equals(cart.getCartItemList().get(index))){
+								cart.getCartItemList().remove(index);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return null;
+	}
 	
 	/**
 	 * 修改
@@ -225,8 +261,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public TbPayLog searchPayLogFromRedis(String userId) {		
-		return (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
+	public TbPayLog searchPayLogFromRedis(String userId) {
+		List<TbPayLog> payLogList = (List<TbPayLog>)redisTemplate.boundHashOps("payLog").get(userId);
+		if(payLogList.size()==0){
+			return null;
+		}
+		return payLogList.get(payLogList.size()-1);
 	}
 
 	@Override
@@ -246,12 +286,29 @@ public class OrderServiceImpl implements OrderService {
 			TbOrder order = orderMapper.selectByPrimaryKey(Long.valueOf(orderId));
 			order.setStatus("2");//已付款状态
 			order.setPaymentTime(new Date());//支付时间
-			orderMapper.updateByPrimaryKey(order);			
+			orderMapper.updateByPrimaryKey(order);
+			//根据orderid修改对应商品的库存
+			updateGoodsStockByOrderId(orderId);
 		}
 		
 		//3.清除缓存中的payLog
-		redisTemplate.boundHashOps("payLog").delete(payLog.getUserId());
-		
+		List<TbPayLog> payLogList =(List<TbPayLog>)redisTemplate.boundHashOps("payLog").get(payLog.getUserId());
+		payLogList.remove(payLogList.size()-1);//移除最新的一项
+		redisTemplate.boundHashOps("orderList").delete(payLog.getUserId());//移除选中列表
+		redisTemplate.boundHashOps("payLog").put(payLog.getUserId(),payLogList);
 	}
-	
+	//根据orderid修改对应商品的库存
+	public void updateGoodsStockByOrderId(String orderId){
+		//获取订单项
+		TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
+		TbOrderItemExample.Criteria criteria = tbOrderItemExample.createCriteria();
+		criteria.andOrderIdEqualTo(Long.parseLong(orderId));
+		List<TbOrderItem> tbOrderItems = orderItemMapper.selectByExample(tbOrderItemExample);
+		//根据itemid获取对应的sku商品
+		for(TbOrderItem tbOrderItem :tbOrderItems){
+			TbItem tbItem = tbItemMapper.selectByPrimaryKey(tbOrderItem.getItemId());
+			tbItem.setNum(tbItem.getNum()-tbOrderItem.getNum());
+			tbItemMapper.updateByPrimaryKey(tbItem);
+		}
+	}
 }

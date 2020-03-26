@@ -1,209 +1,134 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"><!--<![endif]-->
+<head>
+	<!-- Basic Page Needs -->
+	<meta charset="UTF-8">
+	<link rel="icon" href="images/icons/title_pic.png">
+	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+	<title>百瑞达 优质！ 优品！</title>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-		<title>支付页-成功</title>
-		<link rel="icon" href="/assets/img/favicon.ico">
-		
-	
-    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
-    <link rel="stylesheet" type="text/css" href="css/pages-paysuccess.css" />
-    
-        <script type="text/javascript" src="plugins/angularjs/angular.min.js"> </script>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Boostrap style -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css">
+
+	<!-- Theme style -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
+	<!-- Reponsive -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/responsive.css">
+	<script type="text/javascript" src="js/angularjs/angular.min.js"> </script>
 	<script type="text/javascript" src="js/base.js"> </script>
 	<script type="text/javascript" src="js/service/payService.js"> </script>
 	<script type="text/javascript" src="js/controller/payController.js"> </script>
-    
+
 </head>
-
-	<body ng-app="pinyougou" ng-controller="payController">
-		<!--head-->
-		<div class="top">
-			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">百优集欢迎您！</li>
-						<li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
-					</ul>
-					<ul class="fr">
-						<li class="f-item">我的订单</li>
-						<li class="f-item space"></li>
-						<li class="f-item">我的百优集</li>
-						<li class="f-item space"></li>
-						<li class="f-item">百优集会员</li>
-						<li class="f-item space"></li>
-						<li class="f-item">企业采购</li>
-						<li class="f-item space"></li>
-						<li class="f-item">关注百优集</li>
-						<li class="f-item space"></li>
-						<li class="f-item">客户服务</li>
-						<li class="f-item space"></li>
-						<li class="f-item">网站导航</li>
-					</ul>
-				</div>
+<body class="header_sticky" ng-app="pinyougou" ng-controller="payController">
+	<div class="boxed">
+		<section id="header" class="header">
+			<div class="header-top">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4">
+							<ul class="flat-support">
+								<li>
+									<a href="#" title="">欢迎您</a>
+								</li>
+								<li>
+									<a href="#" title="">免费注册</a>
+								</li>
+								<li>
+									<a href="#" title="">会员登录</a>
+								</li>
+							</ul><!-- /.flat-support -->
+						</div><!-- /.col-md-4 -->
+						<div class="col-md-4">
+							<ul class="flat-infomation">
+								<li class="phone">
+									Call Us: <a href="#" title="">联系客服(888) 1234 56789</a>
+								</li>
+							</ul><!-- /.flat-infomation -->
+						</div><!-- /.col-md-4 -->
+						<div class="col-md-4">
+							<ul class="flat-unstyled">
+								<li class="account">
+									<a href="#" title="">我的宝贝<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									<ul class="unstyled">
+										<li>
+											<a href="#" title="">登录</a>
+										</li>
+										<li>
+											<a href="wishlist.html" title="">我的关注</a>
+										</li>
+										<li>
+											<a href="shop-cart.html" title="">我的购物车</a>
+										</li>
+										<li>
+											<a href="my-account.html" title="">我的账户</a>
+										</li>
+										<li>
+											<a href="shop-checkout.html" title="">退出</a>
+										</li>
+									</ul>
+								</li>
+								
+								<li>
+									<a href="#" title="">简体中文<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									<ul class="unstyled">
+										<li>
+											<a href="#" title="">English</a>
+										</li>
+									</ul>
+								</li>
+							</ul><!-- /.flat-unstyled -->
+						</div><!-- /.col-md-4 -->
+					</div><!-- /.row -->
+				</div><!-- /.container -->
+			</div><!-- /.header-top -->
+		</section><!-- /#header -->
+	</div><!-- /.boxed -->
+	<div class="container" style="margin-top: 30px;">
+		<div class="row">
+			<div class="col-md-2 col-lg-2">
+				<img src="images/logos/logo.png" alt="" >
 			</div>
+			<div class="col-md-3 col-lg-3" style="font-size: 18px;padding-top: 10px;">收银台</div>
 		</div>
-		<div class="cart py-container">
-			<!--logoArea-->
-			<div class="logoArea">
-				<div class="fl logo"><span class="title">支付页</span></div>
-			</div>
-			<!--主内容-->
-			<div class="paysuccess">
-				<div class="success">
-					<h3><img src="img/_/right.png" width="48" height="48">　恭喜您，支付成功啦！</h3>
-					<div class="paydetail">
-					<p>支付方式：微信支付</p>
-					<p>支付金额：￥{{getMoney()}}元</p>
-					<p class="button"><a href="myOrder.html" class="sui-btn btn-xlarge btn-danger">查看订单</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html" class="sui-btn btn-xlarge ">继续购物</a></p>
-				    </div>
+	</div>
+	<div class="container" style="margin-top: 50px;">
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-12" style="border:1px solid lightgray">
+				<div class="row">
+					<div class="col-sm-4 col-md-4 col-lg-4" ></div>
+					<div class="col-sm-4 col-md-4 col-lg-4" >
+						<div>
+							<div style="display: inline-block">
+								<img src="images/icons/success48.png">
+							</div>
+							<div style="display: inline-block;font-size: 18px;margin-left: 10px">
+								<B>恭喜您，支付成功啦！</B>
+							</div>
+						</div>
+						<div style="text-align: left;font-size: 16px;padding-left: 60px;">
+							<b>支付方式：支付宝支付</b>
+						</div>
+						<div style="text-align: left;font-size: 16px;margin-top:10px;padding-left: 60px;">
+							<b>支付金额：￥{{getMoney()}}元</b>
+						</div>
+						<div style="text-align: center;margin-top: 30px;">
+							<a href="button" class="btn btn-link">查看订单</a>
+							<a href="http://localhost:8086" class="btn btn-link" ng-click="">继续购物</a>
+						</div>
+					</div>
+					<div class="col-sm-4 col-md-4 col-lg-4" ></div>
 				</div>
-				
-			</div>
-		</div>
-		<!-- 底部栏位 -->
-		<!--页面底部-->
-<div class="clearfix footer">
-	<div class="py-container">
-		<div class="footlink">
-			<div class="Mod-service">
-				<ul class="Mod-Service-list">
-					<li class="grid-service-item intro  intro1">
-
-						<i class="serivce-item fl"></i>
-						<div class="service-text">
-							<h4>正品保障</h4>
-							<p>正品保障，提供发票</p>
-						</div>
-
-					</li>
-					<li class="grid-service-item  intro intro2">
-
-						<i class="serivce-item fl"></i>
-						<div class="service-text">
-							<h4>正品保障</h4>
-							<p>正品保障，提供发票</p>
-						</div>
-
-					</li>
-					<li class="grid-service-item intro  intro3">
-
-						<i class="serivce-item fl"></i>
-						<div class="service-text">
-							<h4>正品保障</h4>
-							<p>正品保障，提供发票</p>
-						</div>
-
-					</li>
-					<li class="grid-service-item  intro intro4">
-
-						<i class="serivce-item fl"></i>
-						<div class="service-text">
-							<h4>正品保障</h4>
-							<p>正品保障，提供发票</p>
-						</div>
-
-					</li>
-					<li class="grid-service-item intro intro5">
-
-						<i class="serivce-item fl"></i>
-						<div class="service-text">
-							<h4>正品保障</h4>
-							<p>正品保障，提供发票</p>
-						</div>
-
-					</li>
-				</ul>
-			</div>
-			<div class="clearfix Mod-list">
-				<div class="yui3-g">
-					<div class="yui3-u-1-6">
-						<h4>购物指南</h4>
-						<ul class="unstyled">
-							<li>购物流程</li>
-							<li>会员介绍</li>
-							<li>生活旅行/团购</li>
-							<li>常见问题</li>
-							<li>购物指南</li>
-						</ul>
-
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>配送方式</h4>
-						<ul class="unstyled">
-							<li>上门自提</li>
-							<li>211限时达</li>
-							<li>配送服务查询</li>
-							<li>配送费收取标准</li>
-							<li>海外配送</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>支付方式</h4>
-						<ul class="unstyled">
-							<li>货到付款</li>
-							<li>在线支付</li>
-							<li>分期付款</li>
-							<li>邮局汇款</li>
-							<li>公司转账</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>售后服务</h4>
-						<ul class="unstyled">
-							<li>售后政策</li>
-							<li>价格保护</li>
-							<li>退款说明</li>
-							<li>返修/退换货</li>
-							<li>取消订单</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>特色服务</h4>
-						<ul class="unstyled">
-							<li>夺宝岛</li>
-							<li>DIY装机</li>
-							<li>延保服务</li>
-							<li>百优集E卡</li>
-							<li>百优集通信</li>
-						</ul>
-					</div>
-					<div class="yui3-u-1-6">
-						<h4>帮助中心</h4>
-						<img src="img/wx_cz.jpg">
-					</div>
-				</div>
-			</div>
-			<div class="Mod-copyright">
-				<ul class="helpLink">
-					<li>关于我们<span class="space"></span></li>
-					<li>联系我们<span class="space"></span></li>
-					<li>关于我们<span class="space"></span></li>
-					<li>商家入驻<span class="space"></span></li>
-					<li>营销中心<span class="space"></span></li>
-					<li>友情链接<span class="space"></span></li>
-					<li>关于我们<span class="space"></span></li>
-					<li>营销中心<span class="space"></span></li>
-					<li>友情链接<span class="space"></span></li>
-					<li>关于我们</li>
-				</ul>
-				<p>地址：河南省平顶山市 邮编：463700 电话：400-618-4000 传真：010-82935100</p>
-				<p>京ICP备08001421号京公网安备110108007702</p>
 			</div>
 		</div>
 	</div>
-</div>
-<!--页面底部END-->
-		
-		
-	
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="components/ui-modules/nav/nav-portal-top.js"></script>
-</body>
+	<!-- Javascript -->
 
+</body>	
 </html>

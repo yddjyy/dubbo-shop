@@ -1,15 +1,15 @@
 package top.ingxx.cart.controller;
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
 import top.ingxx.order.service.OrderService;
 import top.ingxx.pojo.TbOrder;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.entity.PygResult;
+
+import java.util.List;
 
 /**
  * controller
@@ -54,7 +54,6 @@ public class OrderController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		order.setUserId(username);
 		order.setSourceType("2");//订单来源  PC
-		
 		try {
 			orderService.add(order);
 			return new PygResult(true, "增加成功");

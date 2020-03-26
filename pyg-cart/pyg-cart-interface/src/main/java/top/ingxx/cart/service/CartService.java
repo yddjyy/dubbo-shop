@@ -1,8 +1,8 @@
 package top.ingxx.cart.service;
 
-import java.util.List;
-
 import top.ingxx.pojoGroup.Cart;
+
+import java.util.List;
 
 /**
  * 购物车服务接口
@@ -41,5 +41,26 @@ public interface CartService {
 	 * @return
 	 */
 	public List<Cart> mergeCartList(List<Cart> cartList1,List<Cart> cartList2);
-	 
+
+	/**
+	 * 更新购物车中商品信息
+	 * @param cartList
+	 * @return
+	 */
+	public List<Cart> updateCartGoodsInfo(List<Cart> cartList);
+
+	/**
+	 * 从购车列表中删除选中的商品存入orderList中
+	 * @param username
+	 * @param selectIds
+	 * @return
+	 */
+	public Boolean createOrderListAndSavetoRedis(String username,Long[] selectIds);
+
+	/**
+	 * 从redis中获取订单列表(1,表示获取最新的，2表示获取全部
+	 * @param username
+	 * @return
+	 */
+	public List findOrderList(String username);
 }

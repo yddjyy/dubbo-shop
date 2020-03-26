@@ -1,12 +1,9 @@
 app.controller('pageController', function ($scope, pageService,$location,$sce) {
 
     $scope.getPage = function (goodsId) {
-        console.log("开始");
         pageService.getPage(goodsId).success(
             function (data) {
                 $scope.goods = data;
-                console.log("data:");
-                console.log(data);
                 $scope.goods.goodsDesc.itemImages = JSON.parse($scope.goods.goodsDesc.itemImages);
                 $scope.goods.goodsDesc.customAttributeItems = JSON.parse($scope.goods.goodsDesc.customAttributeItems);
                 $scope.goods.goodsDesc.specificationItems = JSON.parse($scope.goods.goodsDesc.specificationItems);

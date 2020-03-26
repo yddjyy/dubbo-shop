@@ -12,8 +12,11 @@ public class RedisUtils {
     private RedisTemplate redisTemplate;
 
     public void clearRedis(){
-       redisTemplate.delete("seckillGoods");
-        System.out.println(redisTemplate.boundHashOps("seckillGoods").values());
+//       redisTemplate.delete("seckillGoods");
+//        System.out.println(redisTemplate.boundHashOps("seckillGoods").values());
+        System.out.println(redisTemplate.boundHashOps("orderList").values());
+        redisTemplate.delete("orderList");
+        System.out.println(redisTemplate.boundHashOps("orderList").values());
     }
 
     public static void main(String[] args) {

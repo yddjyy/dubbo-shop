@@ -3,8 +3,6 @@ package top.ingxx.pojoGroup;
 import java.io.Serializable;
 import java.util.List;
 
-import top.ingxx.pojo.TbOrderItem;
-
 /**
  * 购物车对象
  * @author Administrator
@@ -15,7 +13,9 @@ public class Cart implements Serializable{
 	private String sellerId;//商家ID
 	private String sellerName;//商家名称
 	
-	private List<TbOrderItem> orderItemList;//购物车明细集合
+	private List<CartItem> cartItemList;//购物车明细集合
+
+	private List<CartItem> cartItemListAndNoStatus;//购物车中失效的商品
 
 	public String getSellerId() {
 		return sellerId;
@@ -33,12 +33,20 @@ public class Cart implements Serializable{
 		this.sellerName = sellerName;
 	}
 
-	public List<TbOrderItem> getOrderItemList() {
-		return orderItemList;
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
 	}
 
-	public void setOrderItemList(List<TbOrderItem> orderItemList) {
-		this.orderItemList = orderItemList;
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+
+	public List<CartItem> getCartItemListAndNoStatus() {
+		return cartItemListAndNoStatus;
+	}
+
+	public void setCartItemListAndNoStatus(List<CartItem> cartItemListAndNoStatus) {
+		this.cartItemListAndNoStatus = cartItemListAndNoStatus;
 	}
 
 	@Override
