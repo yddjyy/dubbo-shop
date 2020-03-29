@@ -57,7 +57,7 @@
   </servlet-mapping>
   
   <welcome-file-list>
-  	<welcome-file>home-index.html</welcome-file>
+  	<welcome-file>person/index.html</welcome-file>
   </welcome-file-list>
 	
 </web-app>

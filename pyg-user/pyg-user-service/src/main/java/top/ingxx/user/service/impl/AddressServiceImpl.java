@@ -3,6 +3,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import top.ingxx.mapper.TbAddressMapper;
 import top.ingxx.pojo.TbAddress;
 import top.ingxx.pojo.TbAddressExample;
@@ -130,5 +131,27 @@ public class AddressServiceImpl implements AddressService {
 		TbAddressExample.Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
 		return addressMapper.selectByExample(example);
+	}
+
+	//更改默认地址
+	@Transactional
+	@Override
+	public Boolean updateDefaultAddress(String preAddressId, String nowAddressId) {
+		try {
+			//原来设置了默认值
+			if(!preAddressId.equals("0")){
+				//获取原来的默认地址
+				TbAddress preTbAddress = findOne(Long.parseLong(preAddressId));
+				preTbAddress.setIsDefault("0");//更改原来的默认地址为非默认
+				update(preTbAddress);
+			}
+			//获取要设置的默认地址
+			TbAddress nowTbAddress = findOne(Long.parseLong(nowAddressId));
+			nowTbAddress.setIsDefault("1");//新的默认地址
+			update(nowTbAddress);
+			return true;
+		}catch (Exception e){
+			 throw new RuntimeException();
+		}
 	}
 }

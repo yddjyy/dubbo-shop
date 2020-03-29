@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+		<title>地址管理</title>
+
+		<link href="AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+		<link href="https://cdn.bootcss.com/amazeui/2.5.1/css/amazeui.css" rel="stylesheet" type="text/css" />
+
+		<link href="../css/personal.css" rel="stylesheet" type="text/css">
+		<link href="../css/addstyle.css" rel="stylesheet" type="text/css">
+		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="https://cdn.bootcss.com/amazeui/2.5.1/js/amazeui.min.js"></script>
+
+		<script type="text/javascript" src="../js/angularjs/angular.min.js"></script>
+		<script type="text/javascript" src="../js/base.js"></script>
+		<script type="text/javascript" src="../js/service/loginService.js"></script>
+		<script type="text/javascript" src="../js/service/addressService.js"></script>
+		<script type="text/javascript" src="../js/controller/addressController.js"></script>
+	</head>
+
+	<body ng-app="brd" ng-controller="addressController" ng-init="init()">
+		<!--头 -->
+		<header>
+			<article>
+				<div class="mt-logo">
+					<!--顶部导航条 -->
+					<div class="header-top">
+						<div class="am-container header">
+							<ul class="message-l">
+								<div class="topMessage">
+									<div class="menu-hd">
+										<a href="../logout/cas" target="_top" class="h">{{loginName}}退出登录</a>
+										<a href="register.html" target="_top">免费注册</a>
+									</div>
+								</div>
+							</ul>
+							<ul class="message-r">
+								<div class="topMessage my-shangcheng">
+									<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top">会员中心</a></div>
+								</div>
+								<div class="topMessage mini-cart">
+									<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><span>商户中心</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
+								</div>
+								<div class="topMessage favorite">
+									<div class="menu-hd"><a href="#" target="_top"><span>帮助</span></a></div>
+								</div>
+							</ul>
+						</div>
+					</div>
+
+						<!--悬浮搜索框-->
+
+						<div class="nav white">
+							<div class="logoBig">
+								<li><img src="../images/logobig.png" /></li>
+							</div>
+
+							<div class="search-bar pr">
+								<a name="index_none_header_sysc" href="#"></a>
+								<form>
+									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+								</form>
+							</div>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+			</article>
+		</header>
+
+		<b class="line"></b>
+
+		<div class="center">
+			<div class="col-main">
+				<div class="main-wrap">
+
+					<div class="user-address">
+						<!--标题 -->
+						<div class="am-cf am-padding">
+							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">地址管理</strong> / <small>Address&nbsp;list</small></div>
+						</div>
+						<hr/>
+						<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
+
+							<li class="user-addresslist {{isSeletedAddress(tbaddress.address)?'defaultAddr':''}}" ng-repeat="tbaddress in addressList">
+								<span class="new-option-r" ng-click="selectAddress(tbaddress.address)"><i class="am-icon-check-circle"></i>{{isSeletedAddress(tbaddress.address)?'默认地址':'设为默认'}}</span>
+								<p class="new-tit new-p-re">
+									<span class="new-txt">{{tbaddress.address.contact}}</span>
+									<span class="new-txt-rd2">{{tbaddress.address.mobile}}</span>
+								</p>
+								<div class="new-mu_l2a new-p-re">
+									<p class="new-mu_l2cw">
+										<span class="title">地址：</span>
+										<span class="province">{{tbaddress.province}}</span>
+										<span class="city">{{tbaddress.city}}</span>
+										<span class="dist">{{tbaddress.town}}</span>
+										<span class="street">{{tbaddress.address.address}}</span>
+									<br>
+										<span>别名:{{tbaddress.address.alias}}</span>
+									<br>
+										<span>备注:{{tbaddress.address.notes}}</span>
+									</p>
+
+								</div>
+								<div>
+
+								</div>
+								<div class="new-addr-btn">
+									<a href="" ng-click="edit(tbaddress.address)"><i class="am-icon-edit" ></i>编辑</a>
+									<span class="new-addr-bar">|</span>
+									<a href="" ng-click="delete(tbaddress.address.id)"><i class="am-icon-trash"></i>删除</a>
+								</div>
+							</li>
+						</ul>
+						<div class="clear"></div>
+						<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>
+						<!--例子-->
+						<div class="am-modal am-modal-no-btn" id="doc-modal-1">
+
+							<div class="add-dress">
+
+								<!--标题 -->
+								<div class="am-cf am-padding">
+									<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">{{editOrAdd==1?'新增':'修改'}}地址</strong> / <small>Add&nbsp;address</small></div>
+								</div>
+								<hr/>
+
+								<div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
+									<form class="am-form am-form-horizontal">
+
+										<div class="am-form-group">
+											<label for="user-name" class="am-form-label">收货人</label>
+											<div class="am-form-content">
+												<input type="text" id="user-name" placeholder="收货人" ng-model="addressEntity.contact">
+											</div>
+										</div>
+
+										<div class="am-form-group">
+											<label for="user-phone" class="am-form-label">手机号码</label>
+											<div class="am-form-content">
+												<input id="user-phone" placeholder="手机号必填" type="text" ng-model="addressEntity.mobile">
+											</div>
+										</div>
+										<div class="am-form-group">
+											<label for="user-address" class="am-form-label">所在地</label>
+											<div class="am-form-content address">
+												<select  ng-model="addressEntity.provinceId" ng-options="province.provinceid as province.province for province in provinceList"></select>
+												<select  ng-model="addressEntity.cityId" ng-options="city.cityid as city.city for city in cityList"></select>
+												<select  ng-model="addressEntity.townId" ng-options="town.areaid as town.area for town in townList"></select>
+											</div>
+										</div>
+
+										<div class="am-form-group">
+											<label for="user-intro" class="am-form-label">详细地址</label>
+											<div class="am-form-content">
+												<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址" ng-model="addressEntity.address"></textarea>
+												<small>100字以内写出你的详细地址...</small>
+											</div>
+										</div>
+
+										<div class="am-form-group">
+											<label for="user-name" class="am-form-label">别名</label>
+											<div class="am-form-content">
+												<input type="text" id="user-alias" placeholder="别名" ng-model="addressEntity.alias">
+											</div>
+										</div>
+
+										<div class="am-form-group">
+											<label for="user-name" class="am-form-label">备注</label>
+											<div class="am-form-content">
+												<input type="text" id="user-notes" placeholder="备注" ng-model="addressEntity.notes">
+											</div>
+										</div>
+
+										<div class="am-form-group">
+											<div class="am-u-sm-9 am-u-sm-push-3">
+												<a class="am-btn am-btn-danger" ng-click="save()">保存</a>
+												<a href="" class="am-close am-btn am-btn-danger" data-am-modal-close ng-click="cancel()">取消</a>
+											</div>
+										</div>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<script type="text/javascript">
+						$(document).ready(function() {							
+							$(".new-option-r").click(function() {
+								$(this).parent('.user-addresslist').addClass("defaultAddr").siblings().removeClass("defaultAddr");
+							});
+							
+							var $ww = $(window).width();
+							if($ww>640) {
+								$("#doc-modal-1").removeClass("am-modal am-modal-no-btn")
+							}
+							
+						})
+					</script>
+
+					<div class="clear"></div>
+
+				</div>
+				<!--底部-->
+				<div class="footer">
+					<div class="footer-hd">
+
+					</div>
+					<div class="footer-bd">
+						<p>
+							<a href="#">关于恒望</a>
+							<a href="#">合作伙伴</a>
+							<a href="#">联系我们</a>
+							<a href="#">网站地图</a>
+							<em>© 2016-2026 XXXX 版权所有 <a href="http://www.cssmoban.com/" target="_blank" title="版权所有">版权所有</a> - Collect from</em>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<aside class="menu">
+				<ul>
+					<li class="person">
+						<a href="index.html">个人中心</a>
+					</li>
+					<li class="person">
+						<a href="#">个人资料</a>
+						<ul>
+							<li> <a href="information.html">个人信息</a></li>
+							<li> <a href="safety.html">安全设置</a></li>
+							<li class="active"> <a href="address.html">收货地址</a></li>
+						</ul>
+					</li>
+					<li class="person">
+						<a href="#">我的交易</a>
+						<ul>
+							<li><a href="order.html">订单管理</a></li>
+							<li> <a href="change.html">退款售后</a></li>
+						</ul>
+					</li>
+					<li class="person">
+						<a href="#">我的资产</a>
+						<ul>
+							<li> <a href="coupon.html">优惠券 </a></li>
+							<li> <a href="bonus.html">红包</a></li>
+							<li> <a href="bill.html">账单明细</a></li>
+						</ul>
+					</li>
+
+					<li class="person">
+						<a href="#">我的小窝</a>
+						<ul>
+							<li> <a href="collection.html">收藏</a></li>
+							<li> <a href="foot.html">足迹</a></li>
+							<li> <a href="comment.html">评价</a></li>
+							<li> <a href="news.html">消息</a></li>
+						</ul>
+					</li>
+
+				</ul>
+
+			</aside>
+		</div>
+
+	</body>
+
+</html>

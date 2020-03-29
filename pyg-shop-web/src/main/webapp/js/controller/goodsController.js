@@ -77,7 +77,7 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
             }
         );
     }
-    //清楚预览图
+    //清除预览图
     $scope.clear = function(){
         $(function () {
             $("#demo2").html("");

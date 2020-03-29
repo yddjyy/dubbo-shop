@@ -61,5 +61,6 @@ public interface AreasService {
 	public PageResult findPage(TbAreas tbAreas, int pageNum, int pageSize);
 	
 	public List<TbAreas> findListByCitiesId(String cities);
-	
+
+	public TbAreas findAreasByAreasId(Long AreasId);
 }

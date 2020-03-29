@@ -61,4 +61,16 @@ public class AreaServiceImpl implements AreasService {
         criteria.andCityidEqualTo(cities);
         return tbAreasMapper.selectByExample(example);
     }
+
+    @Override
+    public TbAreas findAreasByAreasId(Long AreasId) {
+        TbAreasExample tbAreasExample = new TbAreasExample();
+        TbAreasExample.Criteria criteria = tbAreasExample.createCriteria();
+        criteria.andAreaidEqualTo(AreasId.toString());
+        List<TbAreas> tbAreas = tbAreasMapper.selectByExample(tbAreasExample);
+        if(tbAreas.size()>0) {
+            return tbAreas.get(0);
+        }
+        return null;
+    }
 }

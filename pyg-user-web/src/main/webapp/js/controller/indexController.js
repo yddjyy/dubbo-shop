@@ -1,5 +1,5 @@
 //首页控制器
-app.controller('indexController',function($scope,loginService,$http){
+app.controller('indexController',function($scope,loginService,userService,$http){
 	$scope.init=function(){
 		$scope.showName();
 	}
@@ -8,10 +8,26 @@ app.controller('indexController',function($scope,loginService,$http){
 					function(response){
 						$scope.loginName=response.loginName;
 						console.log($scope.loginName);
-						$scope.findPage($scope.paginationConf.currentPage,
-							$scope.paginationConf.itemsPerPage);
+						$scope.findUserByUserName();
 					}
 			);
+	}
+	//通过用户名查找用户信息
+	$scope.findUserByUserName=function(){
+			userService.findUserByUserName($scope.loginName).success(
+				function (response) {
+					console.log(response);
+					$scope.userInfo=response;
+				}
+			)
+	}
+	//保存用户修改的信息
+	$scope.saveUserInfo=function(){
+		userService.update($scope.userInfo.user).success(
+			function (response) {
+				alert(response.message);
+			}
+		)
 	}
 	$scope.showOrder = function(){
 		$scope.findPage($scope.paginationConf.currentPage,

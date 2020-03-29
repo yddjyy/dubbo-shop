@@ -61,5 +61,6 @@ public interface CitysService {
 	public PageResult findPage(TbCities tbCities, int pageNum, int pageSize);
 	
 	public List<TbCities> findListByProvinceidId(String provinceid);
-	
+
+	public TbCities findCityByCityId(Long cityId);
 }

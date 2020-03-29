@@ -61,5 +61,7 @@ public interface AddressService {
 	public PageResult findPage(TbAddress address, int pageNum,int pageSize);
 	
 	public List<TbAddress> findListByUserId(String userId);
+
+	public Boolean updateDefaultAddress(String preAddressId,String nowAddressId);
 	
 }

@@ -61,4 +61,16 @@ public class CitysServiceImpl implements CitysService {
         criteria.andProvinceidEqualTo(provinceid);
         return tbCitiesMapper.selectByExample(example);
     }
+
+    @Override
+    public TbCities findCityByCityId(Long cityId) {
+        TbCitiesExample tbCitiesExample = new TbCitiesExample();
+        TbCitiesExample.Criteria criteria = tbCitiesExample.createCriteria();
+        criteria.andCityidEqualTo(cityId.toString());
+        List<TbCities> tbCities = tbCitiesMapper.selectByExample(tbCitiesExample);
+        if(tbCities.size()>0){
+            return tbCities.get(0);
+        }
+        return null;
+    }
 }

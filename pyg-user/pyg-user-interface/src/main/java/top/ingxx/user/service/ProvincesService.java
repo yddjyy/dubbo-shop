@@ -60,6 +60,6 @@ public interface ProvincesService {
 	 */
 	public PageResult findPage(TbProvinces tbProvinces, int pageNum, int pageSize);
 	
-	public List<TbProvinces> findListByProvinceidId(String provinceid);
+	public TbProvinces findProvinceidId(String provinceid);
 	
 }

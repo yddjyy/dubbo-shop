@@ -1,0 +1,13 @@
+app.controller('orderController',function($scope,loginService,orderService){
+    $scope.init=function(status){
+        $scope.showName();
+    }
+    //查询当前用户名
+    $scope.showName=function(){
+        loginService.showName().success(
+            function(response){
+                $scope.loginName=response.loginName;
+            }
+        );
+    }
+});

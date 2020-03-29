@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.ingxx.mapper.TbProvincesMapper;
 import top.ingxx.pojo.TbProvinces;
+import top.ingxx.pojo.TbProvincesExample;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.user.service.ProvincesService;
 
@@ -55,7 +56,14 @@ public class ProvincesServiceImpl implements ProvincesService {
     }
 
     @Override
-    public List<TbProvinces> findListByProvinceidId(String provinceid) {
+    public TbProvinces findProvinceidId(String provinceid) {
+        TbProvincesExample tbProvincesExample = new TbProvincesExample();
+        TbProvincesExample.Criteria criteria = tbProvincesExample.createCriteria();
+        criteria.andProvinceidEqualTo(provinceid);
+        List<TbProvinces> tbProvinces = tbProvincesMapper.selectByExample(tbProvincesExample);
+        if(tbProvinces.size()>0){
+            return tbProvinces.get(0);
+        }
         return null;
     }
 }

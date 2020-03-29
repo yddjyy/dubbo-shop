@@ -1,22 +1,17 @@
 package top.ingxx.user.service.impl;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import top.ingxx.mapper.TbUserMapper;
 import top.ingxx.pojo.TbUser;
 import top.ingxx.pojo.TbUserExample;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.user.service.UserService;
+
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -147,4 +142,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	//通过用户姓名查找用户信息
+	@Override
+	public TbUser findUserByUserName(String username) {
+
+		TbUserExample tbUserExample= new TbUserExample();
+		TbUserExample.Criteria criteria = tbUserExample.createCriteria();
+		criteria.andUsernameEqualTo(username);
+		List<TbUser> tbUsers = userMapper.selectByExample(tbUserExample);
+		//判断用户名是否存在
+		if(tbUsers.size()==0){
+			return null;
+		}
+		//因为用户名唯一，所以如果存在则只有只一个
+		return tbUsers.get(0);
+	}
+
+	@Override
+	public TbUser findUserByUserNameAndPwd(String username, String pwd) {
+		TbUserExample tbUserExample = new TbUserExample();
+		TbUserExample.Criteria criteria = tbUserExample.createCriteria();
+		criteria.andUsernameEqualTo(username);
+		criteria.andPasswordEqualTo(pwd);
+		List<TbUser> tbUsers = userMapper.selectByExample(tbUserExample);
+		if(tbUsers.size()>0){//如果用户存在，则返回用户
+			return tbUsers.get(0);
+		}else{//如果用户不存在，则返回空
+			return null;
+		}
+	}
 }

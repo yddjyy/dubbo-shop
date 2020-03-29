@@ -1,7 +1,8 @@
 package top.ingxx.user.service;
-import java.util.List;
 import top.ingxx.pojo.TbUser;
 import top.ingxx.untils.entity.PageResult;
+
+import java.util.List;
 
 /**
  * 服务层接口
@@ -57,6 +58,20 @@ public interface UserService {
 	 * @return
 	 */
 	public PageResult findPage(TbUser user, int pageNum,int pageSize);
-	
 
+
+	/**
+	 * 通过用户名查找当前用户的信息
+	 * @param username
+	 * @return
+	 */
+	public TbUser findUserByUserName(String username);
+
+	/**
+	 * 通过用户名和加密后的密码查找用户信息
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
+	public TbUser findUserByUserNameAndPwd(String username,String pwd);
 }
