@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
 	<!-- 指定dubbo发布服务端口 -->
-	<dubbo:protocol name="dubbo" port="20881" />
+	<dubbo:protocol name="dubbo" port="20886" />
     <!-- 指定服务名称 -->
 	<dubbo:application name="pyg-content-service"/>
 	<!-- 指定服务注册中心地址 -->
