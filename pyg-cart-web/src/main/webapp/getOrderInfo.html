@@ -231,10 +231,10 @@
 						<ul class="addr-detail">
 							<li class="addr-item">
 
-								<div ng-repeat="address in addressList">
-									<div class="con name {{isSeletedAddress(address)?'selected':''}}"><a href="javascript:;" ng-click="selectAddress(address)">{{address.contact}}<span title="点击取消选择">&nbsp;</a></div>
-									<div class="con address">{{address.address}}<span>{{address.mobile}}</span>
-										<span class="base" ng-if="address.isDefault=='1'">默认地址</span>
+								<div ng-repeat="addressItem in addressList">
+									<div class="con name {{isSeletedAddress(addressItem)?'selected':''}}"><a href="javascript:;" ng-click="selectAddress(addressItem)">{{addressItem.address.contact}}<span title="点击取消选择">&nbsp;</a></div>
+									<div class="con address">{{addressItem.province}}{{addressItem.city}}{{addressItem.town}}{{addressItem.address.address}}<span>&nbsp;联系方式:{{addressItem.address.mobile}}</span>
+										<span class="base" ng-if="addressItem.address.isDefault=='1'">默认地址</span>
 										<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
 									</div>
 									<div class="clearfix"></div>
@@ -390,7 +390,7 @@
 		</div>
 		<div class="clearfix trade">
 			<div class="fc-price">应付金额:　<span class="price">¥{{totalFree.totalMoney.toFixed(2)}}</span></div>
-			<div class="fc-receiverInfo">寄送至:{{address.address}} 收货人：{{address.contact}} {{address.mobile}}</div>
+			<div class="fc-receiverInfo">寄送至:{{address.province}}{{address.city}}{{address.town}}{{address.address.address}} 收货人：{{address.address.contact}} {{address.address.mobile}}</div>
 		</div>
 		<div class="submit">
 			<a class="sui-btn btn-danger btn-xlarge" ng-click="submitOrder()" >提交订单</a>

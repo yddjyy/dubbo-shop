@@ -41,7 +41,6 @@ public class CartController {
 		//更新购物车中商品信息
 		List<Cart> cartList_cookieNew = cartService.updateCartGoodsInfo(cartList_cookie);
 
-
 		if (username.equals("anonymousUser")) {//如果未登录
 			//从cookie中提取购物车
 			return cartList_cookieNew;
@@ -49,6 +48,7 @@ public class CartController {
 		} else {//如果已登录
 			//获取redis购物车
 			List<Cart> cartList_redis = cartService.findCartListFromRedis(username);
+
 			List<Cart> cartsList_redisNew  = cartService.updateCartGoodsInfo(cartList_redis);//更新redis中的购物车
 			if (cartList_cookie.size() > 0) {//判断当本地购物车中存在数据
 				//得到合并后的购物车

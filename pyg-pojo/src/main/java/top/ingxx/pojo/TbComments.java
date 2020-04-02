@@ -101,7 +101,7 @@ public class TbComments implements Serializable {
     private Boolean isparent;
     /**
      * 评论的类型:
-     *    用于标志是否为商家回评:0表示不是 1表示商家回评
+     *    用于标志是否为商家回评:0表示不是 1表示商家回评 2 追加评论
      */
     @Field
     private String type;

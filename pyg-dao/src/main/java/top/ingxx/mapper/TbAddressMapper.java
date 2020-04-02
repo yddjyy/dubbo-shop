@@ -1,9 +1,10 @@
 package top.ingxx.mapper;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import top.ingxx.pojo.TbAddress;
 import top.ingxx.pojo.TbAddressExample;
+
+import java.util.List;
 
 public interface TbAddressMapper {
     int countByExample(TbAddressExample example);

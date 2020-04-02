@@ -19,6 +19,9 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
             }
         );
     }
+    $scope.praseJson=function(jsonStr){
+        return  eval('(' + jsonStr + ')');
+    }
 
     $scope.test=function(){
         myJson = {"网络":"移动4G","机身内存":"64G"};
@@ -355,7 +358,6 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         } else {
             $scope.selectSkuIdsadd.push(id);
         }
-        console.log("准备上架==="+$scope.selectSkuIdsadd);
     };
     $scope.skuStatus=['','在售', '已下架'];
     $scope.updateSku = function () {
@@ -365,11 +367,12 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         }
         goodsService.updateSku($scope.selectSkuIdsadd,$scope.selectSkuIdsRemove).success(
             function (response) {
-                if (response.success) {
-                    console.log(response.message);
-                }else{
-                    console.log(response.message);
-                }
+                alert(response.message);
+                // if (response.success) {
+                //     console.log(response.message);
+                // }else{
+                //     console.log(response.message);
+                // }
             }
         );
     }

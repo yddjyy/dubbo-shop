@@ -9,6 +9,7 @@ import top.ingxx.pojo.TbAddress;
 import top.ingxx.pojo.TbAreas;
 import top.ingxx.pojo.TbCities;
 import top.ingxx.pojo.TbProvinces;
+import top.ingxx.pojoGroup.Address;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.entity.PygResult;
 import top.ingxx.user.service.AddressService;
@@ -16,6 +17,7 @@ import top.ingxx.user.service.AreasService;
 import top.ingxx.user.service.CitysService;
 import top.ingxx.user.service.ProvincesService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -127,10 +129,23 @@ public class AddressController {
 	}
 	
 	@RequestMapping("/findListByLoginUser")
-	public List<TbAddress> findListByLoginUser(){
+	public List<Address> findListByLoginUser(){
 		//获取登陆用户
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		return addressService.findListByUserId(username);		
+		List<TbAddress> AddressList = addressService.findListByUserId(username);
+		ArrayList<Address> addresses = new ArrayList<>();
+		for(TbAddress tbAddress :AddressList){
+			Address address = new Address();
+			address.setAddress(tbAddress);
+			TbProvinces tbProvinces = provincesService.findProvinceidId(tbAddress.getProvinceId());
+			address.setProvince(tbProvinces.getProvince());
+			TbCities tbCities = citysService.findCityByCityId(Long.parseLong(tbAddress.getCityId()));
+			address.setCity(tbCities.getCity());
+			TbAreas tbAreas = areasService.findAreasByAreasId(Long.parseLong(tbAddress.getTownId()));
+			address.setTown(tbAreas.getArea());
+			addresses.add(address);
+		}
+		return addresses;
 	}
 	//获取所有省的列表
 	@RequestMapping("/findAllProvince")

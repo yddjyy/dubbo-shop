@@ -305,8 +305,8 @@
                 </configuration>
             </plugin>
 
-        </plugins>
 
+        </plugins>
         <pluginManagement>
             <plugins>
                 <!-- 配置Tomcat插件 -->

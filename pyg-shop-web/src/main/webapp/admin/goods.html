@@ -292,7 +292,7 @@
 							</thead>
 							<tbody>
 							<tr ng-repeat="item in itemList" ng-if="item.status!=0">
-								<td>{{item.spec}}</td>
+								<td><span ng-repeat="(key,value) in praseJson(item.spec)">{{key}}:{{value}}</span></td>
 								<td>{{item.price}}</td>
 								<td>{{item.num}}</td>
 								<td>{{skuStatus[item.status]}}</td>

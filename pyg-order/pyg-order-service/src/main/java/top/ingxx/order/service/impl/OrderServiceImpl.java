@@ -77,8 +77,6 @@ public class OrderServiceImpl implements OrderService {
 		if(orderCartList.size()<=0){
 			return;
 		}
-		System.out.println("订单列表："+orderCartList.size());
-
 		List<String> orderIdList=new ArrayList();//订单ID集合
 		double total_money=0;//总金额
 		//2.循环购物车列表添加订单
@@ -131,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
 			payLog.setCreateTime(new Date());
 			payLog.setUserId(order.getUserId());//用户ID
 			payLog.setOrderList(orderIdList.toString().replace("[", "").replace("]", ""));//订单ID串
-			payLog.setTotalFee( (long)( total_money ) );//金额（元）
+			payLog.setTotalFee(new BigDecimal(total_money));//金额（元）
 			payLog.setTradeState("0");//交易状态
 			payLog.setPayType("1");//微信
 			payLogMapper.insert(payLog);
@@ -145,19 +143,26 @@ public class OrderServiceImpl implements OrderService {
 		//从购物车中清除预购买的商品
 		List<Cart> cartList = (List<Cart>)redisTemplate.boundHashOps("cartList").get(order.getUserId());
 
-		redisTemplate.boundHashOps("cartList").put(order.getUserId(),deleteGoodsFromCartList(cartList,orderCartList) );//放入缓存
+		List<Cart> cartList_new = deleteGoodsFromCartList(cartList, orderCartList);
+
+		redisTemplate.boundHashOps("cartList").put(order.getUserId(), cartList_new);//放入缓存
 		//3.清除redis中的购物车
 		redisTemplate.boundHashOps("orderList").delete(order.getUserId());
 	}
 
 	public List<Cart> deleteGoodsFromCartList(List<Cart>  cartList,List<Cart> orderCartList){
-		for(Cart orderCart : orderCartList){
-			for(CartItem orderCartItem : orderCart.getCartItemList()){
-				for(Cart cart:cartList){
-					if(cart.getSellerName().equals(orderCart.getSellerName())){
-						for(int index=0;index<cart.getCartItemList().size();index++){
-							if(orderCartItem.getItemId().equals(cart.getCartItemList().get(index))){
-								cart.getCartItemList().remove(index);
+		for(Cart orderCart : orderCartList){//遍历预购买的订单
+			for(CartItem orderCartItem : orderCart.getCartItemList()){//遍历预购买订单的商品详情
+				for(int cartIndex=0;cartIndex<cartList.size();cartIndex++){//遍历购物车中的商家
+					if(cartList.get(cartIndex).getSellerName().equals(orderCart.getSellerName())){//查找当前商品在购物车中对应的商家，通过该条件可以实现一定的过滤，优化Suunto
+						for(int index=0;index<cartList.get(cartIndex).getCartItemList().size();index++){//在查找的商家中查找对应的商品
+							if(orderCartItem.getItemId().equals(cartList.get(cartIndex).getCartItemList().get(index).getItemId())){//从购物车中删除对应的商品信息
+								//从对应的商家中清除对应的商品
+								cartList.get(cartIndex).getCartItemList().remove(index);
+								//如果购物车该商家对应的商品为空，则从购物车中清除该商家
+								if(cartList.get(cartIndex).getCartItemList().size()<=0){
+									cartList.remove(cartIndex);//从购物出中清除该商家的信息
+								}
 							}
 						}
 					}
@@ -165,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 
-		return null;
+		return cartList;
 	}
 	
 	/**

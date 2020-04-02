@@ -25,7 +25,7 @@
                 <version>2.2</version>
                 <configuration>
                     <!-- 服务启动端口:从9000开始 -->
-                    <port>9010</port>
+                    <port>9011</port>
                     <!-- /把项目发布tomcat服务器ROOT目录下.-->
                     <path>/</path>
                 </configuration>

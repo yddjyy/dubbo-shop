@@ -52,7 +52,7 @@ public class AliPayServiceImpl implements AliPayService {
         alipayRequest.setBizModel(model);
         try {
             AlipayTradePrecreateResponse result = alipayClient.execute(alipayRequest);
-            System.out.println(result+"------------------------------");
+            System.out.println(result.getMsg()+","+result.getSubMsg());
             //  3 获取结果
             map.put("code_url",result.getQrCode());
             map.put("out_trade_no",out_trade_no);
