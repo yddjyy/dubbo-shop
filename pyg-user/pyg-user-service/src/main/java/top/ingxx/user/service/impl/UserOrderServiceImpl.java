@@ -311,9 +311,10 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     @Override
-    public Boolean addRefundOrder(TbRefund tbRefund) {
+    public Boolean addRefundOrder(TbRefund tbRefund,String username) {
         tbRefund.setId(String.valueOf(idWorker.nextId()));
         tbRefund.setStatus("0");
+        tbRefund.setUserId(username);
         tbRefund.setStartTime(new Date());
         int insert = tbRefundMapper.insert(tbRefund);
         if(insert==1){
@@ -333,5 +334,23 @@ public class UserOrderServiceImpl implements UserOrderService {
         }else {
                 return false;
             }
+    }
+
+    //通过orderitemid获取订单商品信息
+    @Override
+    public TbOrderItem findOneItemByOrderItemId(Long orderItemId) {
+        TbOrderItem tbOrderItem = tbOrderItemMapper.selectByPrimaryKey(orderItemId);
+        return tbOrderItem;
+    }
+
+    @Override
+    public Boolean updateStatusByOrderId(Long orderId,int status) {
+        TbOrder tbOrder = tbOrderMapper.selectByPrimaryKey(orderId);
+        tbOrder.setStatus(status+"");
+        int i = tbOrderMapper.updateByPrimaryKey(tbOrder);
+        if(i==1){
+            return true;
+        }
+        return false;
     }
 }

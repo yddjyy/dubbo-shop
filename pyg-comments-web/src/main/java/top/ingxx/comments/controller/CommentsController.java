@@ -10,7 +10,6 @@ import top.ingxx.entity.PageResult;
 import top.ingxx.pojo.TbComments;
 import top.ingxx.untils.entity.PygResult;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,11 +27,11 @@ public class CommentsController {
      }
      @RequestMapping("/add")
      public PygResult insertone(@RequestBody TbComments tbComments){
-         tbComments.setPublishtime(new Date());
+         //tbComments.setPublishtime(new Date());
          tbComments.setVisits(0);
          tbComments.setThumbup(0);
-         tbComments.setComment(0);
-         tbComments.setIscomment(true);
+         //tbComments.setComment(0);
+         tbComments.setIsparent(0);
 //         测试
 //         tbComments.setOrderid("12134567897");
 //         tbComments.setSpuid("12345645465545");

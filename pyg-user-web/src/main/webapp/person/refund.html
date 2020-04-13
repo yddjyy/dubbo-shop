@@ -208,7 +208,7 @@
 								<span class="desc">{{images.length}}/3</span>
 							</div>
 							<div class="info-btn">
-								<div class="am-btn am-btn-danger" ng-click="submit()" {{flag==3?'disable':''}}>{{flag==1||flag==4?'提交申请':'撤回申请'}}</div>
+								<div ng-if="status!=2" class="am-btn am-btn-danger" ng-click="submit()" {{flag==3?'disable':''}}>{{flag==0||flag==4?'提交申请':'撤回申请'}}</div>
 							</div>
 						</div>
 					</div>

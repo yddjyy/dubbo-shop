@@ -42,12 +42,17 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    public PageResult findByName(String nickname, int currentPage, int pageSize) {
-        return tbCommentsMapper.findByName(nickname,currentPage,pageSize);
+    public PageResult findByName(String sellerid, int currentPage, int pageSize) {
+        return tbCommentsMapper.findByName(sellerid,currentPage,pageSize);
     }
 
     @Override
     public TbComments find(String id) {
         return tbCommentsMapper.find(id);
+    }
+
+    @Override
+    public void updateByid(String id, int content) {
+        tbCommentsMapper.updateByid(id,content);
     }
 }

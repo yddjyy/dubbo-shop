@@ -25,4 +25,7 @@ public interface AliPayService {
      * @return
      */
     public Map closePay(String out_trade_no);
+
+
+    public Map refundPay(String outTradeNo,String refund_amount);
 }

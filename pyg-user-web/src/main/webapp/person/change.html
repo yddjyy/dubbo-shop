@@ -16,9 +16,17 @@
 		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 		<script src="https://cdn.bootcss.com/amazeui/2.5.1/js/amazeui.min.js"></script>
 
+		<script type="text/javascript" src="../js/angularjs/angular.min.js"></script>
+		<script type="text/javascript" src="../js/base.js"></script>
+		<script type="text/javascript" src="../js/service/loginService.js"></script>
+		<script type="text/javascript" src="../js/service/refundService.js"></script>
+		<script type="text/javascript" src="../js/service/orderService.js"></script>
+		<script type="text/javascript" src="../js/service/uploadService.js"></script>
+		<script type="text/javascript" src="../js/controller/refundController.js"></script>
+
 	</head>
 
-	<body>
+	<body ng-app="brd" ng-controller="refundController" ng-init="findAllRefundOrder()">
 		<!--头 -->
 		<header>
 			<article>
@@ -28,12 +36,9 @@
 				<div class="am-container header">
 					<ul class="message-l">
 						<div class="topMessage">
-							<a href="javascript:;">送货至：<span>山东</span><img src="../images/jt_t.png"></a>
-						</div>
-						<div class="topMessage">
 							<div class="menu-hd">
-								<a href="login.html" target="_top" class="h">亲，请登录</a>
-								<a href="register.html" target="_top">免费注册</a>
+								<a href="" target="_top" class="h">{{loginName}}</a>
+								<a href="../logout/cas" target="_top">退出</a>
 							</div>
 						</div>
 					</ul>
@@ -72,18 +77,6 @@
 				</div>
 			</article>
 		</header>
-            <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						</div>
-			</div>
 			<b class="line"></b>		
 		<div class="center">
 			<div class="col-main">
@@ -126,10 +119,11 @@
 									</div>
 
 									<div class="order-main">
-										<div class="order-list">
+										<div class="order-list" >
+											<div ng-repeat="refundItem in refundOrderList">
 											<div class="order-title">
-												<div class="dd-num">退款编号：<a href="javascript:;">1601430</a></div>
-												<span>申请时间：2015-12-20</span>
+												<div class="dd-num">退款编号：<a href="javascript:;">{{refundItem.tbRefund.id}}</a></div>
+												<span>申请时间：{{refundItem.tbRefund.startTime}}</span>
 												<!--    <em>店铺：小桔灯</em>-->
 											</div>
 											<div class="order-content">
@@ -137,14 +131,14 @@
 													<ul class="item-list">
 														<li class="td td-item">
 															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="../images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg">
+																<a href="" class="J_MakePoint">
+																	<img ng-src="{{refundItem.tbOrderItem.picPath}}" class="itempic J_ItemImg">
 																</a>
 															</div>
 															<div class="item-info">
 																<div class="item-basic-info">
 																	<a href="#">
-																		<p>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
+																		<p>{{refundItem.tbOrderItem.title}}</p>
 																		<p class="info-little">颜色：12#川南玛瑙
 																			<br/>包装：裸装 </p>
 																	</a>
@@ -155,12 +149,12 @@
 														<ul class="td-changeorder">
 															<li class="td td-orderprice">
 																<div class="item-orderprice">
-																	<span>交易金额：</span>72.00
+																	<span>交易金额：</span>{{refundItem.tbOrderItem.price}}元
 																</div>
 															</li>
 															<li class="td td-changeprice">
 																<div class="item-changeprice">
-																	<span>退款金额：</span>70.00
+																	<span>退款金额：</span>{{refundItem.tbOrderItem.price}}元
 																</div>
 															</li>
 														</ul>
@@ -170,8 +164,9 @@
 													<div class="change move-right">
 														<li class="td td-moneystatus td-status">
 															<div class="item-status">
-																<p class="Mystatus">退款成功</p>
-
+																<p class="Mystatus" ng-if="refundItem.tbRefund.status==0||refundItem.tbRefund.status==1">退款中</p>
+																<p class="Mystatus" ng-if="refundItem.tbRefund.status==2">退款成功</p>
+																<p class="Mystatus" ng-if="refundItem.tbRefund.status==3">退款失败</p>
 															</div>
 														</li>
 													</div>
@@ -184,7 +179,9 @@
 
 												</div>
 											</div>
+											</div>
 										</div>
+
 
 									</div>
 

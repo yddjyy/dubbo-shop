@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Document(collection = "comments")
@@ -20,52 +19,59 @@ public class TbComments implements Serializable {
     @Field
     private String orderid;
     /**
+     * 订单订单商品详情id
+     */
+    @Field
+    private String orderitemid;
+    /**
      * 商品id
      */
     @Field
     private String spuid;
     /**
-     * 评论商品
+     * 评论
      */
     @Field
-    private String contentsGoods;
+    private String commentscontent;
     /**
-     * 评价服务
+     * 商品名称
      */
     @Field
-    private String contentService;
+    private String goodsname;
     /**
-     * 描述相符
+     *商品规格
      */
     @Field
-    private int starDesc;
-    /**
-     * 商家服务
-     */
-    @Field
-    private int starService;
-    /*
-     物流服务
-     */
-    @Field
-    private int starLogi;
+    private String goodsspec;
     /**
      * 评论时间
      */
     @Field
-    private Date publishtime;
+    private Integer publishtime;
     /**
      * 评论用户id
      */
     @Field
-    private String userid;
+    private Integer userid;
+
+    /**
+     * 商品itemid
+     *
+     */
+    @Field
+    private int itemId;
+    /**
+     * 商家id
+     */
+    @Field
+    private String sellerid;
     /**
      * 评论用户昵称
      */
     @Field
     private String nickname;
     /**
-     * 评论的浏览量
+     * 是否已经评论
      */
     @Field
     private Integer visits;
@@ -83,12 +89,7 @@ public class TbComments implements Serializable {
      * 评论的回复数
      */
     @Field
-    private Integer comment;
-    /**
-     * 该评论是否可以被回复
-     */
-    @Field
-    private Boolean iscomment;
+    private Integer commentnum;
     /**
      * 该评论的上一级id
      */
@@ -98,13 +99,13 @@ public class TbComments implements Serializable {
      * 是否是顶级评论
      */
     @Field
-    private Boolean isparent;
+    private int isparent;
     /**
      * 评论的类型:
-     *    用于标志是否为商家回评:0表示不是 1表示商家回评 2 追加评论
+     *    用于标志是否为商家回评:0表示不是是 1表示商家回评 2 追加评论
      */
     @Field
-    private String type;
+    private Double rating;
 
     /**
      * List<TbComments>存储子评论</TbComments>
@@ -115,26 +116,53 @@ public class TbComments implements Serializable {
     public TbComments() {
     }
 
-    public TbComments(String _id, String orderid, String spuid, String contentsGoods, String contentService, int starDesc, int starService, int starLogi, Date publishtime, String userid, String nickname, Integer visits, Integer thumbup, List<String> images, Integer comment, Boolean iscomment, String parentid, Boolean isparent, String type) {
+    public TbComments(String _id, String orderid, String orderitemid, String spuid, String commentscontent, String goodsname, String goodsspec, Integer publishtime, Integer userid, int itemId, String sellerid, String nickname, Integer visits, Integer thumbup, List<String> images, Integer commentnum, String parentid, int isparent, Double rating, List<TbComments> list) {
         this._id = _id;
         this.orderid = orderid;
+        this.orderitemid = orderitemid;
         this.spuid = spuid;
-        this.contentsGoods = contentsGoods;
-        this.contentService = contentService;
-        this.starDesc = starDesc;
-        this.starService = starService;
-        this.starLogi = starLogi;
+        this.commentscontent = commentscontent;
+        this.goodsname = goodsname;
+        this.goodsspec = goodsspec;
         this.publishtime = publishtime;
         this.userid = userid;
+        this.itemId = itemId;
+        this.sellerid = sellerid;
         this.nickname = nickname;
         this.visits = visits;
         this.thumbup = thumbup;
         this.images = images;
-        this.comment = comment;
-        this.iscomment = iscomment;
+        this.commentnum = commentnum;
         this.parentid = parentid;
         this.isparent = isparent;
-        this.type = type;
+        this.rating = rating;
+        this.list = list;
+    }
+
+    @Override
+    public String toString() {
+        return "TbComments{" +
+                "_id='" + _id + '\'' +
+                ", orderid='" + orderid + '\'' +
+                ", orderitemid='" + orderitemid + '\'' +
+                ", spuid='" + spuid + '\'' +
+                ", commentscontent='" + commentscontent + '\'' +
+                ", goodsname='" + goodsname + '\'' +
+                ", goodsspec='" + goodsspec + '\'' +
+                ", publishtime=" + publishtime +
+                ", userid=" + userid +
+                ", itemId=" + itemId +
+                ", sellerid='" + sellerid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", visits=" + visits +
+                ", thumbup=" + thumbup +
+                ", images=" + images +
+                ", commentnum=" + commentnum +
+                ", parentid='" + parentid + '\'' +
+                ", isparent=" + isparent +
+                ", rating=" + rating +
+                ", list=" + list +
+                '}';
     }
 
     public String get_id() {
@@ -153,6 +181,14 @@ public class TbComments implements Serializable {
         this.orderid = orderid;
     }
 
+    public String getOrderitemid() {
+        return orderitemid;
+    }
+
+    public void setOrderitemid(String orderitemid) {
+        this.orderitemid = orderitemid;
+    }
+
     public String getSpuid() {
         return spuid;
     }
@@ -161,60 +197,60 @@ public class TbComments implements Serializable {
         this.spuid = spuid;
     }
 
-    public String getContentsGoods() {
-        return contentsGoods;
+    public String getCommentscontent() {
+        return commentscontent;
     }
 
-    public void setContentsGoods(String contentsGoods) {
-        this.contentsGoods = contentsGoods;
+    public void setCommentscontent(String commentscontent) {
+        this.commentscontent = commentscontent;
     }
 
-    public String getContentService() {
-        return contentService;
+    public String getGoodsname() {
+        return goodsname;
     }
 
-    public void setContentService(String contentService) {
-        this.contentService = contentService;
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
     }
 
-    public int getStarDesc() {
-        return starDesc;
+    public String getGoodsspec() {
+        return goodsspec;
     }
 
-    public void setStarDesc(int starDesc) {
-        this.starDesc = starDesc;
+    public void setGoodsspec(String goodsspec) {
+        this.goodsspec = goodsspec;
     }
 
-    public int getStarService() {
-        return starService;
-    }
-
-    public void setStarService(int starService) {
-        this.starService = starService;
-    }
-
-    public int getStarLogi() {
-        return starLogi;
-    }
-
-    public void setStarLogi(int starLogi) {
-        this.starLogi = starLogi;
-    }
-
-    public Date getPublishtime() {
+    public Integer getPublishtime() {
         return publishtime;
     }
 
-    public void setPublishtime(Date publishtime) {
+    public void setPublishtime(Integer publishtime) {
         this.publishtime = publishtime;
     }
 
-    public String getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(String sellerid) {
+        this.sellerid = sellerid;
     }
 
     public String getNickname() {
@@ -249,20 +285,12 @@ public class TbComments implements Serializable {
         this.images = images;
     }
 
-    public Integer getComment() {
-        return comment;
+    public Integer getCommentnum() {
+        return commentnum;
     }
 
-    public void setComment(Integer comment) {
-        this.comment = comment;
-    }
-
-    public Boolean getIscomment() {
-        return iscomment;
-    }
-
-    public void setIscomment(Boolean iscomment) {
-        this.iscomment = iscomment;
+    public void setCommentnum(Integer commentnum) {
+        this.commentnum = commentnum;
     }
 
     public String getParentid() {
@@ -273,20 +301,20 @@ public class TbComments implements Serializable {
         this.parentid = parentid;
     }
 
-    public Boolean getIsparent() {
+    public int getIsparent() {
         return isparent;
     }
 
-    public void setIsparent(Boolean isparent) {
+    public void setIsparent(int isparent) {
         this.isparent = isparent;
     }
 
-    public String getType() {
-        return type;
+    public Double getRating() {
+        return rating;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public List<TbComments> getList() {
@@ -295,31 +323,5 @@ public class TbComments implements Serializable {
 
     public void setList(List<TbComments> list) {
         this.list = list;
-    }
-
-    @Override
-    public String toString() {
-        return "TbComments{" +
-                "_id='" + _id + '\'' +
-                ", orderid='" + orderid + '\'' +
-                ", spuid='" + spuid + '\'' +
-                ", contentsGoods='" + contentsGoods + '\'' +
-                ", contentService='" + contentService + '\'' +
-                ", starDesc=" + starDesc +
-                ", starService=" + starService +
-                ", starLogi=" + starLogi +
-                ", publishtime=" + publishtime +
-                ", userid='" + userid + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", visits=" + visits +
-                ", thumbup=" + thumbup +
-                ", images=" + images +
-                ", comment=" + comment +
-                ", iscomment=" + iscomment +
-                ", parentid='" + parentid + '\'' +
-                ", isparent=" + isparent +
-                ", type='" + type + '\'' +
-                ", list=" + list +
-                '}';
     }
 }

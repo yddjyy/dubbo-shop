@@ -3,21 +3,20 @@ package top.ingxx.order.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import top.ingxx.mapper.TbItemMapper;
-import top.ingxx.mapper.TbOrderItemMapper;
-import top.ingxx.mapper.TbOrderMapper;
-import top.ingxx.mapper.TbPayLogMapper;
+import top.ingxx.mapper.*;
 import top.ingxx.order.service.OrderService;
 import top.ingxx.pojo.*;
-import top.ingxx.pojoGroup.Cart;
-import top.ingxx.pojoGroup.CartItem;
+import top.ingxx.pojoGroup.*;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.until.IdWorker;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +65,12 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private TbItemMapper tbItemMapper;
+
+	@Autowired
+	private TbOrderMapper tbOrderMapper;
+
+	@Autowired
+	private TbRefundMapper tbRefundMapper;
 	/**
 	 * 增加
 	 */
@@ -297,10 +302,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		//3.清除缓存中的payLog
-		List<TbPayLog> payLogList =(List<TbPayLog>)redisTemplate.boundHashOps("payLog").get(payLog.getUserId());
-		payLogList.remove(payLogList.size()-1);//移除最新的一项
+//		List<TbPayLog> payLogList =(List<TbPayLog>)redisTemplate.boundHashOps("payLog").get(payLog.getUserId());
+//		payLogList.remove(payLogList.size()-1);//移除最新的一项
 		redisTemplate.boundHashOps("orderList").delete(payLog.getUserId());//移除选中列表
-		redisTemplate.boundHashOps("payLog").put(payLog.getUserId(),payLogList);
+		redisTemplate.boundHashOps("payLog").delete(payLog.getUserId());
 	}
 	//根据orderid修改对应商品的库存
 	public void updateGoodsStockByOrderId(String orderId){
@@ -315,5 +320,125 @@ public class OrderServiceImpl implements OrderService {
 			tbItem.setNum(tbItem.getNum()-tbOrderItem.getNum());
 			tbItemMapper.updateByPrimaryKey(tbItem);
 		}
+	}
+	private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	//查找今天的订单
+	@Override
+	public PageResult findAllByPage(String sellerId, int currentPage, int pageSize) {
+		PageHelper.startPage(currentPage, pageSize);
+		TbOrderExample tbOrderExample = new TbOrderExample();
+		TbOrderExample.Criteria criteria = tbOrderExample.createCriteria();
+		criteria.andSellerIdEqualTo(sellerId);
+		criteria.andStatusEqualTo("2");
+		PageInfo<TbOrder> tbOrderPageInfo = new PageInfo<>(tbOrderMapper.selectByExample(tbOrderExample));
+		return new PageResult(tbOrderPageInfo.getTotal(), tbOrderPageInfo.getList());
+	}
+
+
+	//用户端获取退款订单
+
+	@Override
+	public List<RefundOrder> findAllRefundOrderByUsername(String username) {
+		TbRefundExample tbRefundExample = new TbRefundExample();
+		tbRefundExample.setOrderByClause("start_time");
+		TbRefundExample.Criteria criteria = tbRefundExample.createCriteria();
+		criteria.andUserIdEqualTo(username);
+		List<TbRefund> tbRefunds = tbRefundMapper.selectByExample(tbRefundExample);
+		List<RefundOrder> refundOrderList = new ArrayList<RefundOrder>();
+		for(TbRefund tbRefund:tbRefunds){
+			RefundOrder refundOrder = new RefundOrder();
+			refundOrder.setTbRefund(tbRefund);
+			TbOrderItem tbOrderItem = orderItemMapper.selectByPrimaryKey(Long.parseLong(tbRefund.getOrderItemId()));
+			refundOrder.setTbOrderItem(tbOrderItem);
+			refundOrderList.add(refundOrder);
+		}
+		return refundOrderList;
+	}
+
+	@Override
+	public int sendGoods(String orderId, String shippingCode) {
+		TbOrder tbOrder = orderMapper.selectByPrimaryKey(Long.parseLong(orderId));
+		tbOrder.setStatus("4");
+		tbOrder.setShippingCode(shippingCode);
+		int i = orderMapper.updateByPrimaryKey(tbOrder);
+		return i;
+	}
+
+	@Override
+	public List<TbOrderItem> viewGoods(String orderId) {
+		TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
+		TbOrderItemExample.Criteria criteria = tbOrderItemExample.createCriteria();
+		criteria.andOrderIdEqualTo(Long.parseLong(orderId));
+		List<TbOrderItem> tbOrderItems = orderItemMapper.selectByExample(tbOrderItemExample);
+		return tbOrderItems;
+	}
+
+	//获取未处理的退款订单
+	@Override
+	public List<RefundOrderShop> findRefundOrderBySellerId(String sellerId) {
+		TbRefundExample tbRefundExample = new TbRefundExample();
+		TbRefundExample.Criteria criteria = tbRefundExample.createCriteria();
+		criteria.andSellerIdEqualTo(sellerId);
+		criteria.andStatusEqualTo("0");
+		List<TbRefund> tbRefunds = tbRefundMapper.selectByExample(tbRefundExample);
+		ArrayList<RefundOrderShop> refundOrderShops = new ArrayList<>();
+		for(TbRefund tbRefund:tbRefunds){
+			RefundOrderShop refundOrderShop = new RefundOrderShop();
+			refundOrderShop.setOutTradeNo(tbRefund.getOutTradeNo());
+			refundOrderShop.setId(tbRefund.getId());
+			String orderItemId = tbRefund.getOrderItemId();
+			TbOrderItem tbOrderItem = orderItemMapper.selectByPrimaryKey(Long.parseLong(orderItemId));
+			Long orderId = tbOrderItem.getOrderId();
+			TbOrder tbOrder = tbOrderMapper.selectByPrimaryKey(orderId);
+			refundOrderShop.setTbOrder(tbOrder);
+			refundOrderShops.add(refundOrderShop);
+		}
+		System.out.println(refundOrderShops.size()+"========================");
+		return refundOrderShops;
+	}
+
+
+	//查看退款订单的退款原因及类型
+	@Override
+	public TbRefund viewRefundOrder(String refundId) {
+		return tbRefundMapper.selectByPrimaryKey(refundId);
+	}
+
+	//拒接
+	@Override
+	public int returnRefund(String refundId, String reply) {
+		System.out.println(refundId+"=======================");
+		TbRefund tbRefund = tbRefundMapper.selectByPrimaryKey(refundId);
+		tbRefund.setStatus("3");
+		tbRefund.setReply(reply);
+		return tbRefundMapper.updateByPrimaryKey(tbRefund);
+	}
+
+	@Override
+	public int refundOk(String refundId) {
+		TbRefund tbRefund = tbRefundMapper.selectByPrimaryKey(refundId);
+		tbRefund.setStatus("2");
+		return tbRefundMapper.updateByPrimaryKey(tbRefund);
+	}
+
+	@Override
+	public PageResult findHistoryByPage(String sellerId ,int currentPage, int pageSize) {
+		PageHelper.startPage(currentPage,pageSize);
+		TbOrderExample tbOrderExample = new TbOrderExample();
+		TbOrderExample.Criteria criteria = tbOrderExample.createCriteria();
+		criteria.andStatusNotEqualTo("1");
+		criteria.andStatusNotEqualTo("9");
+		List<TbOrder> tbOrders = tbOrderMapper.selectByExample(tbOrderExample);
+		System.out.println(tbOrders.size()+"=========================");
+		ArrayList<TbOrdersGroup> tbOrdersGroupArrayList = new ArrayList<TbOrdersGroup>();
+		for(TbOrder tbOrder :tbOrders){
+			TbOrdersGroup tbOrdersGroup = new TbOrdersGroup();
+			BeanUtils.copyProperties(tbOrder,tbOrdersGroup);
+			tbOrdersGroup.setOrderId(tbOrder.getOrderId().toString());
+			tbOrdersGroupArrayList.add(tbOrdersGroup);
+		}
+		PageInfo<TbOrdersGroup> tbOrderPageInfo = new PageInfo<TbOrdersGroup>(tbOrdersGroupArrayList);
+		System.out.println(tbOrderPageInfo.getTotal()+"========================="+tbOrderPageInfo.getPages());
+		return new PageResult(tbOrderPageInfo.getTotal(),tbOrderPageInfo.getList());
 	}
 }

@@ -10,9 +10,11 @@ import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.request.AlipayTradeCloseRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeCloseResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import org.springframework.beans.factory.annotation.Value;
 import top.ingxx.pay.service.AliPayService;
 
@@ -114,6 +116,40 @@ public class AliPayServiceImpl implements AliPayService {
             map.put("sub_msg",response.getSubMsg());
             return map;
         } catch (AlipayApiException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    //退款
+    @Override
+    public Map refundPay(String outTradeNo,String refund_amount) {
+        HashMap map = new HashMap();
+        //获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl,appid,merchantPrivateKey,"json",charset, alipayPublicKey,signType);
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+//        AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
+//        model.setOutTradeNo(outTradeNo);
+//        model.setTotalAmount(refund_amount);
+//        model.
+        String out_request_no = "HZ01RF001";
+
+        request.setBizContent("{\"out_trade_no\":\"" + outTradeNo + "\"," + "\"refund_amount\":\"" + refund_amount + "\","
+                + "\"out_request_no\":\"" + out_request_no + "\"}");
+        try {
+            AlipayTradeRefundResponse response = alipayClient.execute(request);
+            System.out.println("==============");
+            System.out.println(response.getSubCode());
+            if(response.isSuccess()){
+                System.out.println("调用成功");
+                map.put("flag",true);
+            } else {
+                System.out.println("调用失败");
+                map.put("flag",false);
+            }
+            return map;
+        }catch (AlipayApiException e){
             e.printStackTrace();
             return null;
         }

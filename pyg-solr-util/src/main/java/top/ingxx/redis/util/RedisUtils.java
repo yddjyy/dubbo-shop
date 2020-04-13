@@ -15,7 +15,7 @@ public class RedisUtils {
 //       redisTemplate.delete("seckillGoods");
 //        System.out.println(redisTemplate.boundHashOps("seckillGoods").values());
         System.out.println(redisTemplate.boundHashOps("payLog").values());
-        //redisTemplate.delete("orderList");
+        //redisTemplate.delete("payLog");
         //System.out.println(redisTemplate.boundHashOps("orderList").values());
     }
 

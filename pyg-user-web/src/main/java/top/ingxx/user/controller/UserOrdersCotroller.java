@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import top.ingxx.order.service.OrderService;
 import top.ingxx.pojo.TbOrder;
+import top.ingxx.pojo.TbOrderItem;
 import top.ingxx.pojo.TbRefund;
+import top.ingxx.pojoGroup.RefundOrder;
 import top.ingxx.pojoGroup.WaitPaymentOrder;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.untils.entity.PygResult;
@@ -28,6 +31,9 @@ public class UserOrdersCotroller {
 
     @Reference
     private UserOrderService userOrderService;
+
+    @Reference
+    private  OrderService orderService;
 
     @RequestMapping("/showOrders")
     public PageResult showOrders(@RequestParam String username,int pageNum,int pageSize){
@@ -118,7 +124,8 @@ public class UserOrdersCotroller {
 
     @RequestMapping("/addRefundOrder")
     public PygResult addRefundOrder(@RequestBody TbRefund tbRefund){
-        Boolean aBoolean = userOrderService.addRefundOrder(tbRefund);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Boolean aBoolean = userOrderService.addRefundOrder(tbRefund,username);
         if(aBoolean){
             return  new PygResult(true,"添加成功");
         }
@@ -133,5 +140,23 @@ public class UserOrdersCotroller {
           return   new PygResult(true,"撤回成功");
         }
         return new PygResult(false,"撤回失败失败");
+    }
+
+    //获取退款订单
+    @RequestMapping("/findAllRefundOrderByUsername")
+    public List<RefundOrder> findAllRefundOrderByUsername(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<RefundOrder> allRefundOrderByUsername = orderService.findAllRefundOrderByUsername(username);
+        return allRefundOrderByUsername;
+    }
+
+    //评论相关
+
+    //通过orderitemid获取订单商品信息
+    @RequestMapping("/getOrderInfoByOrderItemId")
+    public TbOrderItem getOrderInfoByOrderItemId(Long orderItemId){
+        if(orderItemId.equals(""))
+            return null;
+       return userOrderService.findOneItemByOrderItemId(orderItemId);
     }
 }

@@ -89,7 +89,7 @@ app.controller('refundController',function($scope,loginService,refundService,ord
                     console.log(response);
                     if(response.success){
                         $scope.status=-1;
-                        $scope.flag=1;//可以再次申请
+                        $scope.flag=0;//可以再次申请
                         $scope.tbRefund='';
                         $scope.images='';
                     }
@@ -109,9 +109,21 @@ app.controller('refundController',function($scope,loginService,refundService,ord
                 {
                     alert(data.message);
                     $scope.status=1;
+                    $scope.flag=2;//卖家处理中，可以撤回申请
                 }
                else
                    alert(data.message);
+            }
+        )
+    }
+
+    //退款管理
+    $scope.findAllRefundOrder=function () {
+        $scope.showName();
+        refundService.findAllRefundOrder().success(
+            function (response) {
+                $scope.refundOrderList=response;
+                console.log( $scope.refundOrderList);
             }
         )
     }

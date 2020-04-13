@@ -17,7 +17,7 @@ public class PayController {
     @Reference
     AliPayService aliPayService;
 
-    @Reference
+    @Reference(timeout = 50000)
     OrderService orderService;
 
     @RequestMapping("/createNative")

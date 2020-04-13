@@ -1,0 +1,35 @@
+
+	.comment-list .item-opinion .box{
+		width: 83%;
+		float: right;
+	}
+	.comment-list.item-opinion .box .list{
+		width: 40%;
+		float: right;
+	}
+	.comment-list .item-opinion .box .list a{
+		font-size: 30px;
+		text-decoration: none;
+		color: lightgray;
+	}
+	.comment-list .item-opinion .box .list span{
+		float: right;
+		font-size: 40px;
+		padding-top: 10px;
+		margin-left: 50px;
+	}
+	.comment-list .item-opinion .box .list .c1{
+		color: crimson;
+	}
+	.comment-list .item-opinion .box .list .c2{
+		color: goldenrod;
+	}
+	.comment-list .item-opinion .box .list .c3{
+		color: yellow;
+	}
+	.comment-list .item-opinion .box .list .c4{
+		color: orange;
+	}
+	.comment-list .item-opinion .box .list .c5{
+		color: limegreen;
+	}

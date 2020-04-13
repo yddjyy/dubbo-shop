@@ -19,4 +19,9 @@ app.service('refundService',function($http){
         return $http.get("../userOrders/cancelRefundOrder.do?id="+id);
     }
 
+    //获取退款订单
+    this.findAllRefundOrder=function () {
+        return $http.get("../userOrders/findAllRefundOrderByUsername.do");
+    }
+
 });

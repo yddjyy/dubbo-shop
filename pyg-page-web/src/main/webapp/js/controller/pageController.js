@@ -45,7 +45,8 @@ app.controller('pageController', function ($scope, pageService,$location,$sce) {
 
 
     $scope.loadPage = function () {
-        $scope.getPage($location.search()['keywords']);
+        $scope.spuid= $location.search()['keywords'];
+        $scope.getPage( $scope.spuid);
     };
 
     $scope.selectItems = {};//存储用户选择的内容
@@ -72,6 +73,24 @@ app.controller('pageController', function ($scope, pageService,$location,$sce) {
         if($scope.num>$scope.sku.num){
             $scope.num=$scope.sku.num;
         }
+    }
+
+    //获取评论信息
+    $scope.getCommentsInfo=function () {
+        pageService.getCommentsInfo($scope.spuid,1,15).success(
+            function (response) {
+                $scope.commentsItem=response.rows;
+            }
+        )
+    }
+
+    //时间格式转换 时间戳-> 日期
+    $scope.reverse=function (value) {
+        var date = new Date(value*1000);
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        return Y+M+D;
     }
 
 });

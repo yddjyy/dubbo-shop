@@ -15,6 +15,7 @@
     <result column="images" jdbcType="VARCHAR" property="images" />
     <result column="reply" jdbcType="VARCHAR" property="reply" />
     <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_item_id, out_trade_no, status, start_time, end_time, refund_type, refund_reason, 
-    refund_amount, refund_instruction, images, reply, seller_id
+    refund_amount, refund_instruction, images, reply, seller_id, user_id
   </sql>
   <select id="selectByExample" parameterType="top.ingxx.pojo.TbRefundExample" resultMap="BaseResultMap">
     select
@@ -113,12 +114,12 @@
       status, start_time, end_time, 
       refund_type, refund_reason, refund_amount, 
       refund_instruction, images, reply, 
-      seller_id)
+      seller_id, user_id)
     values (#{id,jdbcType=VARCHAR}, #{orderItemId,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{refundType,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{refundAmount,jdbcType=VARCHAR}, 
       #{refundInstruction,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, 
-      #{sellerId,jdbcType=VARCHAR})
+      #{sellerId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="top.ingxx.pojo.TbRefund">
     insert into tb_refund
@@ -162,6 +163,9 @@
       <if test="sellerId != null">
         seller_id,
       </if>
+      <if test="userId != null">
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -202,6 +206,9 @@
       </if>
       <if test="sellerId != null">
         #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -253,6 +260,9 @@
       <if test="record.sellerId != null">
         seller_id = #{record.sellerId,jdbcType=VARCHAR},
       </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,7 +282,8 @@
       refund_instruction = #{record.refundInstruction,jdbcType=VARCHAR},
       images = #{record.images,jdbcType=VARCHAR},
       reply = #{record.reply,jdbcType=VARCHAR},
-      seller_id = #{record.sellerId,jdbcType=VARCHAR}
+      seller_id = #{record.sellerId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -316,6 +327,9 @@
       <if test="sellerId != null">
         seller_id = #{sellerId,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -332,7 +346,8 @@
       refund_instruction = #{refundInstruction,jdbcType=VARCHAR},
       images = #{images,jdbcType=VARCHAR},
       reply = #{reply,jdbcType=VARCHAR},
-      seller_id = #{sellerId,jdbcType=VARCHAR}
+      seller_id = #{sellerId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

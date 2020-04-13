@@ -3,8 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>历史订单</title>
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/controller/orderController.js"></script>
+    <script src="../js/service/orderService.js"></script>
+    <style>
+        .container .table .operation .active:hover{
+            color: blue;
+        }
+        .page_change{
+            text-align: center;
+        }
+        .page_change ul li a{
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+        .page_change ul li .more{
+            border:0;
+        }
+        .page_change ul li .more:hover{
+            background-color: #fff;
+        }
+    </style>
 </head>
-<body>
+<body ng-app="pyg" ng-controller="orderController" ng-init="historyOrder()">
+<div class="container">
+    <div class="row">
+        <table class="table table-hover table-responsive">
+            <caption>退款订单</caption>
+            <thead>
+            <tr>
+                <th>订单号</th>
+                <th>收件人姓名</th>
+                <th>收件人地址</th>
+                <th>收件人联系方式</th>
+                <th>退款信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Tanmay</td>
+                <td>Bangalore</td>
+                <td>560001</td>
+                <td>560001</td>
+                <td>560001</td>
+                <td class="operation"><span title="查看详细信息" data-toggle="modal" data-target="#orderInfo" class="glyphicon glyphicon-eye-close active"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="page_change" >
+    <ul class="pagination">
+        <li><a href="#">上一页</a></li>
+        <li><a class="more">....</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a class="more">....</a></li>
+        <li><a href="#">下一页</a></li>
+    </ul>
+</div>
 
+
+<!-- 模态 用于查看订单商品信息 -->
+<div class="modal fade" id="orderInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    退回
+                </h4>
+            </div>
+            <div class="modal-body">
+                退回原因
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">
+                    退回
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>

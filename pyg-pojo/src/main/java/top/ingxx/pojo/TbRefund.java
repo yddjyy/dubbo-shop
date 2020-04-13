@@ -30,6 +30,8 @@ public class TbRefund implements Serializable {
 
     private String sellerId;
 
+    private String userId;
+
     public String getId() {
         return id;
     }
@@ -132,5 +134,13 @@ public class TbRefund implements Serializable {
 
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId == null ? null : sellerId.trim();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 }

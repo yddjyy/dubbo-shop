@@ -90,6 +90,11 @@
             <artifactId>pyg-page-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>top.ingxx</groupId>
+            <artifactId>pyg-comments-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

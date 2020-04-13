@@ -7,8 +7,134 @@
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/controller/orderController.js"></script>
+    <script src="../js/service/orderService.js"></script>
+    <style>
+        .container .table .operation .active:hover{
+            color: blue;
+        }
+        .page_change{
+            text-align: center;
+        }
+        .page_change ul li a{
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+        .page_change ul li .more{
+            border:0;
+        }
+        .page_change ul li .more:hover{
+            background-color: #fff;
+        }
+        .pagination .active{
+            background-color: red;
+        }
+    </style>
 </head>
-<body>
+<body ng-app="pyg" ng-controller="orderController" ng-init="init()">
+<div class="container">
+    <div class="row">
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>收件人姓名</th>
+                <th>收件人地址</th>
+                <th>收件人联系方式</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="orderItem in orderList">
+                <td>{{$index}}</td>
+                <td>{{orderItem.receiver}}</td>
+                <td>{{orderItem.receiverAreaName}}</td>
+                <td>{{orderItem.receiverMobile}}</td>
+                <td>{{orderItem.buyerMessage}}</td>
+                <td class="operation"><span title="编辑" data-toggle="modal" data-target="#editPanel" class="glyphicon glyphicon-edit active" ng-click="PresendGoods(orderItem.orderId)"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span title="查看详细信息" data-toggle="modal" data-target="#orderInfo" class="glyphicon glyphicon-eye-open active" ng-click="viewGoods(orderItem.orderId)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="page_change" >
+    <ul class="pagination">
+        <li ng-if="!isTopPage()"><a href="" ng-click="queryByPage(page.currentPage-1)">上一页</a></li>
+        <li ng-if="firstDot==true"><a class="more">....</a></li>
+        <li ng-repeat="page in pageLabel"  clas="{{page==page.currentPage?'active':''}} active"><a href="#" ng-click="queryByPage(page)">{{page}}</a></li>
+        <li ng-if="lastDot==true"><a class="more">....</a></li>
+        <li ng-if="!isEndPage()"><a href="" ng-click="queryByPage(page.currentPage+1)">下一页</a></li>
+    </ul>
+</div>
 
+<!-- 模态框（Modal用于填写发货信息 -->
+<div class="modal fade" id="editPanel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    发货单
+                </h4>
+            </div>
+            <div class="modal-body">
+                发货单
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="sendGoods()">
+                    确认发货
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态 用于查看订单商品信息 -->
+<div class="modal fade" id="orderInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    商品信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>商品名</th>
+                                <th>商品数量</th>
+                                <th>价格</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="orderItem in orderList">
+                                <td>{{$index}}</td>
+                                <td>{{orderItem.receiver}}</td>
+                                <td>{{orderItem.receiverAreaName}}</td>
+                                <td>{{orderItem.receiverMobile}}</td>
+                                <td>{{orderItem.buyerMessage}}</td>
+                                <td class="operation"><span title="编辑" data-toggle="modal" data-target="#editPanel" class="glyphicon glyphicon-edit active" ng-click="PresendGoods(orderItem.orderId)"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span title="查看详细信息" data-toggle="modal" data-target="#orderInfo" class="glyphicon glyphicon-eye-open active" ng-click="viewGoods(orderItem.orderId)"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>

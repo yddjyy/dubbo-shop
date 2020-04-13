@@ -1,6 +1,7 @@
 package top.ingxx.user.service;
 
 import top.ingxx.pojo.TbOrder;
+import top.ingxx.pojo.TbOrderItem;
 import top.ingxx.pojo.TbRefund;
 import top.ingxx.pojoGroup.WaitPaymentOrder;
 import top.ingxx.untils.entity.PageResult;
@@ -35,7 +36,12 @@ public interface UserOrderService {
 
     public TbRefund findRefundOrderByOrderItemId(String orderItemId);
 
-    public Boolean addRefundOrder(TbRefund tbRefund);
+    public Boolean addRefundOrder(TbRefund tbRefund,String userid);
 
     public boolean cancelRefundOrder(String id);
+
+    public TbOrderItem findOneItemByOrderItemId(Long orderItemId);
+
+    public Boolean updateStatusByOrderId(Long orderId,int status);
+
 }

@@ -1,8 +1,8 @@
-app.controller('commentsController', function ($scope, commentsService,$location,uploadService) {
+app.controller('commentsController', function ($scope, commentsService,$location,uploadService,$location) {
     //初始化方法
     $scope.loadPage = function () {
         //得到跳转商品id
-       $scope.itemid= $location.search()['itemid'];
+      // $scope.itemid= $location.search()['itemid'];
        //console.log("商品id为:"+$scope.itemid);
         //$scope.getGoods($scope.itemid);
     };
