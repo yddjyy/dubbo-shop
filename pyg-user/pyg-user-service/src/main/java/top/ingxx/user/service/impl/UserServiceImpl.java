@@ -5,8 +5,10 @@ import com.github.pagehelper.PageHelper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.ingxx.mapper.TbUserMapper;
+import top.ingxx.mapper.TbUserMongoMapper;
 import top.ingxx.pojo.TbUser;
 import top.ingxx.pojo.TbUserExample;
+import top.ingxx.pojo.TbUserMongo;
 import top.ingxx.untils.entity.PageResult;
 import top.ingxx.user.service.UserService;
 
@@ -24,7 +26,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private TbUserMapper userMapper;
-	
+
+	@Autowired
+	private TbUserMongoMapper tbUserMongoMapper;
 	/**
 	 * 查询全部
 	 */
@@ -53,8 +57,15 @@ public class UserServiceImpl implements UserService {
 		user.setUpdated(new Date());//修改时间
 		user.setSourceType("1");//注册来源		
 		user.setPassword( DigestUtils.md5Hex(user.getPassword()));//密码加密
-		
-		userMapper.insert(user);		
+		userMapper.insert(user);
+		TbUser userByUserName = findUserByUserName(user.getUsername());
+		TbUserMongo tbUserMongo = new TbUserMongo();
+		tbUserMongo.setUid(Integer.valueOf(userByUserName.getId().toString()));
+		tbUserMongo.setUsername(userByUserName.getUsername());
+		tbUserMongo.setPassword(userByUserName.getPassword());
+		tbUserMongo.setFirst(true);
+		tbUserMongo.setTimestamp(System.currentTimeMillis());
+		tbUserMongoMapper.insertOneTbUser(tbUserMongo);
 	}
 
 	

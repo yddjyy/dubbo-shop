@@ -37,6 +37,8 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private TbSellerMapper sellerMapper;
 
+    @Autowired
+    private TbProductMapper tbProductMapper;
     /**
      * 查询全部
      */
@@ -63,6 +65,13 @@ public class GoodsServiceImpl implements GoodsService {
     public void add(Goods goods) {
         goods.getGoods().setAuditStatus("0"); //状态为未审核
         goodsMapper.insert(goods.getGoods()); //插入商品基本信息
+        TbProductMongo tbProductMongo = new TbProductMongo();
+        tbProductMongo.setProductId(Integer.valueOf(goods.getGoods().getId().toString()));
+        tbProductMongo.setName(goods.getGoods().getGoodsName()+goods.getGoods().getCaption());
+        tbProductMongo.setImageUrl(goods.getGoods().getSmallPic());
+        tbProductMongo.setTags(goods.getGoods().getIsMarketable());
+        tbProductMongo.setCategories(goods.getGoods().getPrice().toString());
+        tbProductMapper.insertOneTbUser(tbProductMongo);//将商品添加到MongoDB中
         goods.getGoodsDesc().setGoodsId(goods.getGoods().getId()); //设置商品id（SPU）
         goodsDescMapper.insert(goods.getGoodsDesc()); //插入商品扩展表
         saveItemList(goods); //插入sku

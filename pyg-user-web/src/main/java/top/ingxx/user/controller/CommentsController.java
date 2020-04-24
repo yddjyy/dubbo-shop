@@ -1,6 +1,8 @@
 package top.ingxx.user.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/comments")
 public class CommentsController {
+    private static Logger logger = Logger.getLogger(CommentsController.class.getName());
+    public static String PRODUCT_RATING_PREFIX = "PRODUCT_RATING_PREFIX";
 
      @Reference(timeout = 5000)
      CommentsService commentsService;
@@ -50,6 +54,13 @@ public class CommentsController {
          tbComments.setUserid(userByUserName.getId().intValue());
         commentsService.insertOneTbComments(tbComments);
         userOrderService.updateStatusByOrderId(orderItem.getOrderId(),8);
+         //TODO 当前用户未登录时应该怎么存
+         System.out.print("=========点击了查看 埋点=========");
+         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+         TbUser userInfo = userService.findUserByUserName(username);
+         if(userInfo!=null){
+             logger.info(PRODUCT_RATING_PREFIX + ":" + userInfo.getId() +"|"+ orderItem.getGoodsId() +"|"+ tbComments.getRating() +"|"+ System.currentTimeMillis()/1000);
+         }
         return new PygResult(true,"评论成功--"+tbComments);
      }
      @RequestMapping("/queryTbCommentsBySpuId")

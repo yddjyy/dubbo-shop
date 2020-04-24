@@ -160,15 +160,13 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
             }
         });
     }
-    //上传图片
-     //$scope.image_entity={url:[]};
-    //弃用
+    //上传图片 小图
     $scope.uploadFile = function () {
         uploadService.uploadFile().success(
             function (data) {
                 if (data.success) {
-                    $scope.image_entity.url.push(data.message);
-                    console.log("目前的图片："+$scope.image_entity.url);
+                    $scope.entity.goods.smallPic=data.message;
+                    console.log("目前的图片1："+data.message);
                 } else {
                     alert(data.message);
                 }

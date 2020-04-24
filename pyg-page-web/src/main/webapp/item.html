@@ -386,12 +386,9 @@
 					<div class="col-md-6">
 						<div class="flexslider">
 							<ul class="slides">
-							    <li data-thumb="images/product/flexslider/thumb/2.jpg">
-							      <img src="images/product/flexslider/l01.jpg" alt="image slider" />
+							    <li data-thumb="{{sku.image}}">
+							      <img src="{{sku.image}}" alt="image slider" />
 							      <span>NEW</span>
-							    </li>
-							    <li data-thumb="images/product/flexslider/thumb/3.jpg">
-							      <img src="images/product/flexslider/l01.jpg" alt="image slider" />
 							    </li>
 
 							</ul><!-- /.slides -->
@@ -516,7 +513,7 @@
 			<ul class="product-detail-bar">
 				<li>商品描述</li>
 				<li>商品规格</li>
-				<li>包装&售货</li>
+				<li>包装&售后</li>
 				<li ng-click="getCommentsInfo()">商品评论</li>
 			</ul><!-- /.product-detail-bar -->
 			<div class="container">
@@ -605,589 +602,64 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="flat-row-title">
-							<h3>最受欢迎</h3>
+							<h3>相似商品</h3>
 						</div>
 					</div><!-- /.col-md-12 -->
 				</div><!-- /.row -->
 				<div class="row">
-					<div class="col-md-12">
-						<div class="owl-carousel-3">
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/09.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$50.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/10.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$600.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/11.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats Pill+ Portable<br />Speaker - (PRODUCT)RED</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,023.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/12.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Apple iPad Mini<br />G2356</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,489.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-							<div class="imagebox style4">
-								<div class="box-image">
-									<a href="#" title="">
-										<img src="images/product/other/13.jpg" alt="">
-									</a>
-								</div><!-- /.box-image -->
-								<div class="box-content">
-									<div class="cat-name">
-										<a href="#" title="">Laptops</a>
-									</div>
-									<div class="product-name">
-										<a href="#" title="">Beats EP On-Ear<br />Headphones - Blue</a>
-									</div>
-									<div class="price">
-										<span class="sale">$1,749.00</span>
-										<span class="regular">$2,999.00</span>
-									</div>
-								</div><!-- /.box-content -->
-							</div><!-- /.imagebox style4 -->
-						</div><!-- /.owl-carousel-3 -->
-					</div><!-- /.col-md-12 -->
+					<div class="col-md-2" ng-repeat="item in contentbase">
+						<div class="imagebox">
+							<div class="box-image">
+								<a href="http://localhost:8084/#?keywords={{item.productId}}" title="">
+									<img src="{{item.imageUrl}}" alt="" width="100" height="100">
+								</a>
+							</div><!-- /.box-image -->
+							<div class="box-content">
+								<div class="product-name">
+									<a href="http://localhost:8084/#?keywords={{item.productId}}" title="">{{item.name}}</a>
+								</div>
+								<div class="price">
+									<span class="sale">$50.00</span>
+									<span class="regular">$2,999.00</span>
+								</div>
+							</div><!-- /.box-content -->
+						</div><!-- /.imagebox style4 -->
+					</div>
 				</div><!-- /.row -->
 			</div><!-- /.container -->
 		</section><!-- /.flat-imagebox style4 -->
 
+		<section class="flat-imagebox style4">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="flat-row-title">
+							<h3>看了又看</h3>
+						</div>
+					</div><!-- /.col-md-12 -->
+				</div><!-- /.row -->
+				<div class="row">
+					<div class="col-md-2" ng-repeat="item in itemcf">
+						<div class="imagebox">
+							<div class="box-image">
+								<a href="http://localhost:8084/#?keywords={{item.productId}}" title="">
+									<img src="{{item.imageUrl}}" alt="" width="100" height="100">
+								</a>
+							</div><!-- /.box-image -->
+							<div class="box-content">
+								<div class="product-name">
+									<a href="http://localhost:8084/#?keywords={{item.productId}}" title="">{{item.name}}</a>
+								</div>
+								<div class="price">
+									<span class="sale">$50.00</span>
+									<span class="regular">$2,999.00</span>
+								</div>
+							</div><!-- /.box-content -->
+						</div><!-- /.imagebox style4 -->
+					</div>
+				</div><!-- /.row -->
+			</div><!-- /.container -->
+		</section><!-- /.flat-imagebox style4 -->
 		<footer>
 			<div class="container">
 				<div class="row">

@@ -1,15 +1,9 @@
 package top.ingxx.page.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.ingxx.mapper.TbGoodsDescMapper;
-import top.ingxx.mapper.TbGoodsMapper;
-import top.ingxx.mapper.TbItemCatMapper;
-import top.ingxx.mapper.TbItemMapper;
+import top.ingxx.mapper.*;
 import top.ingxx.page.service.ItemPageService;
-import top.ingxx.pojo.TbGoods;
-import top.ingxx.pojo.TbGoodsDesc;
-import top.ingxx.pojo.TbItem;
-import top.ingxx.pojo.TbItemExample;
+import top.ingxx.pojo.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +58,16 @@ public class ItemPageServiceImpl implements ItemPageService {
         return dataModel;
 
     }
-
-
+    @Autowired
+    private TbUserMapper tbUserMapper;
+    @Override
+    public TbUser getUserInfo(String username) {
+        TbUserExample tbUserExample = new TbUserExample();
+        TbUserExample.Criteria criteria = tbUserExample.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        List<TbUser> tbUsers = tbUserMapper.selectByExample(tbUserExample);
+        if(tbUsers.size()>0)
+            return tbUsers.get(0);
+        return null;
+    }
 }

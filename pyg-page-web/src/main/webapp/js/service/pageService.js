@@ -18,6 +18,12 @@ app.service('pageService', function ($http) {
     this.getCommentsInfo=function (spuid,currentPage,PageSize) {
         return $http.get("../page/getCommentsInfo?spuid="+spuid+"&currentPage="+currentPage+"&pageSize="+PageSize);
     }
+    this.loadContentBase=function (goodsId,model) {
+        return $http.get("http://192.168.73.2:8088/rest/product/contentbased/"+goodsId+"?model="+model);
+    }
+    this.loadItemCf=function (goodsId,model) {
+        return $http.get("http://192.168.73.2:8088/rest/product/itemcf/"+goodsId+"?model="+model);
+    }
 })
 /**
  * http://localhost:9100/cas/login?service=http%3A%2F%2Flocalhost%3A9106%2Flogin%2Fcas

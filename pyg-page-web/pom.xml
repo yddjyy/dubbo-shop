@@ -12,6 +12,11 @@
 
     <artifactId>pyg-page-web</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.flume.flume-ng-clients</groupId>
+            <artifactId>flume-ng-log4jappender</artifactId>
+            <version>1.9.0</version>
+        </dependency>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -94,6 +99,12 @@
             <groupId>top.ingxx</groupId>
             <artifactId>pyg-comments-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.2.1.RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

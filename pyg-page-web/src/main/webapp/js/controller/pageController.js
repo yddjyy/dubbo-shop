@@ -47,6 +47,8 @@ app.controller('pageController', function ($scope, pageService,$location,$sce) {
     $scope.loadPage = function () {
         $scope.spuid= $location.search()['keywords'];
         $scope.getPage( $scope.spuid);
+        $scope.loadContentBase($scope.spuid);
+        $scope.loadItemCf($scope.spuid);
     };
 
     $scope.selectItems = {};//存储用户选择的内容
@@ -92,7 +94,30 @@ app.controller('pageController', function ($scope, pageService,$location,$sce) {
         D = date.getDate() + ' ';
         return Y+M+D;
     }
-
+    $scope.contentflag=0;
+    //加载基于内容的推荐模块
+    $scope.loadContentBase=function (goodsId) {
+        console.log("加载基于内容的推荐模块："+goodsId);
+        pageService.loadContentBase(109236,"").success(
+            function (response) {
+                console.log(response);
+                $scope.contentbase=response.products;
+                $scope.contentflag=1;
+            }
+        )
+    }
+    $scope.itemcfflag=0;
+    //加载基于物品的推荐模块
+    $scope.loadItemCf=function (goodsId) {
+        console.log("加载基于内容的推荐模块："+goodsId);
+        pageService.loadItemCf(109236,"").success(
+            function (response) {
+                console.log(response);
+                $scope.itemcf=response.products;
+                $scope.itemcfflag=1;
+            }
+        )
+    }
 });
 app.filter('trustHtml', function ($sce) {
     return function (input) {

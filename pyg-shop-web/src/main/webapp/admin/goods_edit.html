@@ -110,6 +110,10 @@
 							<input type="text" class="form-control" ng-model="entity.goods.caption"   placeholder="副标题" value="">
 						</div>
 
+						<div class="col-md-2 title">标签(xx|xx)</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.goods.isMarketable"   placeholder="副标题" value="">
+						</div>
 						<div class="col-md-2 title">价格</div>
 						<div class="col-md-10 data">
 							<div class="input-group">
@@ -117,7 +121,12 @@
 								<input type="text" class="form-control" ng-model="entity.goods.price" placeholder="价格" value="">
 							</div>
 						</div>
-
+						<div class="col-md-2 title" >小图</div>
+						<div class="col-md-10 data" >
+							<input type="file"  id="file" style="display: inline-block;">
+							<input type="button" value="上传" ng-click="uploadFile()" style="display: inline-block;">
+							<!--							<img ng-src="" width="60" height="60">-->
+						</div>
 						<div class="col-md-2 title editer">商品介绍</div>
 						<div class="col-md-10 data editer">
 							<div id="vip-rich-text">
@@ -293,10 +302,10 @@
 
 				<div class="layui-col-md12">
 					<div class="layui-card">
-						<div class="layui-card-header">上传多张图片</div>
+						<div class="layui-card-header">上传效果图片</div>
 						<div class="layui-card-body">
 							<div class="layui-upload">
-								<button type="button" class="layui-btn" id="test2">多图片上传</button>
+								<button type="button" class="layui-btn" id="test2">图片上传</button>
 								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
 									预览图：
 									<div class="layui-upload-list" id="demo2"></div>

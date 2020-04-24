@@ -145,9 +145,9 @@ public class UserController {
 		//如果没有查找到相关的用户信息
 		if(userInfo==null){
 			map.put("flag", false);
+		}else{
+			map.put("flag", true);
 		}
-		map.put("flag", true);
-		map.put("user", userInfo);
 		return map;
 	}
 

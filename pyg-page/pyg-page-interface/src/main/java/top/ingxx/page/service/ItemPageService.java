@@ -1,5 +1,7 @@
 package top.ingxx.page.service;
 
+import top.ingxx.pojo.TbUser;
+
 import java.util.Map;
 
 public interface ItemPageService {
@@ -11,5 +13,5 @@ public interface ItemPageService {
 	 */
 	public Map getPage(Long goodsId);
 	
-
+	public TbUser getUserInfo(String username);
 }
