@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.ingxx.entity.PageResult;
 import top.ingxx.pojo.TbSeckillGoods;
+import top.ingxx.pojo.TbSeckillTime;
 import top.ingxx.seckill.service.SeckillGoodsService;
 import top.ingxx.untils.entity.PygResult;
 
@@ -102,7 +103,7 @@ public class SeckillGoodsController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @para
 	 * @param page
 	 * @param rows
 	 * @return
@@ -114,13 +115,14 @@ public class SeckillGoodsController {
 	
 	
 	@RequestMapping("/findList")
-	public List<TbSeckillGoods> findList(){
-		return seckillGoodsService.findList();
+	public List<TbSeckillGoods> findList(@RequestBody TbSeckillTime tbSeckillTime){
+		return seckillGoodsService.findList(tbSeckillTime);
 	}
 	
 	@RequestMapping("/findOneFromRedis")
-	public TbSeckillGoods findOneFromRedis(Long id){
-		return seckillGoodsService.findOneFromRedis(id);		
+	public TbSeckillGoods findOneFromRedis(String startDate,String startTime,Long id){
+		System.out.println(startDate+";"+startTime+";"+id+"======================");
+		return seckillGoodsService.findOneFromRedis(startDate,startTime,id);
 	}
 	@RequestMapping("/removeGoodsFromRedis")
 	public PygResult removeGoodsFromRedis(Long goodsId){

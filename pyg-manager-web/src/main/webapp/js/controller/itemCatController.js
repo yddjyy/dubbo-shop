@@ -31,7 +31,8 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
 				//查询模板名称
 				typeTemplateService.findOne($scope.entity.typeId).success(
 					function (response) {
-						$scope.typeEntity.text = response.name;
+						 $scope.typeEntity.text = response.name;
+						 console.log($scope.typeEntity);
 					}
 				);
 			}
@@ -108,7 +109,8 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
     $scope.selectOptionList=function () {
 		typeTemplateService.selectOptionList().success(
 			function (data) {
-				$scope.typeList = {data:data};
+				 $scope.typeList = {data:data};
+				 console.log("data:"+data);
             }
 		)
     }
@@ -130,6 +132,7 @@ app.controller('itemCatController' ,function($scope,$controller,itemCatService,t
 				$scope.pageChange();
 			}
 		);
+		$scope.selectOptionList();
 	};
 	$scope.pageChange=function(){
 		//翻页

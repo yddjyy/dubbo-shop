@@ -8,6 +8,7 @@ app.controller('contentCategoryController' ,function($scope,$controller   ,conte
 		contentCategoryService.findAll().success(
 			function(response){
 				$scope.list=response;
+				console.log($scope.list);
 			}			
 		);
 	}    

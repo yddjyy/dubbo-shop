@@ -5,8 +5,8 @@ app.service('seckillGoodsService',function($http){
 	}
 	
 	//根据ID查询商品
-	this.findOne=function(id){
-		return $http.get('seckillGoods/findOneFromRedis.do?id='+id);
+	this.findOne=function(startDate,startTime,id){
+		return $http.get('seckillGoods/findOneFromRedis.do?id='+id+"&startDate="+startDate+"&startTime="+startTime);
 	}
 	
 	
@@ -22,6 +22,11 @@ app.service('seckillGoodsService',function($http){
 	//获取当前登录账号的收货地址
 	this.findAddressList=function(){
 		return $http.get('address/findListByLoginUser.do');
+	}
+
+	//获取当前秒杀商品
+	this.getNowTimeGoods=function (entity) {
+		return $http.post("seckillGoods/findList.do",entity);
 	}
 
 });

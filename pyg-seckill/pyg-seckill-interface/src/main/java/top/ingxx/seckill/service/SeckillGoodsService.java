@@ -2,9 +2,11 @@ package top.ingxx.seckill.service;
 
 import top.ingxx.entity.PageResult;
 import top.ingxx.pojo.TbSeckillGoods;
+import top.ingxx.pojo.TbSeckillTime;
 import top.ingxx.untils.entity.PygResult;
 
 import java.util.List;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -64,7 +66,7 @@ public interface SeckillGoodsService {
 	 * 返回正在参与秒杀的商品
 	 * @return
 	 */
-	public List<TbSeckillGoods> findList();
+	public List<TbSeckillGoods> findList(TbSeckillTime tbSeckillTime);
 	
 	
 	/**
@@ -72,7 +74,7 @@ public interface SeckillGoodsService {
 	 * @param id
 	 * @return
 	 */
-	public TbSeckillGoods findOneFromRedis(Long id);
+	public TbSeckillGoods findOneFromRedis(String startDate,String startTime,Long id);
 	/**
 	 * 当秒杀时间结束时从缓存中移除该商品
 	 */

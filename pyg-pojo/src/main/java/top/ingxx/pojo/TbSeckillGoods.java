@@ -4,38 +4,93 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TbSeckillGoods implements Serializable{
+public class TbSeckillGoods implements Serializable {
     private Long id;
 
+    /**
+    * spu ID
+    */
     private Long goodsId;
 
+    /**
+    * sku ID
+    */
     private Long itemId;
 
+    /**
+    * 标题
+    */
     private String title;
 
+    /**
+    * 商品图片
+    */
     private String smallPic;
 
+    /**
+    * 原价格
+    */
     private BigDecimal price;
 
+    /**
+    * 秒杀价格
+    */
     private BigDecimal costPrice;
 
+    /**
+    * 商家ID
+    */
     private String sellerId;
 
+    /**
+    * 添加日期
+    */
     private Date createTime;
 
+    /**
+    * 审核日期
+    */
     private Date checkTime;
 
+    /**
+    * 审核状态 0 未审核 1 审核通过 3 删除
+    */
     private String status;
 
-    private Date startTime;
+    /**
+    * 开始日期
+    */
+    private String startDate;
 
-    private Date endTime;
+    /**
+    * 结束日期
+    */
+    private String endDate;
 
+    /**
+    * 秒杀商品数
+    */
     private Integer num;
 
+    /**
+    * 剩余库存数
+    */
     private Integer stockCount;
 
+    /**
+    * 描述
+    */
     private String introduction;
+
+    /**
+    * 结束时间
+    */
+    private String endTime;
+
+    /**
+    * 开始时间
+    */
+    private String startTime;
 
     public Long getId() {
         return id;
@@ -66,7 +121,7 @@ public class TbSeckillGoods implements Serializable{
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public String getSmallPic() {
@@ -74,7 +129,7 @@ public class TbSeckillGoods implements Serializable{
     }
 
     public void setSmallPic(String smallPic) {
-        this.smallPic = smallPic == null ? null : smallPic.trim();
+        this.smallPic = smallPic;
     }
 
     public BigDecimal getPrice() {
@@ -98,7 +153,7 @@ public class TbSeckillGoods implements Serializable{
     }
 
     public void setSellerId(String sellerId) {
-        this.sellerId = sellerId == null ? null : sellerId.trim();
+        this.sellerId = sellerId;
     }
 
     public Date getCreateTime() {
@@ -122,23 +177,23 @@ public class TbSeckillGoods implements Serializable{
     }
 
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public Integer getNum() {
@@ -162,6 +217,22 @@ public class TbSeckillGoods implements Serializable{
     }
 
     public void setIntroduction(String introduction) {
-        this.introduction = introduction == null ? null : introduction.trim();
+        this.introduction = introduction;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 }

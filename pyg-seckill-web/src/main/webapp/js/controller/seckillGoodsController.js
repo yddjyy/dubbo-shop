@@ -1,21 +1,43 @@
 //控制层
-app.controller('seckillGoodsController' ,function($scope,$location,seckillGoodsService,$interval){
+app.controller('GoodsController' ,function($scope,$location,seckillGoodsService,$interval,seckilltimeService){
 	//读取列表数据绑定到表单中
 	$scope.findList=function(){
 		seckillGoodsService.findList().success(
 			function(response){
-				$scope.list=response;
+				//$scope.list=response;
 			}
 		);
 	}
-	
+	$scope.findTimeList=function(){
+		seckilltimeService.findTimeList().success(
+			function (response) {
+				console.log("findTiemList1");
+				$scope.list=response;
+				console.log(response[0]);
+				$scope.getNowTimeGoods(response[0]);
+			}
+		)
+	}
+	$scope.getNowTimeGoods=function(entity){
+		seckillGoodsService.getNowTimeGoods(entity).success(
+			function (response) {
+				console.log("得到商品");
+				$scope.goods=response;
+			}
+		)
+	}
 	//查询商品
 	$scope.findOne=function(){
 		//接收参数ID
 		var id= $location.search()['id'];
 		var goodsId= $location.search()['goodsId'];
-		seckillGoodsService.findOne(id).success(
+		var startDate= $location.search()['startDate'];
+		var startTime= $location.search()['startTime'];
+		seckillGoodsService.findOne(startDate,startTime,id).success(
 			function(response){
+				console.log("详情");
+				console.log(response);
+
 				$scope.entity=response;
 				//倒计时开始
 				//获取从结束时间到当前日期的秒数

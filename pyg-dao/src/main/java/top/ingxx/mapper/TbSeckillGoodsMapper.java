@@ -7,7 +7,7 @@ import top.ingxx.pojo.TbSeckillGoodsExample;
 import java.util.List;
 
 public interface TbSeckillGoodsMapper {
-    int countByExample(TbSeckillGoodsExample example);
+    long countByExample(TbSeckillGoodsExample example);
 
     int deleteByExample(TbSeckillGoodsExample example);
 

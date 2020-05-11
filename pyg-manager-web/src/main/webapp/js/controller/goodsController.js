@@ -17,6 +17,7 @@ app.controller('goodsController', function ($scope, $controller, itemCatService,
         goodsService.findPage(page, rows).success(
             function (response) {
                 $scope.list = response.rows;
+                console.log("findPage");
                 $scope.paginationConf.totalItems = response.total;//更新总记录数
             }
         );
@@ -72,6 +73,7 @@ app.controller('goodsController', function ($scope, $controller, itemCatService,
         goodsService.search(page, rows, $scope.searchEntity).success(
             function (response) {
                 $scope.list = response.rows;
+                console.log("search");
                 $scope.paginationConf.totalItems = response.total;//更新总记录数
                 $scope.pageChange();
             }

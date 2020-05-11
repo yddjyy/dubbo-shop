@@ -23,6 +23,7 @@
 	<script src="../js/controller/goodsController.js"></script>
 	<script src="../js/service/uploadService.js"></script>
 	<script src="../js/service/itemCatService.js"></script>
+	<script src="../js/service/seckillGoodsService.js"></script>
 	<script src="../js/service/typeTemplateService.js"></script>
 	<script src="../js/service/brandService.js"></script>
 	<script src="../js/service/itemService.js"></script>
@@ -179,7 +180,7 @@
 						<div class="col-md-2">
 							<div class="panel panel-default" style="border-top:0;border-left:0;border-right:0;border-bottom-color:darkgray;">
 								<div class="panel-body" style="padding:0;border-top:0;border-left:0;border-right:0;">
-									<input type="date" placeholder="开始日期" style="border:0;" ng-model="seckillEntity.startDate">
+									<input type="date" placeholder="开始日期" style="border:0;" ng-model="startDate">
 								</div>
 							</div>
 						</div>
@@ -187,7 +188,10 @@
 						<div class="col-md-2">
 							<div class="panel panel-default" style="border-top:0;border-left:0;border-right:0;border-bottom-color:darkgray;">
 								<div class="panel-body" style="padding:0;border-top:0;border-left:0;border-right:0;">
-									<input type="time" style="border:0;" ng-model="seckillEntity.startTime">
+<!--									<input type="time" style="border:0;" ng-model="seckillEntity.startTime">-->
+									<select ng-model="seckillgoods.startTime">
+										<option ng-repeat="item in startTimeList" value="{{item.startTime}}">{{item.startTime}}</option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -195,7 +199,7 @@
 						<div class="col-md-2">
 							<div class="panel panel-default" style="border-top:0;border-left:0;border-right:0;border-bottom-color:darkgray;">
 								<div class="panel-body" style="padding:0;border-top:0;border-left:0;border-right:0;">
-									<input type="date" placeholder="结束日期" style="border:0;" ng-model="seckillEntity.endDate">
+									<input type="date" placeholder="结束日期" style="border:0;" ng-model="seckillgoods.endDate">
 								</div>
 							</div>
 						</div>
@@ -203,7 +207,7 @@
 						<div class="col-md-2">
 							<div class="panel panel-default" style="border-top:0;border-left:0;border-right:0;border-bottom-color:darkgray;">
 								<div class="panel-body" style="padding:0;border-top:0;border-left:0;border-right:0;">
-									<input type="time" placeholder="结束时间" style="border:0;" ng-model="seckillEntity.endTime">
+									<input type="time" placeholder="结束时间" style="border:0;" ng-model="seckillgoods.endTime">
 								</div>
 							</div>
 						</div>
@@ -224,7 +228,7 @@
 								<th>规格属性</th>
 								<th>价格</th>
 								<th>现有库存</th>
-								<th>折扣</th>
+								<th>秒杀价</th>
 								<th>秒杀数量</th>
 								<th>是否秒杀</th>
 							</tr>
@@ -235,19 +239,9 @@
 								<td>{{item.price}}</td>
 								<td>{{item.num}}</td>
 								<td>
-									<select>
-										<option value="1">-折扣-</option>
-										<option value ="0.1">一折</option>
-										<option value ="0.2">两折</option>
-										<option value="0.3">三折</option>
-										<option value="0.4">四折</option>
-										<option value ="0.5">五折</option>
-										<option value ="0.6">六折</option>
-										<option value="0.7">七折</option>
-										<option value="0.8">八折</option>
-									</select>
+									<input type="number" placeholder="秒杀价" style="border-shadow:none;border-top:0;border-left:0;border-right:0;" ng-model="seckillgoods.costPrice">
 								</td>
-								<td><input type="number" placeholder="数量" style="border-shadow:none;border-top:0;border-left:0;border-right:0;"><span></span></td>
+								<td><input type="number" placeholder="数量" style="border-shadow:none;border-top:0;border-left:0;border-right:0;" ng-model="seckillgoods.num"><span></span></td>
 								<td> <input width="40"  height="40" type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0"></td>
 							</tr>
 
@@ -259,7 +253,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary">保存</button>
+				<button type="button" class="btn btn-primary" ng-click="addSeckillGoods()">保存</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
@@ -292,7 +286,8 @@
 							</thead>
 							<tbody>
 							<tr ng-repeat="item in itemList" ng-if="item.status!=0">
-								<td><span ng-repeat="(key,value) in praseJson(item.spec)">{{key}}:{{value}}</span></td>
+<!--								ng-repeat="(key,value) in praseJson(item.spec)-->
+								<td><span >无规格</span></td>
 								<td>{{item.price}}</td>
 								<td>{{item.num}}</td>
 								<td>{{skuStatus[item.status]}}</td>

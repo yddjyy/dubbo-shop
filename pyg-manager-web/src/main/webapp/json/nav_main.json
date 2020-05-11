@@ -59,6 +59,24 @@
         }
       ]
     },{
+      "text": "秒杀管理",
+      "icon": "&#xe601;",
+      "subset": [
+        {
+          "text": "秒杀时间",
+          "icon": "&#xe756;",
+          "href": "seckilltime.html"
+        },{
+          "text": "秒杀商品审核",
+          "icon": "&#xe756;",
+          "href": "seckillgoods.html"
+        },{
+          "text": "秒杀商品管理",
+          "icon": "&#xe756;",
+          "href": "seckillgoodsManager.html"
+        }
+      ]
+    },{
       "text": "销售管理",
       "icon": "&#xe601;",
       "subset": [

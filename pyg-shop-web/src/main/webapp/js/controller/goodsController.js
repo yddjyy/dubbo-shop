@@ -7,7 +7,7 @@ app.filter('jsonToString', function() { //可以注入依赖
     }
 });
 //控制层
-app.controller('goodsController', function ($scope,$http, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService, brandService,itemService) {
+app.controller('goodsController', function ($scope,$http, $controller, $location, goodsService, uploadService, itemCatService, typeTemplateService, brandService,itemService,seckillService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -379,12 +379,12 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
 
     //商品下架end
 
-    //添加秒杀商品
     //秒杀模态框数据
     $scope.seckillEntity={};//定义秒杀对象
     $scope.insertValue=function(id,goodsname,one,two,three,brand){
         console.log(id,goodsname,one,two,three,brand);
         $scope.seckillEntity.id=id;
+        $scope.seckillgoods.goodsId=id;
         $scope.seckillEntity.goodsName=goodsname;
         $scope.seckillEntity.one=one;
         $scope.seckillEntity.two=two;
@@ -392,8 +392,31 @@ app.controller('goodsController', function ($scope,$http, $controller, $location
         $scope.seckillEntity.brand=brand;
         $scope.findItemByGoodsId(id);
     }
-    // $scope.addSeckillGoodsList=function(seckillGoodsList){
-
-
-    // }
+    //添加秒杀商品
+    $scope.seckillgoods={};
+    //获取秒杀时间段
+    $scope.$watch('startDate', function (newValue, oldValue) {
+        if(newValue==undefined){
+            return;
+        }
+        $scope.seckillgoods.startDate=newValue;
+        seckillService.getStartTimeOfDay(newValue).success(
+            function (data) {
+                $scope.startTimeList=data;
+                console.log(data);
+            }
+        )
+    })
+    $scope.addSeckillGoods=function(){
+        console.log($scope.seckillgoods);
+        seckillService.addSeckillGoods( $scope.seckillgoods).success(
+            function (data) {
+                if(data.flag){
+                    alert(data.message);
+                }else{
+                    alert(data.message);
+                }
+            }
+        )
+    }
 });

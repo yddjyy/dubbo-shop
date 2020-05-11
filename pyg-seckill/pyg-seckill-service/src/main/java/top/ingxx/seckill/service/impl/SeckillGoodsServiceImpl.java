@@ -10,11 +10,12 @@ import top.ingxx.mapper.TbSeckillGoodsMapper;
 import top.ingxx.pojo.TbSeckillGoods;
 import top.ingxx.pojo.TbSeckillGoodsExample;
 import top.ingxx.pojo.TbSeckillGoodsExample.Criteria;
+import top.ingxx.pojo.TbSeckillTime;
 import top.ingxx.seckill.service.SeckillGoodsService;
 import top.ingxx.untils.entity.PygResult;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务实现层
@@ -117,33 +118,58 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 	private RedisTemplate redisTemplate;
 
 	@Override
-	public List<TbSeckillGoods> findList() {
+	public List<TbSeckillGoods> findList(TbSeckillTime tbSeckillTime) {
 		
-		List<TbSeckillGoods> seckillGoodsList =	redisTemplate.boundHashOps("seckillGoods").values();
-		if(seckillGoodsList==null || seckillGoodsList.size()==0){
-			TbSeckillGoodsExample example=new TbSeckillGoodsExample();
+//		Map dayMap = (Map) redisTemplate.boundHashOps("seckillGoods").get(seckillGoods.getStartDate());
+//
+//		Map timeMap = (Map) dayMap.get(seckillGoods.getStartTime());
+		TbSeckillGoodsExample example=new TbSeckillGoodsExample();
 			Criteria criteria = example.createCriteria();
 			criteria.andStatusEqualTo("1");// 审核通过的商品
 			criteria.andStockCountGreaterThan(0);//库存数大于0
-			criteria.andStartTimeLessThanOrEqualTo(new Date());//开始日期小于等于当前日期
-			criteria.andEndTimeGreaterThanOrEqualTo(new Date());//截止日期大于等于当前日期
-			seckillGoodsList = seckillGoodsMapper.selectByExample(example);
-			//将列表数据装入缓存 
-			for(TbSeckillGoods seckillGoods:seckillGoodsList){
-				redisTemplate.boundHashOps("seckillGoods").put(seckillGoods.getId(), seckillGoods);
-			}	
-			System.out.println("从数据库中读取数据装入缓存");
-		}else{
-			System.out.println("从缓存中读取数据");
-			
-		}
-		return seckillGoodsList;
+			criteria.andStartDateEqualTo(tbSeckillTime.getStartData());
+		    criteria.andStartTimeEqualTo(tbSeckillTime.getStartTime());
+		List<TbSeckillGoods> tbSeckillGoods = seckillGoodsMapper.selectByExample(example);
+//		if(seckillGoodsList==null || seckillGoodsList.size()==0){
+//			TbSeckillGoodsExample example=new TbSeckillGoodsExample();
+//			Criteria criteria = example.createCriteria();
+//			criteria.andStatusEqualTo("1");// 审核通过的商品
+//			criteria.andStockCountGreaterThan(0);//库存数大于0
+//			criteria.andStartTimeLessThanOrEqualTo(new Date()+"");//开始日期小于等于当前日期
+//			criteria.andEndTimeGreaterThanOrEqualTo(new Date()+"");//截止日期大于等于当前日期
+//			seckillGoodsList = seckillGoodsMapper.selectByExample(example);
+//			//将列表数据装入缓存
+//			for(TbSeckillGoods seckillGoods:seckillGoodsList){
+//				redisTemplate.boundHashOps("seckillGoods").put(seckillGoods.getId(), seckillGoods);
+//			}
+//			System.out.println("从数据库中读取数据装入缓存");
+//		}else{
+//			System.out.println("从缓存中读取数据");
+//
+//		}
+//		return seckillGoodsList;
+
+
+		return tbSeckillGoods;
 		
 	}
 
 	@Override
-	public TbSeckillGoods findOneFromRedis(Long id) {
-		return  (TbSeckillGoods)redisTemplate.boundHashOps("seckillGoods").get(id);
+	public TbSeckillGoods findOneFromRedis(String startDate,String startTime,Long id) {
+		Map<String ,Map> dayMap = (Map) redisTemplate.boundHashOps("seckillGoods").get(startDate);
+		System.out.println(dayMap.size()+"================");
+		Map<String,TbSeckillGoods> map = dayMap.get(startTime);
+		System.out.println(map.size()+"---------------------------");
+		for (String key : map.keySet()) {
+			System.out.println(key);
+		}
+		for (TbSeckillGoods value : map.values()) {
+			System.out.println(value.getStatus());
+		}
+		TbSeckillGoods goods = map.get(id);
+		System.out.println(goods==null);
+		System.out.println(goods.getTitle()+"----===----");
+		return map.get(id);
 	}
 
 	@Override

@@ -64,4 +64,6 @@ public interface SeckillGoodsService {
 	 * @param seckillGoodsList
 	 */
 	public void addSeckillGoodsList(List<TbSeckillGoods> seckillGoodsList);
+
+	public void updateStatus(Long[] ids, String status);
 }

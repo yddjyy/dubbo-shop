@@ -1,5 +1,9 @@
-app.service("seckillGoodsService",function ($http) {
-    this.addSeckillGoodsList=function(seckillGoodsList){
-        return $http.get('../item/findItemByGoodsId?id='+seckillGoodsList);
+app.service("seckillService",function ($http) {
+    this.getStartTimeOfDay = function (startDate) {
+        return $http.get('../seckilltime/getStartTimeOfDay?startDate='+startDate);
+    }
+    //增加秒杀商品
+    this.addSeckillGoods = function (entity) {
+        return $http.post('../seckillGoods/add', entity);
     }
 });
