@@ -409,7 +409,7 @@
 				<div class="col-md-12">
 					<div class="product-tab">
 						<ul class="tab-list">
-							<li class="{{$index==0?'active':''}}" ng-click="loadRate()" ng-repeat="item in list" >{{item.startTime}}<span style="color:red;">{{$index==0?'正在进行':'即将开始'}}</span></li>
+							<li class="{{$index==0?'active':''}}" ng-click="getGoods(item.startData,item.startTime)" ng-repeat="item in list" >{{item.startTime}}<span style="color:red;">{{$index==0?'正在进行':'即将开始'}}</span></li>
 						</ul>
 					</div><!-- /.product-tab -->
 				</div><!-- /.col-md-12 -->
@@ -447,9 +447,14 @@
 									</div>
 								</div><!-- /.box-content -->
 								<div class="box-bottom">
-									<div class="btn-add-cart">
+									<div class="btn-add-cart" ng-if="flag==0">
 										<a href="seckill-item.html#?id={{item.id}}&goodsId={{item.goodsId}}&startDate={{item.startDate}}&startTime={{item.startTime}}" title="">
 											<img src="images/icons/add-cart.png" alt="">立即抢购
+										</a>
+									</div>
+									<div class="btn-add-cart" ng-if="flag==1">
+										<a href="" title="">
+											<img src="images/icons/add-cart.png" alt="">还未开始
 										</a>
 									</div>
 								</div><!-- /.box-bottom -->

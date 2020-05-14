@@ -1,4 +1,5 @@
 package top.ingxx.seckill.service.impl;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -16,6 +17,7 @@ import top.ingxx.untils.until.IdWorker;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务实现层
@@ -133,9 +135,11 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
 	TbSeckillGoodsMapper tbSeckillGoodsMapper;
 	@Override
 	public void submitOrder(Long seckillId, String userId) {
-		
+		TbSeckillGoods seckillGoodsNow = tbSeckillGoodsMapper.selectByPrimaryKey(seckillId);
 		//1.查询缓存中的商品
-		TbSeckillGoods seckillGoods= (TbSeckillGoods) redisTemplate.boundHashOps("seckillGoods").get(seckillId);
+		Map<String, Map<String,TbSeckillGoods>> DayMap = (Map<String, Map<String, TbSeckillGoods>>) redisTemplate.boundHashOps("seckillGoods").get(seckillGoodsNow.getStartDate());//得到当日秒杀列表
+		Map<String,TbSeckillGoods> timeMap= DayMap.get(seckillGoodsNow.getStartTime());
+		TbSeckillGoods seckillGoods = timeMap.get(seckillId + "");
 		if(seckillGoods==null){
 			throw new RuntimeException("商品不存在");			
 		}
@@ -145,13 +149,16 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
 		
 		//2.减少库存
 		seckillGoods.setStockCount( seckillGoods.getStockCount()-1  );//减库存
-		redisTemplate.boundHashOps("seckillGoods").put(seckillId, seckillGoods);//存入缓存
+		timeMap.put(seckillId+"", seckillGoods);
+
 		if(seckillGoods.getStockCount()==0){
 			seckillGoodsMapper.updateByPrimaryKey(seckillGoods);	//更新数据库
-			redisTemplate.boundHashOps("seckillGoods").delete(seckillId);
+			timeMap.remove(seckillId+"");
 			System.out.println("商品同步到数据库...");
 		}
-		
+		DayMap.put(seckillGoodsNow.getStartTime(),timeMap);
+		redisTemplate.boundHashOps("seckillGoods").put(seckillGoodsNow.getStartDate(),DayMap);//存入缓存
+
 		//3.存储秒杀订单 (不向数据库存 ,只向缓存中存储 )
 		TbSeckillOrder seckillOrder=new TbSeckillOrder();
 		seckillOrder.setId(idWorker.nextId());

@@ -156,20 +156,11 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 
 	@Override
 	public TbSeckillGoods findOneFromRedis(String startDate,String startTime,Long id) {
-		Map<String ,Map> dayMap = (Map) redisTemplate.boundHashOps("seckillGoods").get(startDate);
-		System.out.println(dayMap.size()+"================");
-		Map<String,TbSeckillGoods> map = dayMap.get(startTime);
-		System.out.println(map.size()+"---------------------------");
-		for (String key : map.keySet()) {
-			System.out.println(key);
-		}
-		for (TbSeckillGoods value : map.values()) {
-			System.out.println(value.getStatus());
-		}
-		TbSeckillGoods goods = map.get(id);
-		System.out.println(goods==null);
-		System.out.println(goods.getTitle()+"----===----");
-		return map.get(id);
+		Map<String ,Map> dayMap = (Map) redisTemplate.boundHashOps("seckillGoods").get(startDate);//获取当前天的商品
+
+		Map<String,TbSeckillGoods> map = dayMap.get(startTime);//获取当前时间段的商品
+
+		return map.get(id+"");
 	}
 
 	@Override

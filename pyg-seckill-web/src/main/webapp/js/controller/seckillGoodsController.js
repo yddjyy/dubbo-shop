@@ -14,9 +14,20 @@ app.controller('GoodsController' ,function($scope,$location,seckillGoodsService,
 				console.log("findTiemList1");
 				$scope.list=response;
 				console.log(response[0]);
+				$scope.nowTime=response[0].startTime;
 				$scope.getNowTimeGoods(response[0]);
 			}
 		)
+	}
+	$scope.flag=0;//是否可抢购
+	$scope.search={};
+	$scope.getGoods=function(startData,startTime){
+		if($scope.nowTime!=startTime){
+			$scope.flag=1;//不可抢购
+		}
+		$scope.search.startData=startData;
+		$scope.search.startTime=startTime;
+		$scope.getNowTimeGoods($scope.search);
 	}
 	$scope.getNowTimeGoods=function(entity){
 		seckillGoodsService.getNowTimeGoods(entity).success(
@@ -35,9 +46,7 @@ app.controller('GoodsController' ,function($scope,$location,seckillGoodsService,
 		var startTime= $location.search()['startTime'];
 		seckillGoodsService.findOne(startDate,startTime,id).success(
 			function(response){
-				console.log("详情");
 				console.log(response);
-
 				$scope.entity=response;
 				//倒计时开始
 				//获取从结束时间到当前日期的秒数
@@ -49,7 +58,7 @@ app.controller('GoodsController' ,function($scope,$location,seckillGoodsService,
 					if(allsecond<=0){
 						$interval.cancel(time);
 						seckillGoodsService.removeGoodsFromRedis(id).success(function (response) {
-
+							console.log(response);
 						});
 					}
 				},1000);
@@ -57,7 +66,17 @@ app.controller('GoodsController' ,function($scope,$location,seckillGoodsService,
 			}
 		);
 	}
-
+	$scope.num = 1;
+	//数量加减
+	$scope.addNum = function (x) {
+		$scope.num += x;
+		if($scope.num <= 1){
+			$scope.num = 1;
+		}
+		if($scope.num>$scope.entity.stockCount){
+			$scope.num=$scope.entity.stockCount;
+		}
+	}
 	
 	//转换秒为   天小时分钟秒格式  XXX天 10:22:33
 	convertTimeString=function(allsecond){

@@ -111,9 +111,9 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 						redisTemplate.boundHashOps("seckillGoods").put(tbSeckillGoods.getStartDate(),seckillGoodsMap);
 					}else{//存在某刻秒杀
 						int flag=0;
-						if(seckillTime.get(tbSeckillGoods.getId())!=null)//存在当前商品
+						if(seckillTime.get(tbSeckillGoods.getId()+"")!=null)//存在当前商品
 						{
-							TbSeckillGoods seckillGoods = seckillTime.get(tbSeckillGoods.getId());
+							TbSeckillGoods seckillGoods = seckillTime.get(tbSeckillGoods.getId()+"");
 							seckillGoods.setNum(seckillGoods.getNum()+tbSeckillGoods.getNum());
 							seckillGoods.setStockCount(seckillGoods.getStockCount()+tbSeckillGoods.getStockCount());
 							seckillTime.put(tbSeckillGoods.getId()+"",seckillGoods);
@@ -132,7 +132,7 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 				if(status.equals("3")){//下架该秒杀商品
 					Map seckillGoodsMap = (Map) redisTemplate.boundHashOps("seckillGoods").get(tbSeckillGoods.getStartDate());
 					Map<String,TbSeckillGoods>  seckillTime= (Map<String,TbSeckillGoods>) seckillGoodsMap.get(tbSeckillGoods.getStartTime());
-					seckillTime.remove(tbSeckillGoods.getId());//移除id
+					seckillTime.remove(tbSeckillGoods.getId()+"");//移除id
 					seckillGoodsMap.put(tbSeckillGoods.getStartTime(),seckillTime);
 					redisTemplate.boundHashOps("seckillGoods").put(tbSeckillGoods.getStartDate(),seckillGoodsMap);
 				}

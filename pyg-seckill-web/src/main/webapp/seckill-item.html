@@ -387,8 +387,8 @@
 					<div class="col-md-6">
 						<div class="flexslider">
 							<ul class="slides">
-							    <li data-thumb="{{sku.image}}">
-							      <img src="{{sku.image}}" alt="image slider" />
+							    <li data-thumb="{{entity.smallPic}}">
+							      <img src="{{entity.smallPic}}" alt="image slider" />
 							      <span>NEW</span>
 							    </li>
 
@@ -398,7 +398,7 @@
 					<div class="col-md-6">
 						<div class="product-detail">
 							<div class="header-detail">
-								<h4 class="name">{{sku.title}}</h4>
+								<h4 class="name">{{entity.title}}</h4>
 								<div class="category">
 									类别
 								</div>
@@ -417,92 +417,43 @@
 										</div>
 									</div><!-- /.review -->
 									<div class="status-product" style="color:darkgray">
-										<div ng-if="sku.num>0">状态：有货</div>
-										<div ng-if="sku.num==0">状态：暂时无货</div>
-										<div>库存：123件</div>
+										<div ng-if="entity.stockCount>0">状态：有货</div>
+										<div ng-if="entity.stockCount==0">状态：暂时无货</div>
+										<div>库存：{{entity.stockCount}}件</div>
 									</div>
 								</div><!-- /.reviewed -->
 							</div><!-- /.header-detail -->
 							<div class="content-detail">
 								<div class="price">
 									<div class="regular">
-										￥0000.00
+										￥{{entity.price}}
 									</div>
 									<div class="sale">
-										￥123456
+										￥{{entity.costPrice}}
 									</div>
 								</div>
 								<div class="info-text">
-									副标题
+<!--									副标题-->
 								</div>
-<!--								<div class="own-specification" >-->
-<!--									<div id="specification" class="summary-wrap">-->
-<!--										<dl ng-repeat="specificationItem in goods.goodsDesc.specificationItems">-->
-<!--											<dt>-->
-<!--												<div class="spec-name" >-->
-<!--													<i>{{specificationItem.attributeName}}</i>-->
-<!--												</div>-->
-<!--											</dt>-->
-<!--											<dd ng-repeat="attributeValue in specificationItem.attributeValue">-->
-<!--												<a  ng-click="addSelectItems(specificationItem.attributeName,attributeValue)" class="{{isSelect(specificationItem.attributeName,attributeValue)?'selected':''}}" >{{attributeValue}}<span title="点击取消选择">&nbsp;</span></a>-->
-<!--											</dd>-->
-<!--										</dl>-->
-<!--									</div>-->
-<!--								</div>-->
 							</div><!-- /.content-detail -->
 							<div class="footer-detail">
 								<div class="quanlity-box">
 
 									<div class="quanlity">
 										<span class="btn-down" ng-click="addNum(-1)"></span>
-										<input type="text" name="number" value="1" min="1" max="100" disabled ng-model="num">
+										<input type="text" name="number" value="1" min="1" max="{{entity.stockCount}}" disabled ng-model="num">
 										<span class="btn-up"  ng-click="addNum(1)"></span>
 									</div>
 								</div><!-- /.quanlity-box -->
 								<div class="box-cart style2">
 									<div class="btn-add-cart">
-										<a href="javascript:void(0)" title="" ng-click="addToCart()"><img src="images/icons/add-cart.png" alt="">立即购买</a>
+										<a href="javascript:void(0)" title="" ng-click="submitOrder()"><img src="images/icons/add-cart.png" alt="">立即抢购</a>
 									</div>
 									<div class="compare-wishlist">
 										<a href="javascript:void(0)" class="compare" title=""><img src="images/icons/compare.png" alt="">比较</a>
 										<a href="javascript:void(0)" class="wishlist" title=""><img src="images/icons/wishlist.png" alt="">关注</a>
 									</div>
 								</div><!-- /.box-cart -->
-								<div class="social-single">
-									<span>分享</span>
-									<ul class="social-list style2">
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-facebook" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-twitter" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-instagram" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-pinterest" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-dribbble" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li>
-											<a href="#" title="">
-												<i class="fa fa-google" aria-hidden="true"></i>
-											</a>
-										</li>
-									</ul><!-- /.social-list -->
-								</div><!-- /.social-single -->
 							</div><!-- /.footer-detail -->
 						</div><!-- /.product-detail -->
 					</div><!-- /.col-md-6 -->
